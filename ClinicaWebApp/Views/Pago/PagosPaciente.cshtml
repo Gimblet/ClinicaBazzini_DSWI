@@ -1,8 +1,8 @@
-﻿@model IEnumerable<ClinicaWebApp.Models.Usuario.Paciente.Paciente>
+﻿@model IEnumerable<ClinicaWebApp.Models.Pago.Pago>
 
 @{
     ViewData["Title"] = "PagosPaciente";
-    Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+    Layout = "~/Views/Shared/_LayoutPaciente.cshtml";
 }
 
 <h1>PagosPaciente</h1>
@@ -14,25 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdPaciente)
+                @Html.DisplayNameFor(model => model.IdPago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NombreUsuario)
+                @Html.DisplayNameFor(model => model.HoraPago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ApellidoUsuario)
+                @Html.DisplayNameFor(model => model.MontoPago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaNacimiento)
+                @Html.DisplayNameFor(model => model.TipoPago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoDocumento)
+                @Html.DisplayNameFor(model => model.NombrePaciente)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroDocumento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rol)
+                @Html.DisplayNameFor(model => model.CorreoPaciente)
             </th>
             <th></th>
         </tr>
@@ -41,25 +38,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdPaciente)
+                @Html.DisplayFor(modelItem => item.IdPago)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NombreUsuario)
+                @Html.DisplayFor(modelItem => item.HoraPago)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApellidoUsuario)
+                @Html.DisplayFor(modelItem => item.MontoPago)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                @Html.DisplayFor(modelItem => item.TipoPago)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoDocumento)
+                @Html.DisplayFor(modelItem => item.NombrePaciente)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumeroDocumento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol)
+                @Html.DisplayFor(modelItem => item.CorreoPaciente)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
