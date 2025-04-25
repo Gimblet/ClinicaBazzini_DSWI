@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicaAPI", " ClinicaAPI\ClinicaAPI.csproj", "{399D7B59-14FA-4549-9345-4BE96C611007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicaWebApp", "ClinicaWebApp\ClinicaWebApp.csproj", "{115071A1-BB0A-48E3-8BDD-4BAAAD948832}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{399D7B59-14FA-4549-9345-4BE96C611007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{399D7B59-14FA-4549-9345-4BE96C611007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{399D7B59-14FA-4549-9345-4BE96C611007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{399D7B59-14FA-4549-9345-4BE96C611007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{115071A1-BB0A-48E3-8BDD-4BAAAD948832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{115071A1-BB0A-48E3-8BDD-4BAAAD948832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{115071A1-BB0A-48E3-8BDD-4BAAAD948832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{115071A1-BB0A-48E3-8BDD-4BAAAD948832}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
