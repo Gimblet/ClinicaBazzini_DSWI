@@ -86,9 +86,8 @@ GO
 CREATE TABLE cita
 ( 
     ide_cit BIGINT IDENTITY(1,1) PRIMARY KEY,
-    cal_cit DATE NOT NULL, -- Calendario(Fecha)
+    cal_cit DATETIME NOT NULL, -- Calendario(Fecha)
     con_cit INT NOT NULL CHECK(cita.con_cit > 0),-- Consultorio
-    hor_cit DATETIME NOT NULL, -- Hora
     ide_med BIGINT NOT NULL, -- Id del Medico
     ide_pac BIGINT NOT NULL, -- Id del Paciente
     ide_pag BIGINT NOT NULL, -- Id del Pago
