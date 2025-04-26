@@ -9,7 +9,7 @@ namespace ClinicaAPI.Controllers;
 public class CitaController : Controller
 {
     [HttpGet("listaCita")]
-    public async Task<ActionResult<List<Cita>>> listaCita()
+    public async Task<ActionResult<List<Cita>>> ListaCita()
     {
         var lista = await Task.Run(()
             => new CitaDAO().listarCitas());

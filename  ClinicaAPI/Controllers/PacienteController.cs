@@ -9,7 +9,7 @@ namespace ClinicaAPI.Controllers;
 public class PacienteController : Controller
 {
     [HttpGet("listaPaciente")]
-    public async Task<ActionResult<List<Paciente>>> listaPacientes()
+    public async Task<ActionResult<List<Paciente>>> ListaPacientes()
     {
         var lista = await Task.Run(()
             => new PacienteDAO().ListarPacientes());

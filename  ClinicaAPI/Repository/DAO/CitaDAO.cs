@@ -7,18 +7,18 @@ namespace ClinicaAPI.Repository.DAO;
 
 public class CitaDAO : ICita
 {
-    private readonly string ConnectionString = "";
+    private readonly string _connectionString;
 
     public CitaDAO()
     {
-        ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json")
-            .Build().GetConnectionString("cn");
+        _connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json")
+            .Build().GetConnectionString("cn") ?? throw new NullReferenceException();
     }
 
     public IEnumerable<Cita> listarCitas()
     {
         List<Cita> listaCitas = new List<Cita>();
-        SqlConnection cn = new SqlConnection(ConnectionString);
+        SqlConnection cn = new SqlConnection(_connectionString);
         SqlCommand cmd = new SqlCommand("sp_listarCitasFront", cn);
         cmd.CommandType = CommandType.StoredProcedure;
         cn.Open();
@@ -35,6 +35,7 @@ public class CitaDAO : ICita
                 MontoPago = decimal.Parse(dr[5].ToString()),
             });
         }
+        cn.Close();
         return listaCitas;
     }
 

@@ -7,18 +7,18 @@ namespace ClinicaAPI.Repository.DAO;
 
 public class PacienteDAO : IPaciente
 {
-    private readonly string ConnectionString = "";
+    private readonly string _connectionString;
 
     public PacienteDAO()
     {
-        ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json")
-            .Build().GetConnectionString("cn");
+        _connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json")
+            .Build().GetConnectionString("cn") ?? throw new NullReferenceException();
     }
 
     public string GuardarPacienteO(PacienteO paciente)
     {
         string mensaje = "";
-        SqlConnection cn = new SqlConnection(ConnectionString);
+        SqlConnection cn = new SqlConnection(_connectionString);
         SqlCommand cmd = new SqlCommand("sp_agregarPaciente", cn);
         try
         {
@@ -50,7 +50,7 @@ public class PacienteDAO : IPaciente
     public IEnumerable<Paciente> ListarPacientes()
     {
         List<Paciente> listaPacientes = new List<Paciente>();
-        SqlConnection cn = new SqlConnection(ConnectionString);
+        SqlConnection cn = new SqlConnection(_connectionString);
         SqlCommand cmd = new SqlCommand("sp_listarPacientesFront", cn);
         cmd.CommandType = CommandType.StoredProcedure;
         cn.Open();

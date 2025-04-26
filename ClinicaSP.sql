@@ -149,4 +149,12 @@ AS
     END 
 GO
 
+-- Listar tipos de Pago
 
+CREATE OR ALTER  PROC  sp_listarPaymentOptions
+AS
+    BEGIN 
+        SELECT *
+        FROM pay_opts
+    END
+GO
