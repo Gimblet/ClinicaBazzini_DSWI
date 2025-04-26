@@ -6,7 +6,7 @@ namespace ClinicaAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ClinicaController : Controller
+public class CitaController : Controller
 {
     [HttpGet("listaCita")]
     public async Task<ActionResult<List<Cita>>> listaCita()
