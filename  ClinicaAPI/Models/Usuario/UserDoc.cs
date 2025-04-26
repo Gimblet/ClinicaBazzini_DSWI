@@ -1,7 +1,7 @@
 namespace ClinicaAPI.Models.Usuario;
 
-public enum UserDoc
+public class UserDoc
 {
-    DNI,
-    CEX
+    public long ide_doc { get; set; }
+    public string nom_doc { get; set; }
 }

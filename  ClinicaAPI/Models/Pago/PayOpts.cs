@@ -1,13 +1,7 @@
 namespace ClinicaAPI.Models.Pago;
 
-public enum PayOpts
+public class PayOpts
 {
-    Efectivo,
-    Yape,
-    Plin,
-    IziPay,
-    Visa,
-    MasterCard,
-    Amex,
-    DinersClub
+    public long ide_pay { get; set; }
+    public string nom_pay { get; set; }
 }
