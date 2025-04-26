@@ -6,8 +6,8 @@ public class Medico
     public string NombreMedico { get; set; }
     public string ApellidoMedico { get; set; }
     public string NumeroDocumento { get; set; }
-    public UserDoc TipoDocumento { get; set; }
-    public DateOnly fechaNacimiento { get; set; }
+    public string TipoDocumento { get; set; }
+    public DateTime fechaNacimiento { get; set; }
     public string CorreoPaciente { get; set; }
     public string ContraseñaPaciente { get; set; }
 }

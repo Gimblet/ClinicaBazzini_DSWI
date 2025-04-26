@@ -29,7 +29,7 @@ CREATE TABLE medico
     ide_med BIGINT IDENTITY(1,1) PRIMARY KEY,
     nom_med VARCHAR(100) NOT NULL, -- Nombre
     ape_med VARCHAR(100) NOT NULL, -- Apellido
-    num_doc VARCHAR(12) NOT NULL, -- Numero de Documento
+    num_doc VARCHAR(12) NOT NULL UNIQUE, -- Numero de Documento
     tip_doc BIGINT NOT NULL, -- Tipo de Documento
     fna_doc DATE NOT NULL, -- Fecha Nacimiento
     cor_med VARCHAR(100) NOT NULL UNIQUE, -- Correo
@@ -43,7 +43,7 @@ CREATE TABLE paciente
     ide_pac BIGINT IDENTITY(1,1) PRIMARY KEY,
     nom_pac VARCHAR(100) NOT NULL, -- Nombre
     ape_pac VARCHAR(100) NOT NULL, -- Apellido
-    num_doc VARCHAR(12) NOT NULL, -- Numero de Documento
+    num_doc VARCHAR(12) NOT NULL UNIQUE, -- Numero de Documento
     tip_doc BIGINT NOT NULL, -- Tipo de documento
     fna_pac DATE NOT NULL, -- Fecha Nacimiento
     cor_pac VARCHAR(100) NOT NULL UNIQUE, -- Correo

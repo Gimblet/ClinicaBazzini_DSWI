@@ -129,3 +129,24 @@ GO
         1, 1,
         1
 GO
+
+-- Lista pacientes para el FrontEnd
+
+CREATE OR ALTER PROC sp_listarPacientesFront
+AS 
+    BEGIN 
+        SELECT 
+            p.ide_pac,
+            p.nom_pac,
+            p.ape_pac,
+            p.num_doc,
+            ud.nom_doc,
+            p.fna_pac,
+            p.cor_pac,
+            p.con_pac
+        FROM paciente AS p
+        JOIN user_doc ud ON ud.ide_doc = p.tip_doc
+    END 
+GO
+
+

@@ -7,7 +7,7 @@ public class PacienteO
     public string ApellidoPaciente { get; set; }
     public string NumeroDocumento { get; set; }
     public long TipoDocumento { get; set; }
-    public DateOnly fechaNacimiento { get; set; }
+    public DateTime fechaNacimiento { get; set; }
     public string CorreoPaciente { get; set; }
     public string ContraseñaPaciente { get; set; }
     
