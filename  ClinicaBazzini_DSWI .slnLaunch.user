@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": " ClinicaAPI\\ClinicaAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ClinicaWebApp\\ClinicaWebApp.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

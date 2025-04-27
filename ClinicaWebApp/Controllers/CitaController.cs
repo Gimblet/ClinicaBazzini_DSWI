@@ -28,4 +28,9 @@ public class CitaController : Controller
     {
         return View(ArregloClitas());
     }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
 }
