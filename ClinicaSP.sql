@@ -119,10 +119,11 @@ create or alter procedure sp_agregarCita(
 )
 AS
 BEGIN
-    INSERT INTO cita
-    VALUES (@calendario, @consultorio,
-            @medico, @paciente,
-            @pago)
+    INSERT INTO cita (cal_cit, con_cit, ide_med, ide_pac, ide_pag)
+    values (@calendario, @consultorio, @medico, 
+            (SELECT p.ide_pac 
+             FROM paciente p 
+             WHERE p.ide_usr = @paciente), @pago)
 END
 GO
 
@@ -170,10 +171,25 @@ AS
 BEGIN
     SELECT r.nom_rol
     FROM usuario u
-    JOIN roles r ON r.ide_rol = u.ide_rol
+             JOIN roles r ON r.ide_rol = u.ide_rol
     WHERE u.cor_usr = @correo
       AND u.pwd_usr = @contraseña
 END
 GO
 
 sp_verificarLogin 'joseph@gmail.com', 'Joseph1234'
+GO
+
+CREATE OR ALTER PROC sp_obtenerIdUsuario(
+    @correo VARCHAR(100)
+)
+AS
+BEGIN
+    SELECT u.ide_usr
+    FROM usuario u
+    WHERE u.cor_usr = @correo
+END
+GO
+
+sp_obtenerIdUsuario 'joseph@gmail.com'
+GO

@@ -15,24 +15,33 @@ public class LoginController : Controller
 
     public string IniciarSesion(string uid, string pwd)
     {
-        uid = Uri.EscapeDataString(uid);
-        pwd = Uri.EscapeDataString(pwd);
         var response = _httpClient.GetAsync(_httpClient.BaseAddress +
                                             "/Usuario/VerificarLogin" +
                                             "?uid=" + uid +
                                             "&pwd=" + pwd).Result;
         return response.Content.ReadAsStringAsync().Result;
     }
+    
+    public string ObtenerToken(string uid)
+    {
+        var response = _httpClient.GetAsync(_httpClient.BaseAddress +
+                                            "/Usuario/ObtenerToken" +
+                                            "?correo=" + uid).Result;
+        return response.Content.ReadAsStringAsync().Result;
+    }
 
-    // GET
     public IActionResult Index(string uid, string pwd)
     {
-        switch (IniciarSesion("joseph@gmail.com", "joseph1234"))
+        switch (IniciarSesion(Uri.EscapeDataString(uid), Uri.EscapeDataString(pwd)))
         {
-            case "secretaria": return RedirectToAction("Index", "Recepcionista");
+            case "secretaria": 
+                HttpContext.Session.SetString("token", pwd);
+                return RedirectToAction("Index", "Recepcionista");
             case "medico": return RedirectToAction("Index", "Medico");
             case "paciente": return RedirectToAction("Index", "Paciente");
-            default: return RedirectToAction("Index", "Login");
+            default:
+                ViewBag.correo = uid;
+                return RedirectToAction("Index", "Login");
         }
     }
 }

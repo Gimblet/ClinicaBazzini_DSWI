@@ -15,6 +15,14 @@ public class UsuarioController : Controller
             => new UsuarioDAO().verificarLogin(uid, pwd));
         return Ok(resultado);
     }
+    
+    [HttpGet("[action]")]
+    public async Task<ActionResult<string>> ObtenerToken(string correo)
+    {
+        var resultado = await Task.Run(()
+            => new UsuarioDAO().obtenerIdUsuario(correo));
+        return Ok(resultado);
+    }
 
     // [HttpPost("guardarPaciente")]
     // public async Task<ActionResult<string>> GuardarPaciente(UsuarioO usuario)

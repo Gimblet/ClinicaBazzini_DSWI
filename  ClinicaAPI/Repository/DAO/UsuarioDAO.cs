@@ -46,4 +46,35 @@ public class UsuarioDAO : IUsuario
         }
         return resultado;
     }
+
+    public string obtenerIdUsuario(string correo)
+    {
+        string resultado = "denied";
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_obtenerIdUsuario", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@correo", correo);
+        try
+        {
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (!dr.HasRows)
+            {
+                throw new Exception("No se ha encontrado id con el correo");
+            }
+            if (dr.Read())
+            {
+                resultado = dr[0].ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            cn.Close();
+        }
+        return resultado;    
+    }
 }
