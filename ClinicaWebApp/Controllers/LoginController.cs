@@ -13,6 +13,7 @@ public class LoginController : Controller
         _httpClient.BaseAddress = _baseUri;
     }
 
+    //Si el usuario existe devuelve el rol(Paciente, Medico, Recepcionista) caso contrario devuelve denied
     public string IniciarSesion(string uid, string pwd)
     {
         var response = _httpClient.GetAsync(_httpClient.BaseAddress +
@@ -21,7 +22,7 @@ public class LoginController : Controller
                                             "&pwd=" + pwd).Result;
         return response.Content.ReadAsStringAsync().Result;
     }
-    
+
     public string ObtenerToken(string uid)
     {
         var response = _httpClient.GetAsync(_httpClient.BaseAddress +
@@ -32,16 +33,15 @@ public class LoginController : Controller
 
     public IActionResult Index(string uid, string pwd)
     {
-        switch (IniciarSesion(Uri.EscapeDataString(uid), Uri.EscapeDataString(pwd)))
+        string respuesta = IniciarSesion(Uri.EscapeDataString(uid), Uri.EscapeDataString(pwd));
+
+        if (respuesta.Equals("denied"))
         {
-            case "secretaria": 
-                HttpContext.Session.SetString("token", pwd);
-                return RedirectToAction("Index", "Recepcionista");
-            case "medico": return RedirectToAction("Index", "Medico");
-            case "paciente": return RedirectToAction("Index", "Paciente");
-            default:
-                ViewBag.correo = uid;
-                return RedirectToAction("Index", "Login");
+            ViewBag.correo = uid;
+            return RedirectToAction("Index", "Login");
         }
+        
+        HttpContext.Session.SetString("token", ObtenerToken(Uri.EscapeDataString(uid)));
+        return RedirectToAction("Index", respuesta);
     }
 }
