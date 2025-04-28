@@ -1,3 +1,4 @@
+using ClinicaAPI.Models.Usuario;
 using ClinicaAPI.Models.Usuario.Paciente;
 using ClinicaAPI.Repository.DAO;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,10 @@ public class PacienteController : Controller
     }
 
     [HttpPost("guardarPaciente")]
-    public async Task<ActionResult<string>> GuardarPaciente(PacienteO paciente)
+    public async Task<ActionResult<string>> GuardarPaciente(UsuarioO usuario)
     {
         var mensaje = await Task.Run(()
-            => new PacienteDAO().GuardarPacienteO(paciente));
+            => new PacienteDAO().GuardarPacienteO(usuario));
         return Ok(mensaje);
     }
 }

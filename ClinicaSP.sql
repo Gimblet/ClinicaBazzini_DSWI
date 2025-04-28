@@ -38,28 +38,29 @@ GO
 
 -- Agrega Paciente
 CREATE OR ALTER PROC sp_agregarPaciente(
-    @nombre VARCHAR(100),
-    @apellido VARCHAR(100),
-    @numerodoc VARCHAR(12),
-    @tipodoc BIGINT,
-    @fechanac DATE,
-    @correo VARCHAR(100),
-    @contraseña VARCHAR(100)
+    @cor varchar(100),
+    @pwd varchar(150),
+    @nom varchar(100),
+    @ape varchar(100),
+    @ndo varchar(12),
+    @fna DATE,
+    @doc BIGINT
 )
 AS
 BEGIN
-    INSERT INTO paciente
-    VALUES (@nombre, @apellido,
-            @numerodoc, @tipodoc,
-            @fechanac, @correo,
-            @contraseña)
+    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
+    VALUES (@cor, @pwd, @nom, @ape,
+            @ndo, @fna, @doc, 1);
+
+    INSERT INTO paciente (ide_usr)
+    VALUES (scope_identity())
 END
 GO
 
-        sp_agregarPaciente 'Diego Anderson', 'Villena Arias',
-        '83212311', 1,
-        '2010-03-20', 'diego@gmail.com',
-        'diego123'
+        sp_agregarPaciente
+        'diego@gmail.com', 'diego1234',
+        'Diego Anderson', 'Villena Arias',
+        '123456789', '2001-01-30', 2
 GO
 
 
@@ -118,10 +119,11 @@ create or alter procedure sp_agregarCita(
 )
 AS
 BEGIN
-    INSERT INTO cita
-    VALUES (@calendario, @consultorio,
-            @medico, @paciente,
-            @pago)
+    INSERT INTO cita (cal_cit, con_cit, ide_med, ide_pac, ide_pag)
+    values (@calendario, @consultorio, @medico, 
+            (SELECT p.ide_pac 
+             FROM paciente p 
+             WHERE p.ide_usr = @paciente), @pago)
 END
 GO
 
@@ -133,28 +135,61 @@ GO
 -- Lista pacientes para el FrontEnd
 
 CREATE OR ALTER PROC sp_listarPacientesFront
-AS 
-    BEGIN 
-        SELECT 
-            p.ide_pac,
-            p.nom_pac,
-            p.ape_pac,
-            p.num_doc,
-            ud.nom_doc,
-            p.fna_pac,
-            p.cor_pac,
-            p.con_pac
-        FROM paciente AS p
-        JOIN user_doc ud ON ud.ide_doc = p.tip_doc
-    END 
+AS
+BEGIN
+    SELECT p.ide_pac,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           r.nom_rol
+    FROM paciente AS p
+             JOIN usuario u ON u.ide_usr = p.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles r ON u.ide_rol = r.ide_rol
+END
 GO
 
 -- Listar tipos de Pago
 
-CREATE OR ALTER  PROC  sp_listarPaymentOptions
+CREATE OR ALTER PROC sp_listarPaymentOptions
 AS
-    BEGIN 
-        SELECT *
-        FROM pay_opts
-    END
+BEGIN
+    SELECT *
+    FROM pay_opts
+END
+GO
+
+-- Verificar Inicio de Sesion
+
+CREATE OR ALTER PROC sp_verificarLogin(
+    @correo VARCHAR(100),
+    @contraseña VARCHAR(150)
+)
+AS
+BEGIN
+    SELECT r.nom_rol
+    FROM usuario u
+             JOIN roles r ON r.ide_rol = u.ide_rol
+    WHERE u.cor_usr = @correo
+      AND u.pwd_usr = @contraseña
+END
+GO
+
+sp_verificarLogin 'joseph@gmail.com', 'Joseph1234'
+GO
+
+CREATE OR ALTER PROC sp_obtenerIdUsuario(
+    @correo VARCHAR(100)
+)
+AS
+BEGIN
+    SELECT u.ide_usr
+    FROM usuario u
+    WHERE u.cor_usr = @correo
+END
+GO
+
+sp_obtenerIdUsuario 'joseph@gmail.com'
 GO
