@@ -3,7 +3,8 @@ GO
 
 -- CREAR PROCEDIMIENTOS ALMACENADOS
 
--- CITA
+---------------------- CITA ------------------------
+-- sp_columns cita
 
 -- Lista todas las citas para el BackEnd
 CREATE OR ALTER PROC sp_listarCitasBack
@@ -26,14 +27,39 @@ BEGIN
     SELECT c.ide_cit,
            c.cal_cit,
            c.con_cit,
-           CONCAT(m.nom_med, SPACE(1), m.ape_med),
-           CONCAT(p.nom_pac, SPACE(1), p.ape_pac),
-           p2.mon_pag
+           CONCAT(um.nom_usr, SPACE(1), um.ape_usr),
+           CONCAT(up.nom_usr, SPACE(1), up.ape_usr),
+           pg.mon_pag
     FROM cita AS c
-             JOIN dbo.medico m on c.ide_med = m.ide_med
-             JOIN dbo.paciente p on c.ide_pac = p.ide_pac
-             JOIN dbo.pago p2 on c.ide_pag = p2.ide_pag
+             JOIN medico m ON m.ide_med = c.ide_med
+             JOIN usuario um ON um.ide_usr = m.ide_usr
+             JOIN paciente p ON p.ide_pac = c.ide_pac
+             JOIN usuario up ON up.ide_usr = p.ide_pac
+             JOIN pago pg ON c.ide_pag = pg.ide_pag
 END
+GO
+
+-- Agrega Cita
+create or alter procedure sp_agregarCita(
+    @calendario DATETIME,
+    @consultorio INT,
+    @medico BIGINT,
+    @paciente BIGINT,
+    @pago BIGINT
+)
+AS
+BEGIN
+    INSERT INTO cita (cal_cit, con_cit, ide_med, ide_pac, ide_pag)
+    values (@calendario, @consultorio, @medico,
+            (SELECT p.ide_pac
+             FROM paciente p
+             WHERE p.ide_usr = @paciente), @pago)
+END
+GO
+
+        sp_agregarCita '2025-04-28 13:00', 2,
+        1, 1,
+        1
 GO
 
 -- Agrega Paciente
@@ -107,29 +133,6 @@ GO
 
         sp_agregarPago '2025-04-25 18:25', 250.0,
         3, 1
-GO
-
--- Agrega Cita
-create or alter procedure sp_agregarCita(
-    @calendario DATETIME,
-    @consultorio INT,
-    @medico BIGINT,
-    @paciente BIGINT,
-    @pago BIGINT
-)
-AS
-BEGIN
-    INSERT INTO cita (cal_cit, con_cit, ide_med, ide_pac, ide_pag)
-    values (@calendario, @consultorio, @medico, 
-            (SELECT p.ide_pac 
-             FROM paciente p 
-             WHERE p.ide_usr = @paciente), @pago)
-END
-GO
-
-        sp_agregarCita '2025-04-28 13:00', 2,
-        1, 1,
-        1
 GO
 
 -- Lista pacientes para el FrontEnd
