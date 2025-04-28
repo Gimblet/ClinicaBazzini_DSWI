@@ -57,10 +57,10 @@ BEGIN
 END
 GO
 
-        sp_agregarPaciente 
+        sp_agregarPaciente
         'diego@gmail.com', 'diego1234',
-        'Diego Anderson','Villena Arias',
-        '123456789','2001-01-30', 2
+        'Diego Anderson', 'Villena Arias',
+        '123456789', '2001-01-30', 2
 GO
 
 
@@ -134,30 +134,45 @@ GO
 -- Lista pacientes para el FrontEnd
 
 CREATE OR ALTER PROC sp_listarPacientesFront
-AS 
-    BEGIN 
-        SELECT 
-            p.ide_pac,
-            u.nom_usr,
-            u.ape_usr,
-            u.fna_usr,
-            ud.nom_doc,
-            u.num_doc,
-            r.nom_rol
-        FROM paciente AS p
-        JOIN usuario u ON u.ide_usr = p.ide_usr
-        JOIN user_doc ud ON ud.ide_doc = u.ide_doc
-        JOIN roles r ON u.ide_rol = r.ide_rol
-    END 
+AS
+BEGIN
+    SELECT p.ide_pac,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           r.nom_rol
+    FROM paciente AS p
+             JOIN usuario u ON u.ide_usr = p.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles r ON u.ide_rol = r.ide_rol
+END
 GO
 
 -- Listar tipos de Pago
 
-CREATE OR ALTER  PROC  sp_listarPaymentOptions
+CREATE OR ALTER PROC sp_listarPaymentOptions
 AS
-    BEGIN 
-        SELECT *
-        FROM pay_opts
-    END
+BEGIN
+    SELECT *
+    FROM pay_opts
+END
 GO
 
+-- Verificar Inicio de Sesion
+
+CREATE OR ALTER PROC sp_verificarLogin(
+    @correo VARCHAR(100),
+    @contraseña VARCHAR(150)
+)
+AS
+BEGIN
+    SELECT u.cor_usr, u.pwd_usr
+    FROM usuario u
+    WHERE u.cor_usr = @correo
+      AND u.pwd_usr = @contraseña
+END
+GO
+
+sp_verificarLogin 'joseph@gmail.com', 'Joseph1234'
