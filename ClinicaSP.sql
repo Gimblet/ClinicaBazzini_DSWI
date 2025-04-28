@@ -1,8 +1,6 @@
 USE DSWI_Clinica
 GO
 
--- CREAR PROCEDIMIENTOS ALMACENADOS
-
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
@@ -89,31 +87,35 @@ GO
         '123456789', '2001-01-30', 2
 GO
 
-
 -- Agrega Medico
 CREATE OR ALTER PROC sp_agregarMedico(
-    @nombre VARCHAR(100),
-    @apellido VARCHAR(100),
-    @numerodoc VARCHAR(12),
-    @tipodoc BIGINT,
-    @fechanac DATE,
-    @correo VARCHAR(100),
-    @contraseña VARCHAR(100)
+    @cor varchar(100),
+    @pwd varchar(150),
+    @nom varchar(100),
+    @ape varchar(100),
+    @ndo varchar(12),
+    @fna DATE,
+    @doc BIGINT,
+    @sue SMALLMONEY,
+    @esp BIGINT
 )
 AS
 BEGIN
-    INSERT INTO medico
-    VALUES (@nombre, @apellido,
-            @numerodoc, @tipodoc,
-            @fechanac, @correo,
-            @contraseña)
+    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
+    VALUES (@cor, @pwd, @nom, @ape,
+            @ndo, @fna, @doc, 2);
+
+    INSERT INTO medico (sue_med, ide_esp, ide_usr)
+    VALUES (@sue, @esp, scope_identity())
 END
 GO
 
-        sp_agregarMedico 'Jefferson Guadalup', 'Flores Ramires',
-        '3945823421', 2,
-        '2001-11-01', 'jefferson@bazzini.com',
-        'jeff123'
+        sp_agregarMedico
+        'jefferson@bazzini.com', 'jeff12345',
+        'Jefferson Guadalup', 'Flores Ramires',
+        '3945823421', '2001-11-01',
+        2, 2500,
+        1
 GO
 
 -- Agrega Pago

@@ -33,9 +33,9 @@ CREATE TABLE roles
 
 INSERT INTO roles (nom_rol, pri_rol)
 VALUES
-    ('paciente', 0),
-    ('medico', 1),
-    ('recepcionista', 2)
+    ('Paciente', 0),
+    ('Medico', 1),
+    ('Recepcionista', 2)
 GO
 
 CREATE TABLE usuario
