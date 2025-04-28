@@ -33,7 +33,7 @@ public class UsuarioDAO : IUsuario
             }
             if (dr.Read())
             {
-                resultado = "Ok";
+                resultado = dr.GetString(0);
             }
         }
         catch (Exception ex)

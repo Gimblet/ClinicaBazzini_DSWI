@@ -168,8 +168,9 @@ CREATE OR ALTER PROC sp_verificarLogin(
 )
 AS
 BEGIN
-    SELECT u.cor_usr, u.pwd_usr
+    SELECT r.nom_rol
     FROM usuario u
+    JOIN roles r ON r.ide_rol = u.ide_rol
     WHERE u.cor_usr = @correo
       AND u.pwd_usr = @contraseña
 END

@@ -9,7 +9,7 @@ namespace ClinicaAPI.Controllers;
 public class UsuarioController : Controller
 {
     [HttpGet("[action]")]
-    public async Task<ActionResult<bool>> VerificarLogin(string uid, string pwd)
+    public async Task<ActionResult<string>> VerificarLogin(string uid, string pwd)
     {
         var resultado = await Task.Run(()
             => new UsuarioDAO().verificarLogin(uid, pwd));

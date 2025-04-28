@@ -1,7 +1,4 @@
-using ClinicaWebApp.Models.Cita;
-using ClinicaWebApp.Models.Usuario;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace ClinicaWebApp.Controllers;
 
@@ -28,16 +25,14 @@ public class LoginController : Controller
     }
 
     // GET
-    public IActionResult Index()
+    public IActionResult Index(string uid, string pwd)
     {
-        string resultado = IniciarSesion("joseph@gmail.com", "joseph1234");
-        if (resultado.Equals("Ok"))
+        switch (IniciarSesion("joseph@gmail.com", "joseph1234"))
         {
-            return RedirectToAction("Cita/ListadoCitas");
-        }
-        else
-        {
-            return RedirectToAction("Home/Index");
+            case "secretaria": return RedirectToAction("Index", "Recepcionista");
+            case "medico": return RedirectToAction("Index", "Medico");
+            case "paciente": return RedirectToAction("Index", "Paciente");
+            default: return RedirectToAction("Index", "Login");
         }
     }
 }
