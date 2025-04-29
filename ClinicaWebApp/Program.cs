@@ -1,7 +1,16 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// 🔵 Agregar servicios para sesión
+builder.Services.AddDistributedMemoryCache(); // Para almacenar la sesión en memoria
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Expira en 30 minutos
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -20,8 +29,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// 🔵 Agregar middleware de sesión
+app.UseSession(); // <= debe estar antes de MapControllerRoute
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Cita}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

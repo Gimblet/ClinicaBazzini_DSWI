@@ -31,6 +31,14 @@ public class LoginController : Controller
         return response.Content.ReadAsStringAsync().Result;
     }
 
+
+    [HttpGet]
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpPost]
     public IActionResult Index(string uid, string pwd)
     {
         string respuesta = IniciarSesion(Uri.EscapeDataString(uid), Uri.EscapeDataString(pwd));
@@ -38,6 +46,7 @@ public class LoginController : Controller
         if (respuesta.Equals("denied"))
         {
             ViewBag.correo = uid;
+            ViewBag.Mensaje = "Usuario o contraseña incorrectos.";
             return RedirectToAction("Index", "Login");
         }
         
