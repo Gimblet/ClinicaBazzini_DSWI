@@ -1,20 +1,4 @@
-﻿@{
-    if (User.IsInRole("Recepcionista"))
-    {
-        Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
-    }
-    else if (User.IsInRole("Medico"))
-    {
-        Layout = "~/Views/Shared/_LayoutMedico.cshtml";
-    }
-    else if (User.IsInRole("Paciente"))
-    {
-        Layout = "~/Views/Shared/_LayoutPaciente.cshtml";
-    }
-}
-
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
