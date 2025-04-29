@@ -59,6 +59,34 @@ GO
         1
 GO
 
+-- agregar recepcionista 
+CREATE OR ALTER PROC sp_agregarRecepcionista(
+    @cor VARCHAR(100),
+    @pwd VARCHAR(150),
+    @nom VARCHAR(100),
+    @ape VARCHAR(100),
+    @ndo VARCHAR(12),
+    @fna DATE,
+    @doc BIGINT,
+    @sue SMALLMONEY
+)
+AS
+BEGIN
+    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
+    VALUES (@cor, @pwd, @nom, @ape, @ndo, @fna, @doc, 3);
+
+    INSERT INTO recepcionista (sue_rep, ide_usr)
+    VALUES (@sue, SCOPE_IDENTITY());
+END
+GO
+
+EXEC sp_agregarRecepcionista
+    'ana@gmail.com', 'ana12345',
+    'Ana María', 'Zevallos Rojas',
+    '78645231', '1994-07-22',
+    1, 1800;
+GO
+
 -- Agrega Pago
 CREATE OR ALTER PROC sp_agregarPago(
     @hora DATETIME,
@@ -96,6 +124,9 @@ BEGIN
              JOIN roles r ON u.ide_rol = r.ide_rol
 END
 GO
+
+
+
 
 -- Listar tipos de Pago
 
@@ -137,7 +168,7 @@ BEGIN
 END
 GO
 
-sp_obtenerIdUsuario 'joseph@gmail.com'
+sp_obtenerIdUsuario 'diego@gmail.com'
 GO
 
 ---------------------- CITA ------------------------
