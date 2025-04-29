@@ -112,7 +112,7 @@ sp_obtenerIdUsuario 'joseph@gmail.com'
 GO
 
 ------------------- PAGOS ---------------------
-
+-- Sp_columns pago
 -- Listar tipos de Pago
 
 CREATE OR ALTER PROC sp_listarPaymentOptions
@@ -142,21 +142,101 @@ GO
         3, 1
 GO
 
----------------------- CITA ------------------------
--- sp_columns cita
-
--- Lista todas las citas para el BackEnd
-CREATE OR ALTER PROC sp_listarCitasBack
+-- Lista Pagos
+CREATE OR ALTER PROC sp_listarPagos
 AS
 BEGIN
-    SELECT c.ide_cit,
-           c.cal_cit,
-           c.con_cit,
-           c.ide_med,
-           c.ide_pac,
-           c.ide_pag
-    FROM cita AS c
+    SELECT p.ide_pag,
+           p.hor_pag,
+           p.mon_pag,
+           po.nom_pay,
+           u.cor_usr,
+           CONCAT(u.nom_usr, SPACE(1), u.ape_usr),
+           u.num_doc
+    FROM pago p
+             JOIN pay_opts po ON po.ide_pay = p.tip_pag
+             JOIN paciente pc ON pc.ide_pac = p.ide_pac
+             JOIN usuario u ON u.ide_usr = pc.ide_usr
 END
+GO
+
+sp_listarPagos
+GO
+
+-- Lista pagos por el id (Id de Usuario)
+CREATE OR ALTER PROC sp_listarPagosPorPaciente(
+    @ide BIGINT
+)
+AS
+BEGIN
+    SELECT p.ide_pag,
+           p.hor_pag,
+           p.mon_pag,
+           po.nom_pay,
+           u.cor_usr,
+           CONCAT(u.nom_usr, SPACE(1), u.ape_usr),
+           u.num_doc
+    FROM pago p
+             JOIN pay_opts po ON po.ide_pay = p.tip_pag
+             JOIN paciente pc ON pc.ide_pac = p.ide_pac
+             JOIN usuario u ON u.ide_usr = pc.ide_usr
+    WHERE p.ide_pac = (SELECT pa.ide_pac
+                       FROM paciente pa
+                       WHERE ide_usr = @ide)
+END
+GO
+
+sp_listarPagosPorPaciente 1
+
+-- Actualizar pago por Id (Se actualiza todos los campos excepto el idPaciente
+-- para evitar incongruencias
+CREATE OR ALTER PROC sp_actualizarPago(
+    @ide_pac BIGINT,
+    @hor_pag DATETIME,
+    @mon_pag SMALLMONEY,
+    @tip_pag BIGINT
+)
+AS
+BEGIN
+    UPDATE pago
+    SET hor_pag = @hor_pag,
+        mon_pag = @mon_pag,
+        tip_pag = @tip_pag
+    WHERE ide_pac = @ide_pac
+END
+GO
+
+-- sp_actualizarPago 1, '2025-04-20 01:00:00', 200.00, 1
+
+-- Elimina un Pago Realizado por Id
+CREATE OR ALTER PROC sp_eliminarPago(
+    @id BIGINT
+)
+AS
+BEGIN
+    DELETE
+    FROM pago
+    WHERE ide_pag = @id
+END
+GO
+
+-- sp_eliminarPago 1
+
+    ---------------------- CITA ------------------------
+-- sp_columns cita
+
+    -- Lista todas las citas para el BackEnd
+    CREATE OR ALTER PROC sp_listarCitasBack
+    AS
+    BEGIN
+        SELECT c.ide_cit,
+               c.cal_cit,
+               c.con_cit,
+               c.ide_med,
+               c.ide_pac,
+               c.ide_pag
+        FROM cita AS c
+    END
 GO
 
 -- Lista todas las citas para el FrontEnd
