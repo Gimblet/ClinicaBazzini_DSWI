@@ -59,25 +59,6 @@ GO
         1
 GO
 
--- Agrega Pago
-CREATE OR ALTER PROC sp_agregarPago(
-    @hora DATETIME,
-    @monto SMALLMONEY,
-    @tipopago BIGINT,
-    @paciente BIGINT
-)
-AS
-BEGIN
-    INSERT INTO pago
-    VALUES (@hora, @monto,
-            @tipopago, @paciente)
-END
-GO
-
-        sp_agregarPago '2025-04-25 18:25', 250.0,
-        3, 1
-GO
-
 -- Lista pacientes para el FrontEnd
 
 CREATE OR ALTER PROC sp_listarPacientesFront
@@ -94,16 +75,6 @@ BEGIN
              JOIN usuario u ON u.ide_usr = p.ide_usr
              JOIN user_doc ud ON ud.ide_doc = u.ide_doc
              JOIN roles r ON u.ide_rol = r.ide_rol
-END
-GO
-
--- Listar tipos de Pago
-
-CREATE OR ALTER PROC sp_listarPaymentOptions
-AS
-BEGIN
-    SELECT *
-    FROM pay_opts
 END
 GO
 
@@ -138,6 +109,37 @@ END
 GO
 
 sp_obtenerIdUsuario 'joseph@gmail.com'
+GO
+
+------------------- PAGOS ---------------------
+
+-- Listar tipos de Pago
+
+CREATE OR ALTER PROC sp_listarPaymentOptions
+AS
+BEGIN
+    SELECT *
+    FROM pay_opts
+END
+GO
+
+-- Agrega Pago
+CREATE OR ALTER PROC sp_agregarPago(
+    @hora DATETIME,
+    @monto SMALLMONEY,
+    @tipopago BIGINT,
+    @paciente BIGINT
+)
+AS
+BEGIN
+    INSERT INTO pago
+    VALUES (@hora, @monto,
+            @tipopago, @paciente)
+END
+GO
+
+        sp_agregarPago '2025-04-25 18:25', 250.0,
+        3, 1
 GO
 
 ---------------------- CITA ------------------------
