@@ -15,6 +15,57 @@ public class CitaDAO : ICita
             .Build().GetConnectionString("cn") ?? throw new NullReferenceException();
     }
 
+    public string agregarCita(CitaO obj)
+    {
+        string mensaje = "";
+        SqlConnection cn = new SqlConnection(_connectionString);
+        cn.Open();
+        try
+        {
+            SqlCommand cmd = new SqlCommand("sp_agregarCita", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@calendario", obj.CalendarioCita);
+            cmd.Parameters.AddWithValue("@consultorio", obj.Consultorio);
+            cmd.Parameters.AddWithValue("@medico", obj.IdMedico);
+            cmd.Parameters.AddWithValue("@paciente", obj.IdPaciente);
+            cmd.Parameters.AddWithValue("pago", obj.IdPago);
+           int n = cmd.ExecuteNonQuery();
+            mensaje = n.ToString() + "Cita registrada";
+        }
+        catch (Exception exp)
+        {
+            mensaje = "Error en el registro" + exp.Message;
+        }
+        cn.Close();
+
+        return mensaje;
+    }
+
+    public CitaO buscarCita(int id)
+    {
+
+        return listarCitasO().FirstOrDefault(c => c.IdCita == id);
+
+    }
+
+    public void eliminarCita(int id)
+    {
+        SqlConnection cn = new SqlConnection(_connectionString);
+        cn.Open();
+        try
+        {
+            SqlCommand cmd = new SqlCommand("sp_eliminarCita", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("idCita", id);
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception)
+        {
+            throw new Exception(message: "Error al Eliminar la Cita");
+        }
+        cn.Close();
+    }
+
     public IEnumerable<Cita> listarCitas()
     {
         List<Cita> listaCitas = new List<Cita>();
@@ -41,6 +92,52 @@ public class CitaDAO : ICita
 
     public IEnumerable<CitaO> listarCitasO()
     {
-        throw new NotImplementedException();
+        List<CitaO> listaCitasO = new List<CitaO>();
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_listarCitasBack", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cn.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            listaCitasO.Add(new CitaO()
+            {
+                IdCita = long.Parse(dr[0].ToString()),
+                CalendarioCita = DateTime.Parse(dr[1].ToString()),
+                Consultorio = long.Parse(dr[2].ToString()),                
+                IdMedico= long.Parse(dr[3].ToString()),
+                IdPaciente = long.Parse(dr[4].ToString()),
+                IdPago = long.Parse(dr[5].ToString()),
+            });
+        }
+        cn.Close();
+        return listaCitasO;
+    }
+
+    public string modificarCita(CitaO obj)
+    {
+        string mensaje = "";
+        SqlConnection cn = new SqlConnection(_connectionString);
+        cn.Open();
+        try
+        {
+            SqlCommand cmd = new SqlCommand("sp_actualizarCita", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@idCita", obj.IdCita);
+            cmd.Parameters.AddWithValue("@calendario", obj.CalendarioCita);
+            cmd.Parameters.AddWithValue("@consultorio", obj.Consultorio);
+            cmd.Parameters.AddWithValue("@medico", obj.IdMedico);
+            cmd.Parameters.AddWithValue("@paciente", obj.IdPaciente);
+            cmd.Parameters.AddWithValue("pago", obj.IdPago);
+            int n = cmd.ExecuteNonQuery();
+            mensaje = n.ToString() + "Cita Actualizada";
+        }
+        catch (Exception exp)
+        {
+            mensaje = "Error a la hora de Actualizar" + exp.Message;
+        }
+        cn.Close();
+
+        return mensaje;
     }
 }
