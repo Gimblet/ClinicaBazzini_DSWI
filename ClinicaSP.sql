@@ -285,6 +285,101 @@ BEGIN
              JOIN roles ro ON u.ide_rol = ro.ide_rol
 END
 GO
+
+CREATE OR ALTER PROC sp_listarRecepcionistasBack
+AS
+BEGIN
+    SELECT r.ide_usr,
+           r.ide_rep,
+           r.sue_rep,
+           u.cor_usr,
+           u.pwd_usr,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           u.num_doc,
+           u.ide_doc,
+           u.ide_rol
+    FROM recepcionista AS r
+             JOIN usuario u ON u.ide_usr = r.ide_usr
+END
+GO
+
+CREATE OR ALTER PROC sp_buscarRecepcionistaPorId(
+    @id BIGINT
+)
+AS
+BEGIN
+    SELECT r.ide_rep,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           ro.nom_rol,
+           r.sue_rep
+    FROM recepcionista AS r
+             JOIN usuario u ON u.ide_usr = r.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles ro ON u.ide_rol = ro.ide_rol
+    WHERE r.ide_rep = @id
+END
+GO
+
+sp_buscarRecepcionistaPorId 1
+GO
+
+CREATE OR ALTER PROC sp_actualizarRecepcionista(
+    @id BIGINT,
+    @sue SMALLMONEY,
+    @cor VARCHAR(100),
+    @pwd VARCHAR(150),
+    @nom VARCHAR(100),
+    @ape VARCHAR(100),
+    @ndo VARCHAR(12),
+    @fna DATE,
+    @doc BIGINT
+)
+AS
+BEGIN
+    UPDATE recepcionista
+    SET sue_rep = @sue
+    WHERE ide_rep = @id;
+
+    UPDATE usuario
+    SET cor_usr = @cor,
+        pwd_usr = @pwd,
+        nom_usr = @nom,
+        ape_usr = @ape,
+        num_doc = @ndo,
+        fna_usr = @fna,
+        ide_doc = @doc
+    WHERE ide_usr = (SELECT r.ide_usr
+                     FROM recepcionista r
+                     WHERE r.ide_rep = @id)
+END
+GO
+
+        sp_actualizarRecepcionista 2, 3000,
+        'Maria@Bazzini.edu.com', 'maria12345',
+        'Maria Alejandra', 'Flores Ramos',
+        '72910211', '2005-03-29',
+        1
+GO
+
+CREATE OR ALTER PROC sp_eliminarRecepcionista(
+    @id BIGINT
+)
+AS
+BEGIN
+    DELETE
+    FROM recepcionista
+    WHERE ide_rep = @id
+END
+GO
+
+-- sp_eliminarRecepcionista 2
+
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
