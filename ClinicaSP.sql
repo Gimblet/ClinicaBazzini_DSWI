@@ -324,3 +324,39 @@ GO
         1, 1,
         1
 GO
+
+--Actualizar Cita
+CREATE OR ALTER PROCEDURE sp_actualizarCita(
+    @idCita BIGINT,               -- ID de la cita a actualizar
+    @calendario DATETIME,         -- Nueva fecha/hora
+    @consultorio INT,             -- Nuevo consultorio
+    @medico BIGINT,               -- ID del médico
+    @paciente BIGINT,             -- ID del usuario (paciente)
+    @pago BIGINT                  -- ID del pago
+)
+AS
+BEGIN
+    UPDATE cita
+    SET cal_cit = @calendario,
+        con_cit = @consultorio,
+        ide_med = @medico,
+        ide_pac = (
+            SELECT p.ide_pac
+            FROM paciente p
+            WHERE p.ide_usr = @paciente
+        ),
+        ide_pag = @pago
+    WHERE ide_cit = @idCita
+END
+GO
+
+-- Eliminar Cita
+CREATE OR ALTER PROCEDURE sp_eliminarCita(
+    @idCita BIGINT 
+)
+AS
+BEGIN
+    DELETE FROM cita
+    WHERE ide_cit = @idCita
+END
+GO

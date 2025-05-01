@@ -15,4 +15,37 @@ public class CitaController : Controller
             => new CitaDAO().listarCitas());
         return Ok(lista);
     }
+    [HttpGet("listaCitaO")]
+    public async Task<ActionResult<List<Cita>>> ListaCitaO() 
+    {
+        var lista = await Task.Run(()
+            => new CitaDAO().listarCitasO());
+        return Ok(lista);
+
+    }
+    [HttpPost("agregaCita")]
+    public async Task<ActionResult<string>> agregaCita(CitaO obj)
+    {
+        var mensaje = await Task.Run(() => new CitaDAO().agregarCita(obj));
+        return Ok(mensaje);
+    }
+    
+    [HttpPut("actualizaCita")]
+    public async Task<ActionResult<string>> actualizarCita(CitaO obj)
+    {
+        var mensaje = await Task.Run(() => new CitaDAO().modificarCita(obj));
+        return Ok(mensaje);
+    }
+    [HttpDelete("eliminarCita/{id}")]
+    public async Task<ActionResult> eliminarCita(long id)
+    {
+        await Task.Run(() => new CitaDAO().eliminarCita(id));
+        return Ok();
+    }
+    [HttpGet("buscarCita/{id}")]
+    public async Task<ActionResult> buscarCita(long id)
+    {
+        var lista = await Task.Run(() => new CitaDAO().buscarCita(id));
+        return Ok(lista);
+    }
 }
