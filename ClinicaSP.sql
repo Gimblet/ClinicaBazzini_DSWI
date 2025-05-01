@@ -261,6 +261,7 @@ BEGIN
 END
 GO
 
+
 EXEC sp_agregarRecepcionista
      'ana@gmail.com', 'ana12345',
      'Ana María', 'Zevallos Rojas',
@@ -379,7 +380,159 @@ END
 GO
 
 -- sp_eliminarRecepcionista 2
+---------------------- MEDICO ------------------------
+-- Agrega Medico
+CREATE OR ALTER PROC sp_agregarMedico(
+    @cor varchar(100),
+    @pwd varchar(150),
+    @nom varchar(100),
+    @ape varchar(100),
+    @ndo varchar(12),
+    @fna DATE,
+    @doc BIGINT,
+    @sue SMALLMONEY,
+    @esp BIGINT
+)
+AS
+BEGIN
+    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
+    VALUES (@cor, @pwd, @nom, @ape,
+            @ndo, @fna, @doc, 2);
 
+    INSERT INTO medico (sue_med, ide_esp, ide_usr)
+    VALUES (@sue, @esp, scope_identity())
+END
+GO
+
+        sp_agregarMedico
+        'jefferson@bazzini.com', 'jeff12345',
+        'Jefferson Guadalup', 'Flores Ramires',
+        '3945823421', '2001-11-01',
+        2, 2500,
+        1
+GO
+
+-- Lista medicos Frontend
+CREATE OR ALTER PROC sp_listarMedicosFront
+AS
+BEGIN
+    SELECT m.ide_med,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           ro.nom_rol,
+           m.sue_med,
+		   e.nom_esp
+    FROM medico AS m
+             JOIN usuario u ON u.ide_usr = m.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles ro ON u.ide_rol = ro.ide_rol
+			 JOIN especialidad e ON e.ide_esp = m.ide_esp
+END
+GO
+
+-- Lista medicos Backend
+CREATE OR ALTER PROC sp_listarMedicosBack
+AS
+BEGIN
+    SELECT m.ide_usr,
+           m.ide_med,
+           m.ide_esp,
+           u.cor_usr,
+           u.pwd_usr,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           u.num_doc,
+           u.ide_doc,
+           u.ide_rol
+    FROM medico AS m
+             JOIN usuario u ON u.ide_usr = m.ide_usr
+END
+GO
+
+-- Buscar medico por ID 
+CREATE OR ALTER PROC sp_buscarMedicoPorId(
+    @id BIGINT
+)
+AS
+BEGIN
+    SELECT m.ide_med,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           ro.nom_rol,
+           e.nom_esp
+    FROM medico AS m
+             JOIN usuario u ON u.ide_usr = m.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles ro ON u.ide_rol = ro.ide_rol
+			 JOIN especialidad e ON e.ide_esp = m.ide_esp
+    WHERE m.ide_med = @id
+END
+GO
+
+
+sp_buscarMedicoPorId 1
+GO
+-- Actualizar medico
+CREATE OR ALTER PROC sp_actualizarMedico(
+    @id BIGINT,
+    @sue SMALLMONEY,
+	@esp BIGINT,
+
+    @cor VARCHAR(100),
+    @pwd VARCHAR(150),
+    @nom VARCHAR(100),
+    @ape VARCHAR(100),
+    @ndo VARCHAR(12),
+    @fna DATE,
+    @doc BIGINT
+)
+AS
+BEGIN
+    UPDATE medico
+    SET sue_med = @sue,
+		ide_esp = @esp
+    WHERE ide_med = @id;
+
+    UPDATE usuario
+    SET cor_usr = @cor,
+        pwd_usr = @pwd,
+        nom_usr = @nom,
+        ape_usr = @ape,
+        num_doc = @ndo,
+        fna_usr = @fna,
+        ide_doc = @doc
+    WHERE ide_usr = (SELECT m.ide_usr
+                     FROM medico m
+                     WHERE m.ide_med = @id)
+END
+GO
+
+        sp_actualizarMedico 1, 2800, 2, 'daniel@gmail.com', 'daniel1234', 'Daniel Aaron', 'Jaimes Amancio', '945651203', '2000-02-10', 2
+		go
+
+GO
+
+
+-- Eliminar medico
+CREATE OR ALTER PROC sp_eliminarMedico(
+    @id BIGINT
+)
+AS
+BEGIN
+    DELETE
+    FROM medico
+    WHERE ide_med = @id
+END
+GO
+
+-- sp_eliminarMedico 1
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
