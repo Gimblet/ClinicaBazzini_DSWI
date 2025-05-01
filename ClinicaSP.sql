@@ -466,6 +466,7 @@ BEGIN
            ud.nom_doc,
            u.num_doc,
            ro.nom_rol,
+		   m.sue_med,
            e.nom_esp
     FROM medico AS m
              JOIN usuario u ON u.ide_usr = m.ide_usr
