@@ -29,14 +29,15 @@ public class MedicoDAO : IMedico
         {
             listaMedicos.Add(new Medico()
             {
-                IdMedico = long.Parse(dr[0].ToString()),
-                NombreUsuario = dr[1].ToString(),
-                ApellidoUsuario = dr[2].ToString(),
-                FechaNacimiento = DateTime.Parse(dr[3].ToString()),
-                TipoDocumento = dr[4].ToString(),
-                Rol = dr[5].ToString(),
-                sueldo = decimal.Parse(dr[6].ToString()),
-                especialidad = dr[7].ToString()
+                IdMedico = long.Parse(dr["ide_med"].ToString()),
+                NombreUsuario = dr["nom_usr"].ToString(),
+                ApellidoUsuario = dr["ape_usr"].ToString(),
+                FechaNacimiento = DateTime.Parse(dr["fna_usr"].ToString()),
+                TipoDocumento = dr["nom_doc"].ToString(),
+                NumeroDocumento = dr["num_doc"].ToString(),
+                Rol = dr["nom_rol"].ToString(),
+                sueldo = decimal.Parse(dr["sue_med"].ToString()),
+                especialidad = dr["nom_esp"].ToString()
             });
         }
 
@@ -56,18 +57,17 @@ public class MedicoDAO : IMedico
         {
             listaMedicos.Add(new MedicoO()
             {
-                ide_usr = long.Parse(dr[0].ToString()),
-                ide_med = long.Parse(dr[1].ToString()),
-                sue_med = decimal.Parse(dr[2].ToString()),
-                ide_esp = long.Parse(dr[3].ToString()),
-                cor_usr = dr[4].ToString(),
-                pwd_usr = dr[5].ToString(),
-                nom_usr = dr[6].ToString(),
-                ape_usr = dr[7].ToString(),
-                fna_usr = DateTime.Parse(dr[8].ToString()),
-                num_doc = dr[9].ToString(),
-                ide_doc = long.Parse(dr[10].ToString()),
-                ide_rol = long.Parse(dr[11].ToString())
+                ide_usr = Convert.ToInt64(dr["ide_usr"]),
+                ide_med = Convert.ToInt64(dr["ide_med"]),
+                ide_esp = Convert.ToInt64(dr["ide_esp"]),
+                cor_usr = dr["cor_usr"].ToString(),
+                pwd_usr = dr["pwd_usr"].ToString(),
+                nom_usr = dr["nom_usr"].ToString(),
+                ape_usr = dr["ape_usr"].ToString(),
+                fna_usr = Convert.ToDateTime(dr["fna_usr"]),
+                num_doc = dr["num_doc"].ToString(),
+                ide_doc = Convert.ToInt64(dr["ide_doc"]),
+                ide_rol = Convert.ToInt64(dr["ide_rol"])
             });
         }
 
@@ -118,15 +118,15 @@ public class MedicoDAO : IMedico
         {
             medico = new Medico()
             {
-                IdMedico = long.Parse(dr[0].ToString()),
-                NombreUsuario = dr[1].ToString(),
-                ApellidoUsuario = dr[2].ToString(),
-                FechaNacimiento = DateTime.Parse(dr[3].ToString()),
-                TipoDocumento = dr[4].ToString(),
-                NumeroDocumento = dr[5].ToString(),
-                Rol = dr[6].ToString(),
-                sueldo = decimal.Parse(dr[7].ToString()),
-                especialidad = dr[8].ToString()
+                IdMedico = long.Parse(dr["ide_med"].ToString()),
+                NombreUsuario = dr["nom_usr"].ToString(),
+                ApellidoUsuario = dr["ape_usr"].ToString(),
+                FechaNacimiento = DateTime.Parse(dr["fna_usr"].ToString()),
+                TipoDocumento = dr["nom_doc"].ToString(),
+                NumeroDocumento = dr["num_doc"].ToString(),
+                Rol = dr["nom_rol"].ToString(),
+                sueldo = decimal.Parse(dr["sue_med"].ToString()),
+                especialidad = dr["nom_esp"].ToString()
             };
         }
 
