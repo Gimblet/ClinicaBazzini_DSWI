@@ -1,6 +1,5 @@
 using System.Data;
 using System.Data.SqlClient;
-using ClinicaAPI.Models.Usuario;
 using ClinicaAPI.Models.Usuario.Paciente;
 using ClinicaAPI.Repository.Interfaces;
 
@@ -16,7 +15,7 @@ public class PacienteDAO : IPaciente
             .Build().GetConnectionString("cn") ?? throw new NullReferenceException();
     }
 
-    public string GuardarPacienteO(UsuarioO usuario)
+    public string GuardarPacienteO(PacienteO paciente)
     {
         string mensaje = "";
         SqlConnection cn = new SqlConnection(_connectionString);
@@ -24,13 +23,13 @@ public class PacienteDAO : IPaciente
         try
         {
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@cor", usuario.cor_usr);
-            cmd.Parameters.AddWithValue("@pwd", usuario.pwd_usr);
-            cmd.Parameters.AddWithValue("@nom", usuario.nom_usr);
-            cmd.Parameters.AddWithValue("@ape", usuario.ape_usr);
-            cmd.Parameters.AddWithValue("@ndo", usuario.num_doc);
-            cmd.Parameters.AddWithValue("@fna", usuario.fna_usr);
-            cmd.Parameters.AddWithValue("@doc", usuario.ide_doc);
+            cmd.Parameters.AddWithValue("@cor", paciente.cor_usr);
+            cmd.Parameters.AddWithValue("@pwd", paciente.pwd_usr);
+            cmd.Parameters.AddWithValue("@nom", paciente.nom_usr);
+            cmd.Parameters.AddWithValue("@ape", paciente.ape_usr);
+            cmd.Parameters.AddWithValue("@ndo", paciente.num_doc);
+            cmd.Parameters.AddWithValue("@fna", paciente.fna_usr);
+            cmd.Parameters.AddWithValue("@doc", paciente.ide_doc);
 
             cn.Open();
             cmd.ExecuteNonQuery();
@@ -61,8 +60,8 @@ public class PacienteDAO : IPaciente
             listaPacientes.Add(new Paciente()
             {
                 IdPaciente = long.Parse(dr[0].ToString()),
-                NombrePaciente = dr[1].ToString(),
-                ApellidoPaciente = dr[2].ToString(),
+                NombreUsuario = dr[1].ToString(),
+                ApellidoUsuario = dr[2].ToString(),
                 FechaNacimiento = DateTime.Parse(dr[3].ToString()),
                 TipoDocumento = dr[4].ToString(),
                 NumeroDocumento = dr[5].ToString(),

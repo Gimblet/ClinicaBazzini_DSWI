@@ -18,10 +18,10 @@ public class PacienteController : Controller
     }
 
     [HttpPost("guardarPaciente")]
-    public async Task<ActionResult<string>> GuardarPaciente(UsuarioO usuario)
+    public async Task<ActionResult<string>> GuardarPaciente(PacienteO paciente)
     {
         var mensaje = await Task.Run(()
-            => new PacienteDAO().GuardarPacienteO(usuario));
+            => new PacienteDAO().GuardarPacienteO(paciente));
         return Ok(mensaje);
     }
 }

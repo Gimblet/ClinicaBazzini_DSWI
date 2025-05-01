@@ -1,6 +1,6 @@
 namespace ClinicaAPI.Models.Usuario.Medico;
 
-public class MedicoO
+public class MedicoO : UsuarioO
 {
     public long ide_med { get; set; }
     public decimal sue_med { get; set; }
