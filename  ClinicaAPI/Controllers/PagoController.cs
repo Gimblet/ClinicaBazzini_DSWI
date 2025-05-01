@@ -8,12 +8,60 @@ namespace ClinicaAPI.Controllers;
 [ApiController]
 public class PagoController : Controller
 {
-    [HttpGet("ListarTipoDePagos")]
-    public async Task<ActionResult<List<PayOpts>>> ObtenerPagos()
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<PayOpts>>> ObtenerTiposDePago()
     {
         var lista = await Task.Run(()
             => new PayOptsDAO().ListarTiposDePago());
         return Ok(lista);
     }
-    
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<Pago>>> ListarPagosGeneral()
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().ListarPagos());
+        return Ok(lista);
+    }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<Pago>>> ListarPagosPorPaciente(long token)
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().ListarPagosPorPaciente(token));
+        return Ok(lista);
+    }
+
+
+    [HttpPost("[action]")]
+    public async Task<ActionResult<string>> AgregarPago(PagoO pago, long token)
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().AgregarPago(pago, token));
+        return Ok(lista);
+    }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<PagoO>> ObtenerPagoPorId(long id)
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().ObtenerPagoPorId(id));
+        return Ok(lista);
+    }
+
+    [HttpPut("[action]")]
+    public async Task<ActionResult<string>> ActualizarPago(PagoO pago)
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().ActualizarPago(pago));
+        return Ok(lista);
+    }
+
+    [HttpDelete("[action]")]
+    public async Task<ActionResult<string>> EliminarPago(long id)
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().EliminarPago(id));
+        return Ok(lista);
+    }
 }

@@ -123,9 +123,9 @@ CREATE TABLE pago
     ide_pag BIGINT IDENTITY(1,1) PRIMARY KEY,
     hor_pag DATETIME NOT NULL, -- Hora
     mon_pag SMALLMONEY NOT NULL CHECK(mon_pag > 0), -- Monto
-    tip_pag BIGINT NOT NULL, -- Tipo de Pago
+    ide_pay BIGINT NOT NULL, -- Tipo de Pago
     ide_pac BIGINT NOT NULL, -- Paciente(Usuario)
-    FOREIGN KEY(tip_pag) REFERENCES pay_opts(ide_pay),
+    FOREIGN KEY(ide_pay) REFERENCES pay_opts(ide_pay),
     FOREIGN KEY(ide_pac) REFERENCES paciente(ide_pac)
 )
 GO

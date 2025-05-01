@@ -81,29 +81,10 @@ END
 GO
 
 EXEC sp_agregarRecepcionista
-    'ana@gmail.com', 'ana12345',
-    'Ana María', 'Zevallos Rojas',
-    '78645231', '1994-07-22',
-    1, 1800;
-GO
-
--- Agrega Pago
-CREATE OR ALTER PROC sp_agregarPago(
-    @hora DATETIME,
-    @monto SMALLMONEY,
-    @tipopago BIGINT,
-    @paciente BIGINT
-)
-AS
-BEGIN
-    INSERT INTO pago
-    VALUES (@hora, @monto,
-            @tipopago, @paciente)
-END
-GO
-
-        sp_agregarPago '2025-04-25 18:25', 250.0,
-        3, 1
+     'ana@gmail.com', 'ana12345',
+     'Ana María', 'Zevallos Rojas',
+     '78645231', '1994-07-22',
+     1, 1800;
 GO
 
 -- Lista pacientes para el FrontEnd
@@ -125,21 +106,7 @@ BEGIN
 END
 GO
 
-
-
-
--- Listar tipos de Pago
-
-CREATE OR ALTER PROC sp_listarPaymentOptions
-AS
-BEGIN
-    SELECT *
-    FROM pay_opts
-END
-GO
-
 -- Verificar Inicio de Sesion
-
 CREATE OR ALTER PROC sp_verificarLogin(
     @correo VARCHAR(100),
     @contraseña VARCHAR(150)
@@ -170,6 +137,134 @@ GO
 
 sp_obtenerIdUsuario 'diego@gmail.com'
 GO
+
+------------------- PAGOS ---------------------
+-- Sp_columns pago
+-- Listar tipos de Pago
+
+CREATE OR ALTER PROC sp_listarPaymentOptions
+AS
+BEGIN
+    SELECT *
+    FROM pay_opts
+END
+GO
+
+-- Agrega Pago
+CREATE OR ALTER PROC sp_agregarPago(
+    @hora DATETIME,
+    @monto SMALLMONEY,
+    @tipopago BIGINT,
+    @usuario BIGINT
+)
+AS
+BEGIN
+    INSERT INTO pago
+    VALUES (@hora, @monto,
+            @tipopago, (select p.ide_pac
+                        FROM paciente p
+                        WHERE p.ide_usr = @usuario))
+END
+GO
+
+        sp_agregarPago '2025-04-25 18:25', 250.0,
+        3, 3
+GO
+
+CREATE OR ALTER PROC sp_obtenerPagoPorId(
+    @id BIGINT
+)
+AS
+BEGIN
+    SELECT *
+    FROM pago
+    WHERE ide_pag = @id
+END
+GO
+
+sp_obtenerPagoPorId 1
+
+-- Lista Pagos
+CREATE OR ALTER PROC sp_listarPagos
+AS
+BEGIN
+    SELECT p.ide_pag,
+           p.hor_pag,
+           p.mon_pag,
+           po.nom_pay,
+           u.cor_usr,
+           CONCAT(u.nom_usr, SPACE(1), u.ape_usr),
+           u.num_doc
+    FROM pago p
+             JOIN pay_opts po ON po.ide_pay = p.tip_pag
+             JOIN paciente pc ON pc.ide_pac = p.ide_pac
+             JOIN usuario u ON u.ide_usr = pc.ide_usr
+END
+GO
+
+sp_listarPagos
+GO
+
+-- Lista pagos por el id (Id de Usuario)
+CREATE OR ALTER PROC sp_listarPagosPorPaciente(
+    @ide BIGINT
+)
+AS
+BEGIN
+    SELECT p.ide_pag,
+           p.hor_pag,
+           p.mon_pag,
+           po.nom_pay,
+           u.cor_usr,
+           CONCAT(u.nom_usr, SPACE(1), u.ape_usr),
+           u.num_doc
+    FROM pago p
+             JOIN pay_opts po ON po.ide_pay = p.tip_pag
+             JOIN paciente pc ON pc.ide_pac = p.ide_pac
+             JOIN usuario u ON u.ide_usr = pc.ide_usr
+    WHERE p.ide_pac = (SELECT pa.ide_pac
+                       FROM paciente pa
+                       WHERE ide_usr = @ide)
+END
+GO
+
+sp_listarPagosPorPaciente 1
+
+-- Actualizar pago por Id (Se actualiza todos los campos excepto el idPaciente
+-- para evitar incongruencias
+CREATE OR ALTER PROC sp_actualizarPago(
+    @paciente BIGINT,
+    @ide_pag BIGINT,
+    @hor_pag DATETIME,
+    @mon_pag SMALLMONEY,
+    @tip_pag BIGINT
+)
+AS
+BEGIN
+    UPDATE pago
+    SET hor_pag = @hor_pag,
+        mon_pag = @mon_pag,
+        tip_pag = @tip_pag,
+        ide_pac = @paciente
+    WHERE ide_pag = @ide_pag
+END
+GO
+
+-- sp_actualizarPago 1, '2025-04-20 01:00:00', 200.00, 1
+
+-- Elimina un Pago Realizado por Id
+CREATE OR ALTER PROC sp_eliminarPago(
+    @id BIGINT
+)
+AS
+BEGIN
+    DELETE
+    FROM pago
+    WHERE ide_pag = @id
+END
+GO
+
+-- sp_eliminarPago 1
 
 ---------------------- CITA ------------------------
 -- sp_columns cita
