@@ -1,6 +1,6 @@
 namespace ClinicaAPI.Models.Usuario.Recepcionista;
 
-public class RecepcionistaO
+public class RecepcionistaO : UsuarioO
 {
     public long ide_rep { get; set; }
     public decimal sue_rep { get; set; }
