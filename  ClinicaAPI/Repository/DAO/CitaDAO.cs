@@ -28,7 +28,7 @@ public class CitaDAO : ICita
             cmd.Parameters.AddWithValue("@consultorio", obj.Consultorio);
             cmd.Parameters.AddWithValue("@medico", obj.IdMedico);
             cmd.Parameters.AddWithValue("@paciente", obj.IdPaciente);
-            cmd.Parameters.AddWithValue("pago", obj.IdPago);
+            cmd.Parameters.AddWithValue("@pago", obj.IdPago);
            int n = cmd.ExecuteNonQuery();
             mensaje = n.ToString() + "Cita registrada";
         }

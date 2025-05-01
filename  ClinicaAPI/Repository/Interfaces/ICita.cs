@@ -8,7 +8,7 @@ public interface ICita
    IEnumerable<CitaO> listarCitasO();
     string agregarCita(CitaO obj);
     string modificarCita(CitaO obj);
-    CitaO buscarCita(int id);
-    void eliminarCita(int id);
+    CitaO buscarCita(long id);
+    void eliminarCita(long id);
 
 }
