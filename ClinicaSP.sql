@@ -59,34 +59,6 @@ GO
         1
 GO
 
--- agregar recepcionista 
-CREATE OR ALTER PROC sp_agregarRecepcionista(
-    @cor VARCHAR(100),
-    @pwd VARCHAR(150),
-    @nom VARCHAR(100),
-    @ape VARCHAR(100),
-    @ndo VARCHAR(12),
-    @fna DATE,
-    @doc BIGINT,
-    @sue SMALLMONEY
-)
-AS
-BEGIN
-    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
-    VALUES (@cor, @pwd, @nom, @ape, @ndo, @fna, @doc, 3);
-
-    INSERT INTO recepcionista (sue_rep, ide_usr)
-    VALUES (@sue, SCOPE_IDENTITY());
-END
-GO
-
-EXEC sp_agregarRecepcionista
-     'ana@gmail.com', 'ana12345',
-     'Ana María', 'Zevallos Rojas',
-     '78645231', '1994-07-22',
-     1, 1800;
-GO
-
 -- Lista pacientes para el FrontEnd
 
 CREATE OR ALTER PROC sp_listarPacientesFront
@@ -266,6 +238,53 @@ GO
 
 -- sp_eliminarPago 1
 
+---------------------- RECEPCIONISTA ------------------------
+
+-- agregar recepcionista 
+CREATE OR ALTER PROC sp_agregarRecepcionista(
+    @cor VARCHAR(100),
+    @pwd VARCHAR(150),
+    @nom VARCHAR(100),
+    @ape VARCHAR(100),
+    @ndo VARCHAR(12),
+    @fna DATE,
+    @doc BIGINT,
+    @sue SMALLMONEY
+)
+AS
+BEGIN
+    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
+    VALUES (@cor, @pwd, @nom, @ape, @ndo, @fna, @doc, 3);
+
+    INSERT INTO recepcionista (sue_rep, ide_usr)
+    VALUES (@sue, SCOPE_IDENTITY());
+END
+GO
+
+EXEC sp_agregarRecepcionista
+     'ana@gmail.com', 'ana12345',
+     'Ana María', 'Zevallos Rojas',
+     '78645231', '1994-07-22',
+     1, 1800;
+GO
+
+CREATE OR ALTER PROC sp_listarRecepcionistasFront
+AS
+BEGIN
+    SELECT r.ide_rep,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           ro.nom_rol,
+           r.sue_rep
+    FROM recepcionista AS r
+             JOIN usuario u ON u.ide_usr = r.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles ro ON u.ide_rol = ro.ide_rol
+END
+GO
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
@@ -327,12 +346,12 @@ GO
 
 --Actualizar Cita
 CREATE OR ALTER PROCEDURE sp_actualizarCita(
-    @idCita BIGINT,               -- ID de la cita a actualizar
-    @calendario DATETIME,         -- Nueva fecha/hora
-    @consultorio INT,             -- Nuevo consultorio
-    @medico BIGINT,               -- ID del médico
-    @paciente BIGINT,             -- ID del usuario (paciente)
-    @pago BIGINT                  -- ID del pago
+    @idCita BIGINT, -- ID de la cita a actualizar
+    @calendario DATETIME, -- Nueva fecha/hora
+    @consultorio INT, -- Nuevo consultorio
+    @medico BIGINT, -- ID del médico
+    @paciente BIGINT, -- ID del usuario (paciente)
+    @pago BIGINT -- ID del pago
 )
 AS
 BEGIN
@@ -340,11 +359,9 @@ BEGIN
     SET cal_cit = @calendario,
         con_cit = @consultorio,
         ide_med = @medico,
-        ide_pac = (
-            SELECT p.ide_pac
-            FROM paciente p
-            WHERE p.ide_usr = @paciente
-        ),
+        ide_pac = (SELECT p.ide_pac
+                   FROM paciente p
+                   WHERE p.ide_usr = @paciente),
         ide_pag = @pago
     WHERE ide_cit = @idCita
 END
@@ -352,11 +369,12 @@ GO
 
 -- Eliminar Cita
 CREATE OR ALTER PROCEDURE sp_eliminarCita(
-    @idCita BIGINT 
+    @idCita BIGINT
 )
 AS
 BEGIN
-    DELETE FROM cita
+    DELETE
+    FROM cita
     WHERE ide_cit = @idCita
 END
 GO
