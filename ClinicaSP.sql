@@ -81,10 +81,10 @@ END
 GO
 
 EXEC sp_agregarRecepcionista
-    'ana@gmail.com', 'ana12345',
-    'Ana María', 'Zevallos Rojas',
-    '78645231', '1994-07-22',
-    1, 1800;
+     'ana@gmail.com', 'ana12345',
+     'Ana María', 'Zevallos Rojas',
+     '78645231', '1994-07-22',
+     1, 1800;
 GO
 
 -- Lista pacientes para el FrontEnd
@@ -155,19 +155,34 @@ CREATE OR ALTER PROC sp_agregarPago(
     @hora DATETIME,
     @monto SMALLMONEY,
     @tipopago BIGINT,
-    @paciente BIGINT
+    @usuario BIGINT
 )
 AS
 BEGIN
     INSERT INTO pago
     VALUES (@hora, @monto,
-            @tipopago, @paciente)
+            @tipopago, (select p.ide_pac
+                        FROM paciente p
+                        WHERE p.ide_usr = @usuario))
 END
 GO
 
         sp_agregarPago '2025-04-25 18:25', 250.0,
-        3, 1
+        3, 3
 GO
+
+CREATE OR ALTER PROC sp_obtenerPagoPorId(
+    @id BIGINT
+)
+AS
+BEGIN
+    SELECT *
+    FROM pago
+    WHERE ide_pag = @id
+END
+GO
+
+sp_obtenerPagoPorId 1
 
 -- Lista Pagos
 CREATE OR ALTER PROC sp_listarPagos
@@ -218,7 +233,8 @@ sp_listarPagosPorPaciente 1
 -- Actualizar pago por Id (Se actualiza todos los campos excepto el idPaciente
 -- para evitar incongruencias
 CREATE OR ALTER PROC sp_actualizarPago(
-    @ide_pac BIGINT,
+    @paciente BIGINT,
+    @ide_pag BIGINT,
     @hor_pag DATETIME,
     @mon_pag SMALLMONEY,
     @tip_pag BIGINT
@@ -228,8 +244,9 @@ BEGIN
     UPDATE pago
     SET hor_pag = @hor_pag,
         mon_pag = @mon_pag,
-        tip_pag = @tip_pag
-    WHERE ide_pac = @ide_pac
+        tip_pag = @tip_pag,
+        ide_pac = @paciente
+    WHERE ide_pag = @ide_pag
 END
 GO
 
@@ -249,7 +266,7 @@ GO
 
 -- sp_eliminarPago 1
 
-    ---------------------- CITA ------------------------
+---------------------- CITA ------------------------
 -- sp_columns cita
 
 -- Lista todas las citas para el BackEnd
