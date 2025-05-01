@@ -37,13 +37,13 @@ public class CitaController : Controller
         return Ok(mensaje);
     }
     [HttpDelete("eliminarCita/{id}")]
-    public async Task<ActionResult> eliminarCita(int id)
+    public async Task<ActionResult> eliminarCita(long id)
     {
         await Task.Run(() => new CitaDAO().eliminarCita(id));
         return Ok();
     }
     [HttpGet("buscarCita/{id}")]
-    public async Task<ActionResult> buscarCita(int id)
+    public async Task<ActionResult> buscarCita(long id)
     {
         var lista = await Task.Run(() => new CitaDAO().buscarCita(id));
         return Ok(lista);

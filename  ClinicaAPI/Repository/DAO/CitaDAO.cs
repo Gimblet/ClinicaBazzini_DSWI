@@ -41,14 +41,14 @@ public class CitaDAO : ICita
         return mensaje;
     }
 
-    public CitaO buscarCita(int id)
+    public CitaO buscarCita(long id)
     {
 
         return listarCitasO().FirstOrDefault(c => c.IdCita == id);
 
     }
 
-    public void eliminarCita(int id)
+    public void eliminarCita(long id)
     {
         SqlConnection cn = new SqlConnection(_connectionString);
         cn.Open();
