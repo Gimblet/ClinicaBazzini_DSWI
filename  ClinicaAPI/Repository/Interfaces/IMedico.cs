@@ -4,10 +4,10 @@ namespace ClinicaAPI.Repository.Interfaces;
 
 public interface IMedico
 {
-    IEnumerable<Medico> listarMedicos();
-    IEnumerable<MedicoO> listarMedicosO();
-    string agregarMedico(MedicoO objM);
-    string modificarMedico(MedicoO objM);
-    MedicoO buscarMedico(long id);
-    void eliminarMedico(long id);
+    IEnumerable<Medico> listarMedicosFront();
+    IEnumerable<MedicoO> listarMedicosBack();
+    string agregarMedico(MedicoO medico);
+    Medico buscarMedicoPorID(long id);
+    string actualizarMedicoPorID(MedicoO medico);
+    string eliminarMedicoPorID(long id);
 }
