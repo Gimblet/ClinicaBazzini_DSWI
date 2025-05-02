@@ -1,4 +1,4 @@
-namespace ClinicaWebApp.Models.Pago;
+namespace ClinicaAPI.Models.Pago;
 
 public class PayOpts
 {

@@ -1,4 +1,4 @@
-namespace ClinicaWebApp.Models.Usuario;
+namespace ClinicaAPI.Models.Usuario;
 
 public class UsuarioO
 {
@@ -9,4 +9,5 @@ public class UsuarioO
     public DateTime fna_usr { get; set; }
     public string num_doc { get; set; }
     public long ide_doc { get; set; }
+    public long ide_rol { get; set; }
 }

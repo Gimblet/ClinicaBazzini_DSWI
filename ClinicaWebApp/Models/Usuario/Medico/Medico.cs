@@ -1,13 +1,8 @@
 namespace ClinicaWebApp.Models.Usuario.Medico;
 
-public class Medico
+public class Medico : Usuario
 {
     public long IdMedico { get; set; }
-    public string NombreMedico { get; set; }
-    public string ApellidoMedico { get; set; }
-    public string NumeroDocumento { get; set; }
-    public string TipoDocumento { get; set; }
-    public DateTime fechaNacimiento { get; set; }
-    public string CorreoPaciente { get; set; }
-    public string ContraseñaPaciente { get; set; }
+    public decimal sueldo { get; set; }
+    public string especialidad { get; set; }
 }

@@ -1,4 +1,4 @@
-namespace ClinicaWebApp.Models.Usuario;
+namespace ClinicaAPI.Models.Usuario;
 
 public class UserDoc
 {
