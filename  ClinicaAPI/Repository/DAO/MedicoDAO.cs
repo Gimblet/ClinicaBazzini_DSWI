@@ -57,17 +57,18 @@ public class MedicoDAO : IMedico
         {
             listaMedicos.Add(new MedicoO()
             {
-                ide_usr = Convert.ToInt64(dr["ide_usr"]),
-                ide_med = Convert.ToInt64(dr["ide_med"]),
-                ide_esp = Convert.ToInt64(dr["ide_esp"]),
+                ide_usr = int.Parse(dr["ide_usr"].ToString()),
+                ide_med = int.Parse(dr["ide_med"].ToString()),
+                sue_med = decimal.Parse(dr["sue_med"].ToString()),
+                ide_esp = int.Parse(dr["ide_esp"].ToString()),
                 cor_usr = dr["cor_usr"].ToString(),
                 pwd_usr = dr["pwd_usr"].ToString(),
                 nom_usr = dr["nom_usr"].ToString(),
                 ape_usr = dr["ape_usr"].ToString(),
-                fna_usr = Convert.ToDateTime(dr["fna_usr"]),
+                fna_usr = DateTime.Parse(dr["fna_usr"].ToString()),
                 num_doc = dr["num_doc"].ToString(),
-                ide_doc = Convert.ToInt64(dr["ide_doc"]),
-                ide_rol = Convert.ToInt64(dr["ide_rol"])
+                ide_doc = int.Parse(dr["ide_doc"].ToString()),
+                ide_rol = int.Parse(dr["ide_rol"].ToString())
             });
         }
 

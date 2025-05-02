@@ -201,7 +201,7 @@ END
 GO
 
 sp_listarPagosPorPaciente 1
-
+go
 -- Actualizar pago por Id (Se actualiza todos los campos excepto el idPaciente
 -- para evitar incongruencias
 CREATE OR ALTER PROC sp_actualizarPago(
@@ -439,6 +439,7 @@ AS
 BEGIN
     SELECT m.ide_usr,
            m.ide_med,
+		   m.sue_med,
            m.ide_esp,
            u.cor_usr,
            u.pwd_usr,
