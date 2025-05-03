@@ -1,4 +1,4 @@
-namespace ClinicaAPI.Models.Usuario;
+namespace ClinicaWebApp.Models.Usuario;
 
 public class Usuario
 {
