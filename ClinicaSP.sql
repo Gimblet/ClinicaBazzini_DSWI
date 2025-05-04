@@ -1,6 +1,8 @@
 USE DSWI_Clinica
 GO
 
+------------------- PACIENTE -------------------
+
 -- Agrega Paciente
 CREATE OR ALTER PROC sp_agregarPaciente(
     @cor varchar(100),
@@ -28,37 +30,6 @@ GO
         '123456789', '2001-01-30', 2
 GO
 
--- Agrega Medico
-CREATE OR ALTER PROC sp_agregarMedico(
-    @cor varchar(100),
-    @pwd varchar(150),
-    @nom varchar(100),
-    @ape varchar(100),
-    @ndo varchar(12),
-    @fna DATE,
-    @doc BIGINT,
-    @sue SMALLMONEY,
-    @esp BIGINT
-)
-AS
-BEGIN
-    INSERT INTO usuario (cor_usr, pwd_usr, nom_usr, ape_usr, num_doc, fna_usr, ide_doc, ide_rol)
-    VALUES (@cor, @pwd, @nom, @ape,
-            @ndo, @fna, @doc, 2);
-
-    INSERT INTO medico (sue_med, ide_esp, ide_usr)
-    VALUES (@sue, @esp, scope_identity())
-END
-GO
-
-        sp_agregarMedico
-        'jefferson@bazzini.com', 'jeff12345',
-        'Jefferson Guadalup', 'Flores Ramires',
-        '3945823421', '2001-11-01',
-        2, 2500,
-        1
-GO
-
 -- Lista pacientes para el FrontEnd
 
 CREATE OR ALTER PROC sp_listarPacientesFront
@@ -78,6 +49,8 @@ BEGIN
 END
 GO
 
+--------------------- USUARIO ---------------------
+
 -- Verificar Inicio de Sesion
 CREATE OR ALTER PROC sp_verificarLogin(
     @correo VARCHAR(100),
@@ -93,7 +66,7 @@ BEGIN
 END
 GO
 
-sp_verificarLogin 'joseph@gmail.com', 'Joseph1234'
+sp_verificarLogin 'diego@gmail.com', 'diego1234'
 GO
 
 CREATE OR ALTER PROC sp_obtenerIdUsuario(
@@ -131,7 +104,7 @@ CREATE OR ALTER PROC sp_agregarPago(
 )
 AS
 BEGIN
-    INSERT INTO pago
+    INSERT INTO pago (hor_pag, mon_pag, ide_pay, ide_pac)
     VALUES (@hora, @monto,
             @tipopago, (select p.ide_pac
                         FROM paciente p
@@ -140,7 +113,7 @@ END
 GO
 
         sp_agregarPago '2025-04-25 18:25', 250.0,
-        3, 3
+        3, 1
 GO
 
 CREATE OR ALTER PROC sp_obtenerPagoPorId(
@@ -155,6 +128,7 @@ END
 GO
 
 sp_obtenerPagoPorId 1
+GO
 
 -- Lista Pagos
 CREATE OR ALTER PROC sp_listarPagos
@@ -168,7 +142,7 @@ BEGIN
            CONCAT(u.nom_usr, SPACE(1), u.ape_usr),
            u.num_doc
     FROM pago p
-             JOIN pay_opts po ON po.ide_pay = p.tip_pag
+             JOIN pay_opts po ON po.ide_pay = p.ide_pay
              JOIN paciente pc ON pc.ide_pac = p.ide_pac
              JOIN usuario u ON u.ide_usr = pc.ide_usr
 END
@@ -191,7 +165,7 @@ BEGIN
            CONCAT(u.nom_usr, SPACE(1), u.ape_usr),
            u.num_doc
     FROM pago p
-             JOIN pay_opts po ON po.ide_pay = p.tip_pag
+             JOIN pay_opts po ON po.ide_pay = p.ide_pay
              JOIN paciente pc ON pc.ide_pac = p.ide_pac
              JOIN usuario u ON u.ide_usr = pc.ide_usr
     WHERE p.ide_pac = (SELECT pa.ide_pac
@@ -201,7 +175,8 @@ END
 GO
 
 sp_listarPagosPorPaciente 1
-go
+GO
+
 -- Actualizar pago por Id (Se actualiza todos los campos excepto el idPaciente
 -- para evitar incongruencias
 CREATE OR ALTER PROC sp_actualizarPago(
@@ -209,20 +184,20 @@ CREATE OR ALTER PROC sp_actualizarPago(
     @ide_pag BIGINT,
     @hor_pag DATETIME,
     @mon_pag SMALLMONEY,
-    @tip_pag BIGINT
+    @ide_pay BIGINT
 )
 AS
 BEGIN
     UPDATE pago
     SET hor_pag = @hor_pag,
         mon_pag = @mon_pag,
-        tip_pag = @tip_pag,
+        ide_pay = @ide_pay,
         ide_pac = @paciente
     WHERE ide_pag = @ide_pag
 END
 GO
 
--- sp_actualizarPago 1, '2025-04-20 01:00:00', 200.00, 1
+-- sp_actualizarPago 1, 3, '2025-04-20 01:00:00', 200.00, 1
 
 -- Elimina un Pago Realizado por Id
 CREATE OR ALTER PROC sp_eliminarPago(
@@ -287,6 +262,9 @@ BEGIN
 END
 GO
 
+sp_listarRecepcionistasFront
+GO
+
 CREATE OR ALTER PROC sp_listarRecepcionistasBack
 AS
 BEGIN
@@ -304,6 +282,9 @@ BEGIN
     FROM recepcionista AS r
              JOIN usuario u ON u.ide_usr = r.ide_usr
 END
+GO
+
+sp_listarRecepcionistasBack
 GO
 
 CREATE OR ALTER PROC sp_buscarRecepcionistaPorId(
@@ -361,7 +342,7 @@ BEGIN
 END
 GO
 
-        sp_actualizarRecepcionista 2, 3000,
+        sp_actualizarRecepcionista 1, 3000,
         'Maria@Bazzini.edu.com', 'maria12345',
         'Maria Alejandra', 'Flores Ramos',
         '72910211', '2005-03-29',
@@ -379,7 +360,8 @@ BEGIN
 END
 GO
 
--- sp_eliminarRecepcionista 2
+-- sp_eliminarRecepcionista 1
+
 ---------------------- MEDICO ------------------------
 -- Agrega Medico
 CREATE OR ALTER PROC sp_agregarMedico(
@@ -433,6 +415,9 @@ BEGIN
 END
 GO
 
+sp_listarMedicosFront
+GO
+
 -- Lista medicos Backend
 CREATE OR ALTER PROC sp_listarMedicosBack
 AS
@@ -452,6 +437,9 @@ BEGIN
     FROM medico AS m
              JOIN usuario u ON u.ide_usr = m.ide_usr
 END
+GO
+
+sp_listarMedicosBack
 GO
 
 -- Buscar medico por ID 
@@ -478,9 +466,9 @@ BEGIN
 END
 GO
 
-
 sp_buscarMedicoPorId 1
 GO
+
 -- Actualizar medico
 CREATE OR ALTER PROC sp_actualizarMedico(
     @id BIGINT,
@@ -535,6 +523,7 @@ END
 GO
 
 -- sp_eliminarMedico 1
+
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
@@ -550,6 +539,9 @@ BEGIN
            c.ide_pag
     FROM cita AS c
 END
+GO
+
+sp_listarCitasBack
 GO
 
 -- Lista todas las citas para el FrontEnd
@@ -569,6 +561,9 @@ BEGIN
              JOIN usuario up ON up.ide_usr = p.ide_pac
              JOIN pago pg ON c.ide_pag = pg.ide_pag
 END
+GO
+
+sp_listarCitasFront
 GO
 
 -- Agrega Cita
