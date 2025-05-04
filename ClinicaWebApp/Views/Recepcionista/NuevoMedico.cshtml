@@ -1,0 +1,72 @@
+﻿@model ClinicaWebApp.Models.Usuario.Medico.MedicoO
+
+@{
+    ViewData["Title"] = "NuevoMedico";
+    Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+}
+
+<h1>NuevoMedico</h1>
+
+<h4>MedicoO</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="NuevoMedico">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="nom_usr" class="control-label"></label>
+                <input asp-for="nom_usr" class="form-control" />
+                <span asp-validation-for="nom_usr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ape_usr" class="control-label"></label>
+                <input asp-for="ape_usr" class="form-control" />
+                <span asp-validation-for="ape_usr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ide_doc" class="control-label"></label>
+                <input asp-for="ide_doc" class="form-control" />
+                <span asp-validation-for="ide_doc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="num_doc" class="control-label"></label>
+                <input asp-for="num_doc" class="form-control" />
+                <span asp-validation-for="num_doc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fna_usr" class="control-label"></label>
+                <input asp-for="fna_usr" class="form-control" />
+                <span asp-validation-for="fna_usr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ide_esp" class="control-label"></label>
+                <input asp-for="ide_esp" class="form-control" />
+                <span asp-validation-for="ide_esp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="sue_med" class="control-label"></label>
+                <input asp-for="sue_med" class="form-control" />
+                <span asp-validation-for="sue_med" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="cor_usr" class="control-label"></label>
+                <input asp-for="cor_usr" class="form-control" />
+                <span asp-validation-for="cor_usr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="pwd_usr" class="control-label"></label>
+                <input asp-for="pwd_usr" class="form-control" />
+                <span asp-validation-for="pwd_usr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
