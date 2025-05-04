@@ -1,4 +1,4 @@
-namespace ClinicaAPI.Models.Pago;
+namespace ClinicaWebApp.Models.Pago;
 
 public class Pago
 {
