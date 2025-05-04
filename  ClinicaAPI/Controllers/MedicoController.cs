@@ -55,5 +55,13 @@ namespace ClinicaAPI.Controllers
                 => new MedicoDAO().eliminarMedicoPorID(id));
             return Ok(lista);
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<Especialidad>>> listarEspecialidad()
+        {
+            var lista = await Task.Run(()
+                => new EspecialidadDAO().listarEspecialidad());
+            return Ok(lista);
+        }
     }
 }

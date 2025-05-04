@@ -535,6 +535,17 @@ GO
 
 -- sp_eliminarMedico 1
 
+CREATE OR ALTER PROC sp_listarEspecialidad
+AS
+    BEGIN
+        SELECT *
+        FROM especialidad
+    end
+GO
+
+sp_listarEspecialidad
+GO
+
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
