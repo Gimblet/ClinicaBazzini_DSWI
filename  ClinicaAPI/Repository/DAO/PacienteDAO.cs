@@ -44,6 +44,7 @@ public class PacienteDAO : IPaciente
         {
             cn.Close();
         }
+
         return mensaje;
     }
 
@@ -68,6 +69,8 @@ public class PacienteDAO : IPaciente
                 Rol = dr[6].ToString(),
             });
         }
-        return listaPacientes;    
+
+        cn.Close();
+        return listaPacientes;
     }
 }

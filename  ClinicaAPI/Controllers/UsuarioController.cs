@@ -24,11 +24,11 @@ public class UsuarioController : Controller
         return Ok(resultado);
     }
 
-    // [HttpPost("guardarPaciente")]
-    // public async Task<ActionResult<string>> GuardarPaciente(UsuarioO usuario)
-    // {
-    //     var mensaje = await Task.Run(()
-    //         => new PacienteDAO().GuardarPacienteO(usuario));
-    //     return Ok(mensaje);
-    // }
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<UserDoc>>> ListarDocumentos()
+    {
+        var resultado = await Task.Run(()
+            => new UserDocDAO().ListarTiposDeDocumento());
+        return Ok(resultado);
+    }
 }

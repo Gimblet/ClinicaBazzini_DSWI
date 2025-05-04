@@ -83,6 +83,17 @@ GO
 sp_obtenerIdUsuario 'diego@gmail.com'
 GO
 
+CREATE OR ALTER PROC sp_listarDocumentos
+AS
+BEGIN
+    SELECT *
+    FROM user_doc
+END
+GO
+
+sp_listarDocumentos
+GO
+
 ------------------- PAGOS ---------------------
 -- Sp_columns pago
 -- Listar tipos de Pago
@@ -406,12 +417,12 @@ BEGIN
            u.num_doc,
            ro.nom_rol,
            m.sue_med,
-		   e.nom_esp
+           e.nom_esp
     FROM medico AS m
              JOIN usuario u ON u.ide_usr = m.ide_usr
              JOIN user_doc ud ON ud.ide_doc = u.ide_doc
              JOIN roles ro ON u.ide_rol = ro.ide_rol
-			 JOIN especialidad e ON e.ide_esp = m.ide_esp
+             JOIN especialidad e ON e.ide_esp = m.ide_esp
 END
 GO
 
@@ -424,7 +435,7 @@ AS
 BEGIN
     SELECT m.ide_usr,
            m.ide_med,
-		   m.sue_med,
+           m.sue_med,
            m.ide_esp,
            u.cor_usr,
            u.pwd_usr,
@@ -455,13 +466,13 @@ BEGIN
            ud.nom_doc,
            u.num_doc,
            ro.nom_rol,
-		   m.sue_med,
+           m.sue_med,
            e.nom_esp
     FROM medico AS m
              JOIN usuario u ON u.ide_usr = m.ide_usr
              JOIN user_doc ud ON ud.ide_doc = u.ide_doc
              JOIN roles ro ON u.ide_rol = ro.ide_rol
-			 JOIN especialidad e ON e.ide_esp = m.ide_esp
+             JOIN especialidad e ON e.ide_esp = m.ide_esp
     WHERE m.ide_med = @id
 END
 GO
@@ -473,8 +484,7 @@ GO
 CREATE OR ALTER PROC sp_actualizarMedico(
     @id BIGINT,
     @sue SMALLMONEY,
-	@esp BIGINT,
-
+    @esp BIGINT,
     @cor VARCHAR(100),
     @pwd VARCHAR(150),
     @nom VARCHAR(100),
@@ -487,7 +497,7 @@ AS
 BEGIN
     UPDATE medico
     SET sue_med = @sue,
-		ide_esp = @esp
+        ide_esp = @esp
     WHERE ide_med = @id;
 
     UPDATE usuario
@@ -504,8 +514,9 @@ BEGIN
 END
 GO
 
-        sp_actualizarMedico 1, 2800, 2, 'daniel@gmail.com', 'daniel1234', 'Daniel Aaron', 'Jaimes Amancio', '945651203', '2000-02-10', 2
-		go
+        sp_actualizarMedico 1, 2800, 2, 'daniel@gmail.com', 'daniel1234', 'Daniel Aaron', 'Jaimes Amancio', '945651203',
+        '2000-02-10', 2
+go
 
 GO
 
