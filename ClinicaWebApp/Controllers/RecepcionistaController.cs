@@ -62,6 +62,13 @@ namespace ClinicaWebApp.Controllers
             return response.Content.ReadAsStringAsync().Result;
         }
 
+        public String AgregarPaciente(PacienteO paciente)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(paciente), encoding: UTF8Encoding.UTF8, "application/json");
+            HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "/Paciente/nuevoPaciente", content).Result;
+            return response.Content.ReadAsStringAsync().Result;
+        }
+
         public IActionResult NuevoMedico(MedicoO medico)
         {
             if (!ModelState.IsValid)
@@ -79,6 +86,18 @@ namespace ClinicaWebApp.Controllers
         public IActionResult listarMedicos()
         {
             return View(ArregloMedicos());
+        }
+
+        public IActionResult NuevoPaciente(PacienteO paciente)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(paciente);
+            }
+
+            //TODO: Agregar Mensaje de Validación
+            ViewBag.respuesta = AgregarPaciente(paciente);
+            return View();
         }
 
         public IActionResult listarPacientes()
