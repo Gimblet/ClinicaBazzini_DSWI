@@ -30,9 +30,15 @@ GO
         '123456789', '2001-01-30', 2
 GO
 
+		sp_agregarPaciente
+        'khristopher@gmail.com', 'khris1234',
+        'Khristopher Daniel', 'Llaque FER',
+        '123456789', '2000-03-30', 1
+GO
+
 -- Lista pacientes para el FrontEnd
 
-CREATE OR ALTER PROC sp_listarPacientesFront
+CREATE OR ALTER PROC r
 AS
 BEGIN
     SELECT p.ide_pac,
@@ -49,6 +55,95 @@ BEGIN
 END
 GO
 
+-- Lista pacientes Backend 
+CREATE OR ALTER PROC sp_listarPacientesBack
+AS
+BEGIN
+    SELECT p.ide_usr,
+           p.ide_pac,
+           u.cor_usr,
+           u.pwd_usr,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           u.num_doc,
+           u.ide_doc,
+           u.ide_rol
+    FROM paciente AS p
+             JOIN usuario u ON u.ide_usr = p.ide_usr
+END
+GO
+
+-- Actualizar paciente
+CREATE OR ALTER PROC sp_actualizarPaciente(
+    @id BIGINT,
+    @cor VARCHAR(100),
+    @pwd VARCHAR(150),
+    @nom VARCHAR(100),
+    @ape VARCHAR(100),
+    @ndo VARCHAR(12),
+    @fna DATE,
+    @doc BIGINT
+)
+AS
+BEGIN
+    UPDATE usuario
+    SET cor_usr = @cor,
+        pwd_usr = @pwd,
+        nom_usr = @nom,
+        ape_usr = @ape,
+        num_doc = @ndo,
+        fna_usr = @fna,
+        ide_doc = @doc
+    WHERE ide_usr = (SELECT p.ide_usr
+                     FROM paciente p
+                     WHERE p.ide_pac = @id)
+END
+GO
+
+	sp_actualizarPaciente 2,'khristopher@gmail.com', 'khris1234',
+        'Khristopher Daniel', 'Llaque Fernandez',
+        '744885537', '2000-03-30', 1
+	go
+
+-- Buscar paciente 
+CREATE OR ALTER PROC sp_buscarPaciente(
+    @id BIGINT
+)
+AS
+BEGIN
+    SELECT p.ide_pac,
+           u.nom_usr,
+           u.ape_usr,
+           u.fna_usr,
+           ud.nom_doc,
+           u.num_doc,
+           ro.nom_rol
+    FROM paciente AS p
+             JOIN usuario u ON u.ide_usr = p.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+             JOIN roles ro ON u.ide_rol = ro.ide_rol
+    WHERE p.ide_pac = @id
+END
+GO
+
+sp_buscarPaciente 1
+go
+
+-- Eliminar paciente
+CREATE OR ALTER PROC sp_eliminarPaciente(
+    @id BIGINT
+)
+AS
+BEGIN
+    DELETE
+    FROM paciente
+    WHERE ide_pac = @id
+END
+GO
+
+sp_eliminarPaciente 2
+go
 --------------------- USUARIO ---------------------
 
 -- Verificar Inicio de Sesion
