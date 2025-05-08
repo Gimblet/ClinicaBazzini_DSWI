@@ -50,8 +50,16 @@ public class LoginController : Controller
             ViewBag.Mensaje = "Usuario o contraseña incorrectos.";
             return RedirectToAction("Index", "Login");
         }
-        string token = ObtenerToken(Uri.EscapeDataString(uid));
-        HttpContext.Session.SetString("token", ObtenerToken(Uri.EscapeDataString(uid)));
+
+        // Guarda el token (que en tu caso es el ID del usuario)
+        var token = ObtenerToken(Uri.EscapeDataString(uid));
+        HttpContext.Session.SetString("token", token);
+
+        if (respuesta == "Medico")
+        {
+            HttpContext.Session.SetInt32("MedicoId", int.Parse(token));
+        }
+
         return RedirectToAction("Index", respuesta);
     }
 }
