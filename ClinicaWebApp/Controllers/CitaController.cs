@@ -41,7 +41,7 @@ public class CitaController : Controller
     public List<Paciente> listadoPaciente()
     {
         List<Paciente> aPacientes = new List<Paciente>();
-        HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Paciente/listaPaciente").Result;
+        HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Paciente/listaPacientes").Result;
         var data = response.Content.ReadAsStringAsync().Result;
         aPacientes = JsonConvert.DeserializeObject<List<Paciente>>(data);
         return aPacientes;
@@ -77,11 +77,12 @@ public class CitaController : Controller
         return View(citas);
     }
     [HttpGet]
-    public IActionResult nuevaCita() 
+    public IActionResult nuevaCita(int PagoId) 
     {
         ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico","NombreUsuario");
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
-        return View(new CitaO());
+        CitaO citaPagada= new CitaO() { IdPago = PagoId };
+        return View(citaPagada);
     }
 
     [HttpPost]
