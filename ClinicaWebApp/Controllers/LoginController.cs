@@ -49,7 +49,7 @@ public class LoginController : Controller
             ViewBag.Mensaje = "Usuario o contraseña incorrectos.";
             return RedirectToAction("Index", "Login");
         }
-        
+        string token = ObtenerToken(Uri.EscapeDataString(uid));
         HttpContext.Session.SetString("token", ObtenerToken(Uri.EscapeDataString(uid)));
         return RedirectToAction("Index", respuesta);
     }

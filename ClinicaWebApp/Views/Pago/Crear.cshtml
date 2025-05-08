@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Crear">
+        <form asp-action="Crear" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @* <div class="form-group">
                 <label asp-for="IdPago" class="control-label"></label>
@@ -33,14 +33,6 @@
                          (SelectList)ViewBag.tipoPagos, "(Seleccione el Paciente)",
                          new { @class = "form-select custom-select", @id = "selPag" })
                 <span asp-validation-for="TipoPago" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdPaciente" class="control-label"></label>
-                @* <input asp-for="IdPaciente" class="form-control" /> *@
-                @Html.DropDownListFor(model => model.IdPaciente,
-                         (SelectList)ViewBag.pacientes, "(Seleccione el Paciente)",
-                         new { @class = "form-select custom-select", @id = "selPac" })
-                <span asp-validation-for="IdPaciente" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
