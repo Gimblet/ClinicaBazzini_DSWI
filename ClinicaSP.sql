@@ -38,7 +38,7 @@ GO
 
 -- Lista pacientes para el FrontEnd
 
-CREATE OR ALTER PROC r
+CREATE OR ALTER PROC sp_listarPacientesFront
 AS
 BEGIN
     SELECT p.ide_pac,
