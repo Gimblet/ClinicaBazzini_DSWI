@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 using ClinicaWebApp.Models.Usuario;
+using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicaWebApp.Controllers
@@ -25,6 +26,15 @@ namespace ClinicaWebApp.Controllers
             var data = response.Content.ReadAsStringAsync().Result;
             aMedicos = JsonConvert.DeserializeObject<List<Medico>>(data);
             return aMedicos;
+        }
+
+        public List<Paciente> ArregloPacientes()
+        {
+            List<Paciente> aPacientes = new List<Paciente>();
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Paciente/listaPacientes").Result;
+            var data = response.Content.ReadAsStringAsync().Result;
+            aPacientes = JsonConvert.DeserializeObject<List<Paciente>>(data);
+            return aPacientes;
         }
 
         public List<Especialidad> ArregloEspecialidad()
@@ -59,7 +69,7 @@ namespace ClinicaWebApp.Controllers
                 return View(medico);
             }
 
-            ViewData["especialidad"] = new SelectList(ArregloEspecialidad(), "ide_esp", "nom_esp");
+            ViewBag.especialidad = new SelectList(ArregloEspecialidad(), "ide_esp", "nom_esp");
             ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
             //TODO: Agregar Mensaje de Validación
             ViewBag.respuesta = AgregarMedico(medico);
@@ -69,6 +79,11 @@ namespace ClinicaWebApp.Controllers
         public IActionResult listarMedicos()
         {
             return View(ArregloMedicos());
+        }
+
+        public IActionResult listarPacientes()
+        {
+            return View(ArregloPacientes());
         }
 
         public IActionResult Index()
