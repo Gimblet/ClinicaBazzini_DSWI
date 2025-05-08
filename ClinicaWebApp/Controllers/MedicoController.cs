@@ -7,13 +7,13 @@ namespace ClinicaWebApp.Controllers
 {
     public class MedicoController : Controller
     {
-        private readonly Uri direccion = new Uri("https://localhost:7054/api/");
+        private readonly Uri _baseUri = new("http://localhost:5000/api/");
         private readonly HttpClient _httpClient;
 
         public MedicoController()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = direccion;
+            _httpClient.BaseAddress = _baseUri;
 
         }
 
