@@ -88,16 +88,25 @@ namespace ClinicaWebApp.Controllers
             return View(ArregloMedicos());
         }
 
+        [HttpGet]
+        public IActionResult NuevoPaciente()
+        {
+            ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult NuevoPaciente(PacienteO paciente)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
                 return View(paciente);
             }
 
             //TODO: Agregar Mensaje de Validación
             ViewBag.respuesta = AgregarPaciente(paciente);
-            return View();
+            return RedirectToAction("listarPacientes");
         }
 
         public IActionResult listarPacientes()
