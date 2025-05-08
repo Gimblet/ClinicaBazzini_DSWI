@@ -35,6 +35,7 @@ public class LoginController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        HttpContext.Session.Clear();
         return View();
     }
 
