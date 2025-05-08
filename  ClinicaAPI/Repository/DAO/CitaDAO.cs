@@ -48,6 +48,12 @@ public class CitaDAO : ICita
 
     }
 
+    public Cita buscarCitaFrond(long id)
+    {
+        return listarCitas().FirstOrDefault(c => c.IdCita == id);
+    }
+
+
     public void eliminarCita(long id)
     {
         SqlConnection cn = new SqlConnection(_connectionString);

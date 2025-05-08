@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var medicoId = Context.Session.GetInt32("MedicoId");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -56,7 +60,7 @@
             <div class="sidebar-heading">Gestión de Citas:</div>
 
             <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("listaCitasAsignadas","Medico")">
+                <a class="nav-link" href="@Url.Action("listaCitaPorMedicos", "Medico", new { ide_usr = medicoId })">
                     <i class="fas fa-fw fa-calendar-check"></i>
                     <span>Citas Asignadas</span>
                 </a>
