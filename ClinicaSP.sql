@@ -740,3 +740,32 @@ BEGIN
     WHERE ide_cit = @idCita
 END
 GO
+
+-- Buscar cita por fecha
+CREATE OR ALTER PROCEDURE sp_obtenerCitasPorFecha
+(
+    @dia INT,
+    @mes INT,
+    @año INT
+)
+AS
+    BEGIN
+         SELECT c.ide_cit,
+           c.cal_cit,
+           c.con_cit,
+           CONCAT(um.nom_usr, SPACE(1), um.ape_usr),
+           CONCAT(up.nom_usr, SPACE(1), up.ape_usr),
+           pg.mon_pag
+    FROM cita AS c
+             JOIN medico m ON m.ide_med = c.ide_med
+             JOIN usuario um ON um.ide_usr = m.ide_usr
+             JOIN paciente p ON p.ide_pac = c.ide_pac
+             JOIN usuario up ON up.ide_usr = p.ide_pac
+             JOIN pago pg ON c.ide_pag = pg.ide_pag
+    WHERE
+        DAY(c.cal_cit) = @dia AND MONTH(c.cal_cit) = @mes AND YEAR(c.cal_cit) = @año
+    END
+GO
+
+sp_obtenerCitasPorFecha 28, 4, 2025
+GO

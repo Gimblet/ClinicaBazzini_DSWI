@@ -48,4 +48,12 @@ public class CitaController : Controller
         var lista = await Task.Run(() => new CitaDAO().buscarCita(id));
         return Ok(lista);
     }
+
+    [HttpGet("listaCitaPorFecha")]
+    public async Task<ActionResult<List<Cita>>> ListaCitaPorFecha(int dia,int mes,int año) {
+        var lista = await Task.Run(() => new CitaDAO().listarCitaPorFecha(dia, mes, año));
+        return Ok(lista);
+
+    }
+
 }

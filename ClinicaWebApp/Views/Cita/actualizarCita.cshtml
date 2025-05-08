@@ -1,0 +1,61 @@
+﻿@model ClinicaWebApp.Models.Cita.CitaO
+
+@{
+    ViewData["Title"] = "actualizarCita";
+    Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+}
+
+<h1>actualizar Cita</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="actualizarCita">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCita" class="control-label"></label>
+                <input asp-for="IdCita" class="form-control" />
+                <span asp-validation-for="IdCita" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CalendarioCita" class="control-label"></label>
+                <input asp-for="CalendarioCita" class="form-control" />
+                <span asp-validation-for="CalendarioCita" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consultorio" class="control-label"></label>
+                <input asp-for="Consultorio" class="form-control" />
+                <span asp-validation-for="Consultorio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMedico" class="control-label"></label>
+                @* <input asp-for="IdMedico" class="form-control" /> *@
+                @Html.DropDownListFor(model => model.IdMedico,
+                         (SelectList)ViewBag.medicos, "(Seleccione el Medico)",
+                         new { @class = "form-select custom-select", @id = "selMed" })
+                <span asp-validation-for="IdMedico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPaciente" class="control-label"></label>
+                @* <input asp-for="IdPaciente" class="form-control" /> *@
+                @Html.DropDownListFor(model => model.IdPaciente,
+                         (SelectList)ViewBag.pacientes, "(Seleccione el Paciente)",
+                         new { @class = "form-select custom-select", @id = "selMed" })
+                <span asp-validation-for="IdPaciente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPago" class="control-label"></label>
+                <input asp-for="IdPago" class="form-control" />
+                <span asp-validation-for="IdPago" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-warning" asp-action="ListadoCitas">Regresar</a>
+</div>
+

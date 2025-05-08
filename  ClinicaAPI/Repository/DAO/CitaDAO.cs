@@ -66,6 +66,35 @@ public class CitaDAO : ICita
         cn.Close();
     }
 
+    public IEnumerable<Cita> listarCitaPorFecha(int dia,int mes,int año)
+    {
+        List<Cita> lista = new List<Cita>();
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_obtenerCitasPorFecha", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@dia", dia);
+        cmd.Parameters.AddWithValue("@mes", mes);
+        cmd.Parameters.AddWithValue("@año", año);
+        cn.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+
+        while (dr.Read()) 
+        {
+            lista.Add(new Cita()
+            {
+                IdCita = long.Parse(dr[0].ToString()),
+                CalendarioCita = DateTime.Parse(dr[1].ToString()),
+                Consultorio = long.Parse(dr[2].ToString()),
+                NombreMedico = dr[3].ToString(),
+                NombrePaciente = dr[4].ToString(),
+                MontoPago = decimal.Parse(dr[5].ToString()),
+            });
+        
+        }
+        cn.Close();
+        return lista;
+    }
+
     public IEnumerable<Cita> listarCitas()
     {
         List<Cita> listaCitas = new List<Cita>();
