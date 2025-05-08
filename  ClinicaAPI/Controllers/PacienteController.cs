@@ -9,19 +9,51 @@ namespace ClinicaAPI.Controllers;
 [ApiController]
 public class PacienteController : Controller
 {
-    [HttpGet("listaPaciente")]
-    public async Task<ActionResult<List<Paciente>>> ListaPacientes()
+    [HttpGet("listaPacientes")]
+    public async Task<ActionResult<List<Paciente>>> listaPacientes()
     {
         var lista = await Task.Run(()
             => new PacienteDAO().ListarPacientes());
         return Ok(lista);
     }
 
-    [HttpPost("guardarPaciente")]
-    public async Task<ActionResult<string>> GuardarPaciente(PacienteO paciente)
+    [HttpGet("listaPacientesBackend")]
+    public async Task<ActionResult<List<PacienteO>>> listaPacientesBackend()
+    {
+        var lista = await Task.Run(()
+            => new PacienteDAO().ListarPacientesO());
+        return Ok(lista);
+    }
+
+    [HttpPost("nuevoPaciente")]
+    public async Task<ActionResult<string>> guardarPaciente(PacienteO P)
     {
         var mensaje = await Task.Run(()
-            => new PacienteDAO().GuardarPacienteO(paciente));
+            => new PacienteDAO().GuardarPacienteO(P));
         return Ok(mensaje);
+    }
+
+    [HttpGet("buscarPaciente/{id}")]
+    public async Task<ActionResult<PacienteO>> buscarPaciente(long id)
+    {
+        var lista = await Task.Run(()
+            => new PacienteDAO().buscarPacientePorID(id));
+        return Ok(lista);
+    }
+
+    [HttpPut("actualizarPaciente")]
+    public async Task<ActionResult<string>> actualizarMedico(PacienteO P)
+    {
+        var mensaje = await Task.Run(()
+            => new PacienteDAO().actualizarPaciente(P));
+        return Ok(mensaje);
+    }
+
+    [HttpDelete("eliminarPaciente/{id}")]
+    public async Task<ActionResult> eliminarPaciente(long id)
+    {
+        var lista = await Task.Run(()
+            => new PacienteDAO().eliminarPaciente(id));
+        return Ok(lista);
     }
 }
