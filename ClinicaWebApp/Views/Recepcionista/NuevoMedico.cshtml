@@ -3,64 +3,65 @@
 @{
     ViewData["Title"] = "NuevoMedico";
     Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+    var listaDocumentos = ViewBag.documentos as SelectList;
+    var listaEspecialidad = ViewBag.especialidad as SelectList;
 }
 
-<h1>NuevoMedico</h1>
+<h1>Registrar Nuevo Medico</h1>
+<hr/>
 
-<h4>MedicoO</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="NuevoMedico">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="nom_usr" class="control-label"></label>
-                <input asp-for="nom_usr" class="form-control" />
+                <input asp-for="nom_usr" class="form-control"/>
                 <span asp-validation-for="nom_usr" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ape_usr" class="control-label"></label>
-                <input asp-for="ape_usr" class="form-control" />
+                <input asp-for="ape_usr" class="form-control"/>
                 <span asp-validation-for="ape_usr" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ide_doc" class="control-label"></label>
-                <input asp-for="ide_doc" class="form-control" />
+                @Html.DropDownListFor(model => model.ide_doc, listaDocumentos, new { @class = "form-control" })
                 <span asp-validation-for="ide_doc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="num_doc" class="control-label"></label>
-                <input asp-for="num_doc" class="form-control" />
+                <input asp-for="num_doc" class="form-control"/>
                 <span asp-validation-for="num_doc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="fna_usr" class="control-label"></label>
-                <input asp-for="fna_usr" class="form-control" />
+                <input asp-for="fna_usr" class="form-control"/>
                 <span asp-validation-for="fna_usr" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ide_esp" class="control-label"></label>
-                <input asp-for="ide_esp" class="form-control" />
+                @Html.DropDownListFor(model => model.ide_esp, listaEspecialidad, new { @class = "form-control" })
                 <span asp-validation-for="ide_esp" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="sue_med" class="control-label"></label>
-                <input asp-for="sue_med" class="form-control" />
+                <input asp-for="sue_med" class="form-control"/>
                 <span asp-validation-for="sue_med" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="cor_usr" class="control-label"></label>
-                <input asp-for="cor_usr" class="form-control" />
+                <input asp-for="cor_usr" class="form-control"/>
                 <span asp-validation-for="cor_usr" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="pwd_usr" class="control-label"></label>
-                <input asp-for="pwd_usr" class="form-control" />
+                <input asp-for="pwd_usr" class="form-control"/>
                 <span asp-validation-for="pwd_usr" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary"/>
             </div>
         </form>
     </div>

@@ -1,9 +1,9 @@
-﻿using ClinicaWebApp.Models.Cita;
-using ClinicaWebApp.Models.Usuario.Medico;
+﻿using ClinicaWebApp.Models.Usuario.Medico;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Numerics;
 using System.Text;
+using ClinicaWebApp.Models.Usuario;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicaWebApp.Controllers
 {
@@ -27,6 +27,24 @@ namespace ClinicaWebApp.Controllers
             return aMedicos;
         }
 
+        public List<Especialidad> ArregloEspecialidad()
+        {
+            List<Especialidad> aEspecialidad = new List<Especialidad>();
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Medico/listarEspecialidad").Result;
+            var data = response.Content.ReadAsStringAsync().Result;
+            aEspecialidad = JsonConvert.DeserializeObject<List<Especialidad>>(data);
+            return aEspecialidad;
+        }
+
+        public List<UserDoc> ArregloTipoDocumentos()
+        {
+            List<UserDoc> aTDocumentos = new List<UserDoc>();
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Usuario/ListarDocumentos").Result;
+            var data = response.Content.ReadAsStringAsync().Result;
+            aTDocumentos = JsonConvert.DeserializeObject<List<UserDoc>>(data);
+            return aTDocumentos;
+        }
+
         public String AgregarMedico(MedicoO medico)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(medico), encoding: UTF8Encoding.UTF8, "application/json");
@@ -40,7 +58,11 @@ namespace ClinicaWebApp.Controllers
             {
                 return View(medico);
             }
-            string respuesta = AgregarMedico(medico);
+
+            ViewData["especialidad"] = new SelectList(ArregloEspecialidad(), "ide_esp", "nom_esp");
+            ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
+            //TODO: Agregar Mensaje de Validación
+            ViewBag.respuesta = AgregarMedico(medico);
             return View();
         }
 

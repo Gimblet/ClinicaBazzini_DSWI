@@ -5,46 +5,48 @@
     Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
 }
 
-<h1>listarMedicos</h1>
+<h1>Médicos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="TODO:">Exportar registros a PDF</a>
 </p>
+
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdMedico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.sueldo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.especialidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApellidoUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaNacimiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDocumento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeroDocumento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rol)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdMedico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sueldo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.especialidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApellidoUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaNacimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDocumento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroDocumento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rol)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IdMedico)
@@ -73,12 +75,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Rol)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
         </tr>
-}
+    }
     </tbody>
 </table>
