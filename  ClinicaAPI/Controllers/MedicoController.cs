@@ -63,5 +63,11 @@ namespace ClinicaAPI.Controllers
                 => new EspecialidadDAO().listarEspecialidad());
             return Ok(lista);
         }
+        [HttpGet("listaCitaPorMedicos/{ide_usr}")]
+        public ActionResult<List<CitaMedico>> listaCitaPorMedicos(long ide_usr)
+        {
+            var lista = new MedicoDAO().listarCitaMedico(ide_usr);
+            return Ok(lista);
+        }
     }
 }

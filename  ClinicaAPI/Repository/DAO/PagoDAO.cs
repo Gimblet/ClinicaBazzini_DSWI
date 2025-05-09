@@ -33,8 +33,8 @@ public class PagoDAO : IPago
                     HoraPago = DateTime.Parse(dr[1].ToString()),
                     MontoPago = decimal.Parse(dr[2].ToString()),
                     TipoPago = dr[3].ToString(),
-                    NombrePaciente = dr[4].ToString(),
-                    CorreoPaciente = dr[5].ToString()
+                    CorreoPaciente = dr[4].ToString(),
+                    NombrePaciente = dr[5].ToString()
                 });
             }
         }
@@ -69,8 +69,8 @@ public class PagoDAO : IPago
                     HoraPago = DateTime.Parse(dr[1].ToString()),
                     MontoPago = decimal.Parse(dr[2].ToString()),
                     TipoPago = dr[3].ToString(),
-                    NombrePaciente = dr[4].ToString(),
-                    CorreoPaciente = dr[5].ToString()
+                    CorreoPaciente = dr[4].ToString(),
+                    NombrePaciente = dr[5].ToString()
                 });
             }
         }

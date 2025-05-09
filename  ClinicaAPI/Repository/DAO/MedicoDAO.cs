@@ -193,4 +193,30 @@ public class MedicoDAO : IMedico
         return mensaje;
     }
 
+    public IEnumerable<CitaMedico> listarCitaMedico(long ide_usr)
+    {
+        List<CitaMedico> listaCitaMedicos = new List<CitaMedico>();
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_listarCitasPorMedico", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@ide_usr", ide_usr);
+        cn.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            listaCitaMedicos.Add(new CitaMedico()
+            {
+                ide_cit = long.Parse(dr["ide_cit"].ToString()),
+                cal_cit = DateTime.Parse(dr["cal_cit"].ToString()),
+                con_cit = int.Parse(dr["con_cit"].ToString()),
+                //medico = dr["medico"].ToString(),
+                paciente = dr["paciente"].ToString(),
+                mon_pag = decimal.Parse(dr["mon_pag"].ToString()),
+            });
+        }
+
+        cn.Close();
+        return listaCitaMedicos;
+    }
+
 }

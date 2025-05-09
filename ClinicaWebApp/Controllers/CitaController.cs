@@ -176,6 +176,29 @@ public class CitaController : Controller
     }
 
 
+    public Cita ObtenerCitaPorId(long id)
+    {
+        Cita cita = null;
+        HttpResponseMessage response = _httpClient.GetAsync(
+            _httpClient.BaseAddress + "/Cita/buscarCitaFrond/" + id).Result;
+        if (response.IsSuccessStatusCode)
+        {
+            var data = response.Content.ReadAsStringAsync().Result;
+            cita = JsonConvert.DeserializeObject<Cita>(data);
+        }
+        return cita;
+    }
+
+    public IActionResult DetalleCita(long id)
+    {
+        Cita cita = ObtenerCitaPorId(id);
+        if (cita == null)
+        {
+            return NotFound();
+        }
+        return View(cita);
+    }
+
 
     public IActionResult Index()
     {

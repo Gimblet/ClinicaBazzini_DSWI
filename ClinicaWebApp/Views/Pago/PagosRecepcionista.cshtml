@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ClinicaWebApp.Models.Pago.Pago>
+
+@{
+    ViewData["Title"] = "PagosRecepcionista";
+    Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+}
+
+<h1>Pagos</h1>
+<hr>
+
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Pagos Registrados</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdPago)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HoraPago)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MontoPago)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoPago)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombrePaciente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CorreoPaciente)
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdPago)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoraPago)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MontoPago)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoPago)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombrePaciente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CorreoPaciente)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

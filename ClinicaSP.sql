@@ -642,6 +642,37 @@ GO
 sp_listarEspecialidad
 GO
 
+-- Listar cita por medico
+CREATE PROC sp_listarCitasPorMedico(
+    @ide_usr BIGINT
+)
+AS
+BEGIN
+    SELECT 
+        c.ide_cit,
+        c.cal_cit,
+        c.con_cit,
+        CONCAT(u.nom_usr, ' ', u.ape_usr) AS paciente,
+        u.num_doc,
+        p.mon_pag,
+        po.nom_pay
+    FROM cita c
+        JOIN medico m ON m.ide_med = c.ide_med
+        JOIN paciente pc ON pc.ide_pac = c.ide_pac
+        JOIN usuario u ON u.ide_usr = pc.ide_usr
+        JOIN pago p ON p.ide_pag = c.ide_pag
+        JOIN pay_opts po ON po.ide_pay = p.ide_pay
+    WHERE m.ide_usr = @ide_usr
+    ORDER BY c.cal_cit DESC
+END
+GO
+
+sp_listarCitasPorMedico 4
+go
+
+select * from usuario
+go
+
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
@@ -703,7 +734,7 @@ END
 GO
 
         sp_agregarCita '2025-04-28 13:00', 2,
-        1, 1,
+        2, 1,
         1
 GO
 

@@ -35,7 +35,7 @@ namespace ClinicaWebApp.Controllers
             List<Pago> aPagos = new List<Pago>();
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress +
                                                                 "/Pago/ListarPagosPorPaciente" +
-                                                                $"{token}").Result;
+                                                                $"/{token}").Result;
             var data = response.Content.ReadAsStringAsync().Result;
             aPagos = JsonConvert.DeserializeObject<List<Pago>>(data);
             return aPagos;

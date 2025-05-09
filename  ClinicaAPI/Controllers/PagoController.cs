@@ -24,7 +24,7 @@ public class PagoController : Controller
         return Ok(lista);
     }
 
-    [HttpGet("[action]")]
+    [HttpGet("[action]/{token}")]
     public async Task<ActionResult<List<Pago>>> ListarPagosPorPaciente(long token)
     {
         var lista = await Task.Run(()
