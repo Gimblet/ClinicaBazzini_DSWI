@@ -5,6 +5,7 @@ using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using System.Text;
 
 namespace ClinicaWebApp.Controllers;
@@ -79,10 +80,14 @@ public class CitaController : Controller
     [HttpGet]
     public IActionResult nuevaCita(int PagoId) 
     {
+        int IdPaciente = int.Parse(HttpContext.Session.GetString("token"));
+        Console.WriteLine(IdPaciente);
         ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico","NombreUsuario");
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
-        CitaO citaPagada= new CitaO() { IdPago = PagoId };
+        CitaO citaPagada= new CitaO() { IdPago = PagoId, IdPaciente = IdPaciente };
+        
         return View(citaPagada);
+        
     }
 
     [HttpPost]
@@ -96,14 +101,16 @@ public class CitaController : Controller
         }
         var json = JsonConvert.SerializeObject(obj);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var responseC = await _httpClient.PostAsync("/api/Cita/agregaCita", content);
+        var responseC = await _httpClient.PostAsync(_httpClient.BaseAddress + "/Cita/agregaCita", content);
         if (responseC.IsSuccessStatusCode)
         {
             ViewBag.mensaje = "Cita registrado correctamente..!!!";
+            Console.WriteLine("Objeto "+obj.ToJson());
         }
 
         ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico", "NombreUsuario");
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
+        Console.WriteLine("Objeto " +  obj.ToJson());
         return RedirectToAction("ListadoCitas");
     }
 
