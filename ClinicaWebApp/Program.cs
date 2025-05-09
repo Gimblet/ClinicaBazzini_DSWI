@@ -37,4 +37,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
+IWebHostEnvironment env = app.Environment;
+Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa");
+
 app.Run();
