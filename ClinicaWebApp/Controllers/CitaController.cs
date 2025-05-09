@@ -101,7 +101,7 @@ public class CitaController : Controller
         }
         var json = JsonConvert.SerializeObject(obj);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var responseC = await _httpClient.PostAsync("/api/Cita/agregaCita", content);
+        var responseC = await _httpClient.PostAsync(_httpClient.BaseAddress + "/Cita/agregaCita", content);
         if (responseC.IsSuccessStatusCode)
         {
             ViewBag.mensaje = "Cita registrado correctamente..!!!";
