@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Rotativa\" />
+      <None Include="wwwroot\Rotativa\wkhtmltopdf.exe" />
     </ItemGroup>
 
 </Project>
