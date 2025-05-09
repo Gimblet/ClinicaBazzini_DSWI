@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var pacienteId = Context.Session.GetInt32("PacienteId");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -60,6 +63,10 @@
                     <i class="fas fa-fw fa-calendar-check"></i>
                     <span>Mis Citas</span>
                 </a>
+                <a class="nav-link" href="@Url.Action("listaCitaPorPaciente","Paciente", new { ide_usr = pacienteId})">
+                    <i class="fas fa-fw fa-calendar-check"></i>
+                    <span>Citas Asignadas</span>
+                </a>
             </li>
 
             <!-- Divider -->
@@ -73,6 +80,7 @@
                     <span>Mis Pagos</span>
                 </a>
             </li>
+
 
 
 

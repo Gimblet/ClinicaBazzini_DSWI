@@ -144,6 +144,33 @@ GO
 
 sp_eliminarPaciente 2
 go
+
+ --LISTAR CITA POR PACIENTE 
+ CREATE OR ALTER PROC sp_listarCitasPorPaciente(
+    @ide_usr BIGINT
+)
+AS
+BEGIN
+    SELECT 
+        c.ide_cit,
+        c.cal_cit,
+        c.con_cit,
+        CONCAT(um.nom_usr, ' ', um.ape_usr) AS medico,
+        e.nom_esp AS especialidad,
+        p.mon_pag,
+        po.nom_pay
+    FROM cita c
+        JOIN paciente pc ON pc.ide_pac = c.ide_pac
+        JOIN medico m ON m.ide_med = c.ide_med
+        JOIN especialidad e ON e.ide_esp = m.ide_esp
+        JOIN usuario um ON um.ide_usr = m.ide_usr
+        JOIN pago p ON p.ide_pag = c.ide_pag
+        JOIN pay_opts po ON po.ide_pay = p.ide_pay
+    WHERE pc.ide_usr = @ide_usr
+    ORDER BY c.cal_cit DESC
+END
+GO
+
 --------------------- USUARIO ---------------------
 
 -- Verificar Inicio de Sesion

@@ -1,4 +1,5 @@
 using ClinicaAPI.Models.Usuario;
+using ClinicaAPI.Models.Usuario.Medico;
 using ClinicaAPI.Models.Usuario.Paciente;
 using ClinicaAPI.Repository.DAO;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,12 @@ public class PacienteController : Controller
     {
         var lista = await Task.Run(()
             => new PacienteDAO().eliminarPaciente(id));
+        return Ok(lista);
+    }
+    [HttpGet("listaCitaPorPaciente/{ide_usr}")]
+    public ActionResult<List<CitaPaciente>> listaCitaPorPaciente(long ide_usr)
+    {
+        var lista = new PacienteDAO().listarCitaPaciente(ide_usr);
         return Ok(lista);
     }
 }
