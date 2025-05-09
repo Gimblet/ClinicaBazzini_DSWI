@@ -202,7 +202,7 @@ public class CitaController : Controller
 
     public IActionResult GenerarDetalleCitaPDF(long id)
     {
-        DateTime hoy = DateTime.Now;
+        String hoy = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
         return new ViewAsPdf("GenerarDetalleCitaPDF", ObtenerCitaPorId(id))
         {
             FileName = $"DetalleCita-{hoy}.pdf",
