@@ -3,6 +3,7 @@ using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using System.Text;
 
 namespace ClinicaWebApp.Controllers
@@ -84,12 +85,18 @@ namespace ClinicaWebApp.Controllers
                 content);
             if (responseC.IsSuccessStatusCode)
             {
-                ViewBag.mensaje = "Cita registrado correctamente..!!!";
+                ViewBag.mensaje = "Pago registrado correctamente..!!!";
+                Console.WriteLine("Pago " + obj.ToJson());
             }
 
             ViewBag.tipoPagos = new SelectList(ListadoPayOpts(), "ide_pay", "nom_pay");
             ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
-            return RedirectToAction("nuevaCita", "Cita", new { PagoId = obj.IdPago });
+            
+            var idPagoStr = await responseC.Content.ReadAsStringAsync();
+            long IdPago = long.Parse(idPagoStr);
+
+
+            return RedirectToAction("nuevaCita", "Cita", new { PagoId = IdPago });
         }
 
         public IActionResult PagosRecepcionista()

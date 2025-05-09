@@ -36,9 +36,9 @@ public class PagoController : Controller
     [HttpPost("[action]/{token}")]
     public async Task<ActionResult<string>> AgregarPago(PagoO pago, long token)
     {
-        var lista = await Task.Run(()
+        var idPago = await Task.Run(()
             => new PagoDAO().AgregarPago(pago, token));
-        return Ok(lista);
+        return Ok(idPago);
     }
 
     [HttpGet("[action]/{id}")]

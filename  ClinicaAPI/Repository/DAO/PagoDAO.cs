@@ -86,9 +86,9 @@ public class PagoDAO : IPago
         return pagos;
     }
 
-    public string AgregarPago(PagoO pago, long token)
+    public long AgregarPago(PagoO pago, long token)
     {
-        string respuesta = "";
+        long idGenerado = 0;
         SqlConnection cn = new SqlConnection(_connectionString);
         SqlCommand cmd = new SqlCommand("sp_agregarPago", cn);
         cmd.CommandType = CommandType.StoredProcedure;
@@ -99,12 +99,11 @@ public class PagoDAO : IPago
         try
         {
             cn.Open();
-            cmd.ExecuteNonQuery();
-            respuesta = "Pago agregado correctamente";
+            var result = cmd.ExecuteScalar();
+            if (result != null) idGenerado = Convert.ToInt64(result);
         }
         catch (Exception ex)
         {
-            respuesta = "Error al agregar el pago";
             Console.WriteLine(ex.Message);
         }
         finally
@@ -112,7 +111,7 @@ public class PagoDAO : IPago
             cn.Close();
         }
 
-        return respuesta;
+        return idGenerado;
     }
 
     public PagoO ObtenerPagoPorId(long id)
