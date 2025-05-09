@@ -5,6 +5,7 @@ using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Rotativa.AspNetCore;
 using System.Text;
 
 namespace ClinicaWebApp.Controllers;
@@ -190,6 +191,17 @@ public class CitaController : Controller
             return NotFound();
         }
         return View(cita);
+    }
+
+    public IActionResult GenerarDetalleCitaPDF(long id)
+    {
+        DateTime hoy = DateTime.Now;
+        return new ViewAsPdf("GenerarDetalleCitaPDF", ObtenerCitaPorId(id))
+        {
+            FileName = $"DetalleCita-{hoy}.pdf",
+            PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+            PageSize = Rotativa.AspNetCore.Options.Size.A5
+        };
     }
 
 
