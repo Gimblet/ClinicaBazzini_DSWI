@@ -5,6 +5,7 @@ using System.Text;
 using ClinicaWebApp.Models.Usuario;
 using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Rotativa.AspNetCore;
 
 namespace ClinicaWebApp.Controllers
 {
@@ -86,6 +87,15 @@ namespace ClinicaWebApp.Controllers
         public IActionResult listarMedicos()
         {
             return View(ArregloMedicos());
+        }
+
+        public IActionResult listarMedicosPDF()
+        {
+            ViewData["Message"] = "Rotativa works";
+            return new ViewAsPdf(viewData: ViewData)
+            {
+                FileName = $"{DateTime.UtcNow}.listarMedicosPDF",
+            };
         }
 
         [HttpGet]
