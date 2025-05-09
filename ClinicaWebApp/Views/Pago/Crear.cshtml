@@ -11,11 +11,6 @@
     <div class="col-md-4">
         <form asp-action="Crear" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @* <div class="form-group">
-                <label asp-for="IdPago" class="control-label"></label>
-                <input asp-for="IdPago" class="form-control" />
-                <span asp-validation-for="IdPago" class="text-danger"></span>
-            </div> *@
             <div class="form-group">
                 <label asp-for="HoraPago" class="control-label"></label>
                 <input asp-for="HoraPago" class="form-control" />
@@ -23,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="MontoPago" class="control-label"></label>
-                <input asp-for="MontoPago" class="form-control" />
+                <input asp-for="MontoPago" class="form-control" value="50" readonly/>
                 <span asp-validation-for="MontoPago" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,9 +26,11 @@
                 @* <input asp-for="TipoPago" class="form-control" /> *@
                 @Html.DropDownListFor(model => model.TipoPago,
                          (SelectList)ViewBag.tipoPagos, "(Seleccione el Paciente)",
-                         new { @class = "form-select custom-select", @id = "selPag" })
+                         new { @class = "form-select custom-select", @id = "tipoPagoSelect" })
                 <span asp-validation-for="TipoPago" class="text-danger"></span>
             </div>
+            <div id="extraInputContainer" style="margin-top: 10px;"></div>
+            <div id="extraFields" class="mt-3"></div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -42,6 +39,82 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Cita" asp-action="ListadoCitas" class="btn btn-warning">Back to List</a>
 </div>
 
+@section Scripts {
+    @* 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+             const select = document.getElementById("tipoPagoSelect");
+             const container = document.getElementById("extraInputContainer");
+
+            select.addEventListener("change", function () {
+
+                 const selectedOption = this.options[this.selectedIndex].text;
+                 container.innerHTML = ""; // Limpiar cualquier input anterior
+
+                 let placeholder = "";
+
+                 switch (selectedOption.toLowerCase()) {
+                     case "visa":
+                     case "mastercard":
+                     case "amex":
+                     case "dinnersclub":
+                         placeholder = "Número de tarjeta";
+                         break;
+                     case "yape":
+                     case "plin":
+                         placeholder = "Número de teléfono";
+                         break;
+                     case "efectivo":
+                         placeholder = "Monto en efectivo entregado";
+                         break;
+                     default:
+                         return; // No mostrar nada
+                 }
+
+                 const input = document.createElement("input");
+                 input.type = "text";
+                 input.className = "form-control mt-2";
+                 input.placeholder = placeholder;
+                 input.disabled = false; // opcional: lo puedes dejar en readonly si prefieres
+
+                 container.appendChild(input);
+            
+        });
+    </script> *@
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const select = document.getElementById("tipoPagoSelect");
+            const extraFields = document.getElementById("extraFields");
+            console.log("Script llamado")
+            function updateFields() {
+                const selected = select.options[select.selectedIndex].text.trim();
+                extraFields.innerHTML = ""; // Limpiar campos previos
+
+                // Mostrar campos extra solo si es tarjeta
+                const tarjetas = ["VISA", "MASTERCARD", "AMEX", "DINERS CLUB"];
+                if (tarjetas.includes(selected)) {
+                    const extraInputs = `
+                        <div class="form-group mt-2">
+                            <label>Numero de tarjeta</label>
+                            <input type="number" class="form-control" placeholder="00-000-0000" />
+                        </div>
+                        <div class="form-group mt-2">
+                            <label>Fecha de caducidad</label>
+                            <input type="month" class="form-control" placeholder="MM/AAAA" />
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" class="form-control" maxlength="4" placeholder="123" />
+                        </div>`;
+                    extraFields.innerHTML = extraInputs;
+                }
+            }
+
+            select.addEventListener("change", updateFields);
+            updateFields(); // Ejecutar al cargar la vista por si ya hay algo seleccionado
+        });
+    </script>
+}
