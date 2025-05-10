@@ -9,10 +9,13 @@
     {
         Layout = "~/Views/Shared/_LayoutMedico.cshtml";
     }
-
     else if (recepcionistaId != null && recepcionistaId != 0)
     {
         Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutPaciente.cshtml";
     }
 }
 
