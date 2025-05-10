@@ -264,6 +264,29 @@ GO
 sp_obtenerPagoPorId 1
 GO
 
+CREATE PROC sp_obtenerPagoPorIdFront(
+    @id BIGINT
+)
+AS
+BEGIN
+    SELECT
+        pa.ide_pag,
+        pa.hor_pag,
+        pa.mon_pag,
+        po.nom_pay,
+        CONCAT(u.nom_usr, SPACE(1), u.ape_usr) [NOMBRE],
+        u.cor_usr
+    FROM pago pa
+    JOIN dbo.paciente p on pa.ide_pac = p.ide_pac
+    JOIN dbo.pay_opts po on pa.ide_pay = po.ide_pay
+    JOIN dbo.usuario u on p.ide_usr = u.ide_usr
+    WHERE ide_pag = @id
+END
+GO
+
+sp_obtenerPagoPorIdFront 1
+GO
+
 -- Lista Pagos
 CREATE PROC sp_listarPagos
 AS

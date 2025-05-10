@@ -33,7 +33,7 @@ namespace ClinicaWebApp.Controllers
         {
             Pago pago = new Pago();
             HttpResponseMessage response =
-                _httpClient.GetAsync(_httpClient.BaseAddress + $"/Pago/ObtenerPagoPorId/{id}").Result;
+                _httpClient.GetAsync(_httpClient.BaseAddress + $"/Pago/ObtenerPagoPorIdFront/{id}").Result;
             var data = response.Content.ReadAsStringAsync().Result;
             pago = JsonConvert.DeserializeObject<Pago>(data);
             return pago;

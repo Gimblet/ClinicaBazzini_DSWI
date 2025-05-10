@@ -49,6 +49,14 @@ public class PagoController : Controller
         return Ok(lista);
     }
 
+    [HttpGet("[action]/{id}")]
+    public async Task<ActionResult<Pago>> ObtenerPagoPorIdFront(long id)
+    {
+        var lista = await Task.Run(()
+            => new PagoDAO().ObtenerPagoPorIdFront(id));
+        return Ok(lista);
+    }
+
     [HttpPut("[action]")]
     public async Task<ActionResult<string>> ActualizarPago(PagoO pago)
     {

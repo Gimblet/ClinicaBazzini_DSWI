@@ -149,6 +149,42 @@ public class PagoDAO : IPago
         return pago;
     }
 
+    public Pago ObtenerPagoPorIdFront(long id)
+    {
+        Pago pago = null;
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_obtenerPagoPorIdFront", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@id", id);
+        try
+        {
+            cn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                pago = new Pago()
+                {
+                    IdPago = int.Parse(dr[0].ToString()),
+                    HoraPago = DateTime.Parse(dr[1].ToString()),
+                    MontoPago = decimal.Parse(dr[2].ToString()),
+                    TipoPago = dr[3].ToString(),
+                    NombrePaciente = dr[4].ToString(),
+                    CorreoPaciente = dr[5].ToString()
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            cn.Close();
+        }
+
+        return pago;
+    }
+
     public string ActualizarPago(PagoO pago)
     {
         string respuesta = "";
