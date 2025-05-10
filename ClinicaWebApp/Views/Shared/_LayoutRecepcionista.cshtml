@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var recepcionistaId = Context.Session.GetInt32("PacienteId");
+    if (recepcionistaId == 0)
+    {
+        throw new Exception("Problema al Obtener Id Recepcionista");
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />

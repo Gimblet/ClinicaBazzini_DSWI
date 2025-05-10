@@ -65,6 +65,11 @@ public class LoginController : Controller
             HttpContext.Session.SetInt32("PacienteId", int.Parse(token));
         }
 
+        if (respuesta == "Recepcionista")
+        {
+            HttpContext.Session.SetInt32("RecepcionistaId", int.Parse(token));
+        }
+
         return RedirectToAction("Index", respuesta);
     }
 }

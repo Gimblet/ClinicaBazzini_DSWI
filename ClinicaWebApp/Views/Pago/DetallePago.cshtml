@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "DetallePago";
-    //TODO: Agregar metodo de recepcionista
     var recepcionistaId = Context.Session.GetInt32("RecepcionistaId");
     var pacienteId = Context.Session.GetInt32("PacienteId");
 
@@ -70,7 +69,7 @@
         }
         else if (recepcionistaId != null && recepcionistaId != 0)
         {
-            <a asp-controller="" asp-action="" asp-route-ide_usr="@recepcionistaId"
+            <a asp-controller="Pago" asp-action="PagosRecepcionista"
                class="btn btn-secondary me-2">
                 <i class="fas fa-arrow-left"></i> Regresar
             </a>

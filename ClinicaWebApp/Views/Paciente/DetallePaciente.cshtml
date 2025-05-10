@@ -68,7 +68,7 @@
     @{
         if (recepcionistaId != null && recepcionistaId != 0)
         {
-            <a asp-controller="Paciente" asp-action="" asp-route-ide_usr=""
+            <a asp-controller="Recepcionista" asp-action="listarPacientes"
                class="btn btn-secondary me-2">
                 <i class="fas fa-arrow-left"></i> Regresar
             </a>
@@ -85,4 +85,5 @@
     <a asp-action="DetallePacientePDF" asp-route-id="@Model.IdPaciente" class="btn btn-danger">
         <i class="fas fa-file-pdf"></i> Exportar a PDF
     </a>
+
 </div>
