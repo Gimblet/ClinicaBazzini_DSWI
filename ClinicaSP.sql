@@ -242,6 +242,7 @@ BEGIN
             @tipopago, (select p.ide_pac
                         FROM paciente p
                         WHERE p.ide_usr = @usuario))
+	 SELECT SCOPE_IDENTITY() AS IdPago;
 END
 GO
 
