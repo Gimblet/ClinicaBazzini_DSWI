@@ -19,7 +19,7 @@ namespace ClinicaWebApp.Controllers
         public async Task<List<CitaPaciente>> aCitaPaciente(long ide_usr)
         {
             List<CitaPaciente> aCitaPaciente = new();
-            HttpResponseMessage response = await _httpClient.GetAsync($"Paciente/listaCitaPorPaciente/{ide_usr}");
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Paciente/listaCitaPorPaciente/{ide_usr}");
 
             if (response.IsSuccessStatusCode)
             {
