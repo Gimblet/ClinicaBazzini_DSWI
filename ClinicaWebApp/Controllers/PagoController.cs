@@ -29,6 +29,15 @@ namespace ClinicaWebApp.Controllers
             return aPagos;
         }
 
+        public List<Pago> ObtenerPagoPorId(long id)
+        {
+            Pago pago = new Pago();
+            HttpResponseMessage response =
+                _httpClient.GetAsync(_httpClient.BaseAddress + $"/Pago/ObtenerPagoPorId/{id}").Result;
+            var data = response.Content.ReadAsStringAsync().Result;
+            pago = JsonConvert.DeserializeObject<Pago>(data);
+            return pago;
+        }
 
         public List<Pago> listadoPagosPorPaciente(long token)
         {
@@ -108,6 +117,15 @@ namespace ClinicaWebApp.Controllers
         {
             long token = long.Parse(HttpContext.Session.GetString("token"));
             return View(listadoPagosPorPaciente(token));
+        }
+
+        public IActionResult DetallePago(long id)
+        {
+            if (id == null || id == 0)
+            {
+                return Content("Error al intentar obtener el pago");
+            }
+            return View(ObtenerPagoPorId(id));
         }
 
         public IActionResult Index()
