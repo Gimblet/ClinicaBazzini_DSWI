@@ -71,18 +71,27 @@ namespace ClinicaWebApp.Controllers
             return response.Content.ReadAsStringAsync().Result;
         }
 
+        [HttpGet]
+        public IActionResult NuevoMedico()
+        {
+            ViewBag.especialidad = new SelectList(ArregloEspecialidad(), "ide_esp", "nom_esp");
+            ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult NuevoMedico(MedicoO medico)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.especialidad = new SelectList(ArregloEspecialidad(), "ide_esp", "nom_esp");
+                ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
                 return View(medico);
             }
 
-            ViewBag.especialidad = new SelectList(ArregloEspecialidad(), "ide_esp", "nom_esp");
-            ViewBag.documentos = new SelectList(ArregloTipoDocumentos(), "ide_doc", "nom_doc");
             //TODO: Agregar Mensaje de Validación
             ViewBag.respuesta = AgregarMedico(medico);
-            return View();
+            return RedirectToAction("listarMedicos");
         }
 
         public IActionResult listarMedicos()

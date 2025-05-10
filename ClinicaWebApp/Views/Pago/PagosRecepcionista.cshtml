@@ -36,6 +36,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.CorreoPaciente)
                     </th>
+                    <th>
+                        ACCIONES
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,13 +63,13 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.CorreoPaciente)
                         </td>
-                            <td>
-                                <a class="btn btn-info me-2"
-                                   href="@Url.Action("DetallePago", "Pago",
+                        <td>
+                            <a class="btn btn-info me-2"
+                               href="@Url.Action("DetallePago", "Pago",
                                          new { id = item.IdPago })">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                            </td>
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                        </td>
                     </tr>
                 }
                 </tbody>

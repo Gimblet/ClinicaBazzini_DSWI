@@ -5,99 +5,108 @@
     Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
 }
 
+<h1>Listado de Citas</h1>
+<hr>
 
-<a class="btn btn-primary mb-2" asp-controller="Pago" asp-action="Crear">Crear Cita</a>
-<h3 class="mb-4">Buscar por Fecha</h3>
-<div class="d-flex flex-row">
-    <form method="get" asp-action="ListadoCitas" class="d-flex align-items-center" style="max-width: 600px; width: 100%;">
-        <!-- Campos de fecha en fila -->
-        <div class="form-group mb-0 mr-2">
-
-            <input type="number" id="dia" name="dia" class="form-control form-control-sm" min="1" max="31" value="@ViewBag.Dia" placeholder="Día" />
-        </div>
-        <div class="form-group mb-0 mr-2">
-  
-            <input type="number" id="mes" name="mes" class="form-control form-control-sm" min="1" max="12" value="@ViewBag.Mes" placeholder="Mes" />
-        </div>
-        <div class="form-group mb-0 mr-2">
-
-            <input type="number" id="año" name="año" class="form-control form-control-sm" min="2000" value="@ViewBag.Año" placeholder="Año" />
-        </div>
-
-        <!-- Botón de filtro a la derecha -->
-        <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
-    </form>
-</div>
 <div class="card shadow mb-4">
-    
+
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Listado de Citas</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Filtrar Por Fecha</h6>
+
+        <br>
+
+        <div class="d-flex flex-row">
+            <form method="get" asp-action="ListadoCitas" class="d-flex align-items-center"
+                  style="max-width: 600px; width: 100%;">
+                <!-- Campos de fecha en fila -->
+                <div class="form-group mb-0 mr-2">
+
+                    <input type="number" id="dia" name="dia" class="form-control form-control-sm" min="1" max="31"
+                           value="@ViewBag.Dia" placeholder="Día"/>
+                </div>
+                <div class="form-group mb-0 mr-2">
+
+                    <input type="number" id="mes" name="mes" class="form-control form-control-sm" min="1" max="12"
+                           value="@ViewBag.Mes" placeholder="Mes"/>
+                </div>
+                <div class="form-group mb-0 mr-2">
+
+                    <input type="number" id="año" name="año" class="form-control form-control-sm" min="2000" max="@DateTime.Now.ToString("yyyy")"
+                           value="@ViewBag.Año" placeholder="Año"/>
+                </div>
+
+                <!-- Botón de filtro a la derecha -->
+                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </form>
+        </div>
     </div>
-    
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IdCita)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CalendarioCita)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Consultorio)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.NombreMedico)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.NombrePaciente)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MontoPago)
-                        </th>
-                        <th>ACCIONES</th>
-                    </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdCita)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CalendarioCita)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Consultorio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombreMedico)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombrePaciente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MontoPago)
+                    </th>
+                    <th>ACCIONES</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdCita)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CalendarioCita)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Consultorio)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NombreMedico)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NombrePaciente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MontoPago)
-                            </td>
-                            <td>
-                                <a href="@Url.Action("actualizarCita", new { id = item.IdCita })" class="btn btn-warning me-2">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                @* <a href="@Url.Action("Details", new { id = item.IdCita })" class="btn btn-info me-2">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdCita)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CalendarioCita)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Consultorio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreMedico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombrePaciente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MontoPago)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("actualizarCita", new { id = item.IdCita })"
+                               class="btn btn-warning me-2">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            @* <a href="@Url.Action("Details", new { id = item.IdCita })" class="btn btn-info me-2">
                                     <i class="fas fa-info-circle"></i>
                                 </a> *@
 
-                                <form action="@Url.Action("eliminarCita", new { id = item.IdCita })" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
+                            <form action="@Url.Action("eliminarCita", new { id = item.IdCita })" method="post"
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
