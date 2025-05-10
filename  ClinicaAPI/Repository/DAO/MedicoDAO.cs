@@ -219,4 +219,23 @@ public class MedicoDAO : IMedico
         return listaCitaMedicos;
     }
 
+    public MedicoStats ObtenerEstadisticasMedico(long ide_usr)
+    {
+        MedicoStats stats = new MedicoStats();
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_totalesPorMedico", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@ide_usr", ide_usr);
+
+        cn.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+        if (dr.Read())
+        {
+            stats.TotalCitas = Convert.ToInt32(dr["total_citas"]);
+            stats.TotalPacientes = Convert.ToInt32(dr["total_pacientes"]);
+        }
+        cn.Close();
+
+        return stats;
+    }
 }

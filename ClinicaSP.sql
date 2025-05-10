@@ -720,10 +720,32 @@ GO
 sp_listarCitasPorMedico 4
 go
 
-select * from usuario
-go
+-- stacks del medico
+CREATE OR ALTER PROC sp_totalesPorMedico(
+    @ide_usr BIGINT
+)
+AS
+BEGIN
+    DECLARE @ide_med BIGINT
 
-select * from paciente
+    -- Obtener el ID del médico a partir del ID del usuario
+    SELECT @ide_med = m.ide_med
+    FROM medico m
+    WHERE m.ide_usr = @ide_usr
+
+    -- Contar el total de citas que tiene el médico
+    SELECT 
+        (SELECT COUNT(*) 
+         FROM cita c 
+         WHERE c.ide_med = @ide_med) AS total_citas,
+
+        (SELECT COUNT(DISTINCT c.ide_pac) 
+         FROM cita c 
+         WHERE c.ide_med = @ide_med) AS total_pacientes
+END
+GO
+
+sp_totalesPorMedico 4
 
 ---------------------- CITA ------------------------
 -- sp_columns cita

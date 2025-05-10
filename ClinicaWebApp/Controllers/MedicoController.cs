@@ -44,8 +44,36 @@ namespace ClinicaWebApp.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var medicoId = HttpContext.Session.GetInt32("MedicoId");
+            if (medicoId == null || medicoId == 0)
+            {
+                return RedirectToAction("Login", "Account"); 
+            }
+
+            // Obtener las estadísticas
+            MedicoStats stats = new MedicoStats();
+            HttpResponseMessage response = await _httpClient.GetAsync($"Medico/estadisticasMedico/{medicoId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                stats = JsonConvert.DeserializeObject<MedicoStats>(data);
+            }
+
+            var medico = new Medico();
+            response = await _httpClient.GetAsync($"Medico/buscarMedico/{medicoId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                medico = JsonConvert.DeserializeObject<Medico>(data);
+            }
+
+            ViewBag.Stats = stats;
+            ViewBag.Medico = medico;
+
             return View();
         }
     }

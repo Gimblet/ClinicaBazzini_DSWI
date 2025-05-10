@@ -11,4 +11,5 @@ public interface IMedico
     string actualizarMedicoPorID(MedicoO medico);
     string eliminarMedicoPorID(long id);
     IEnumerable<CitaMedico> listarCitaMedico(long ide_usr);
+    MedicoStats ObtenerEstadisticasMedico(long ide_usr);
 }
