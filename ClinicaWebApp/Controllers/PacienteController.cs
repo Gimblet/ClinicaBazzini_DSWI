@@ -6,7 +6,6 @@ namespace ClinicaWebApp.Controllers
 {
     public class PacienteController : Controller
     {
-
         private readonly Uri _baseUri = new("http://localhost:5000/api");
         private readonly HttpClient _httpClient;
 
@@ -19,7 +18,8 @@ namespace ClinicaWebApp.Controllers
         public async Task<List<CitaPaciente>> aCitaPaciente(long ide_usr)
         {
             List<CitaPaciente> aCitaPaciente = new();
-            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Paciente/listaCitaPorPaciente/{ide_usr}");
+            HttpResponseMessage response =
+                await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Paciente/listaCitaPorPaciente/{ide_usr}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -28,6 +28,16 @@ namespace ClinicaWebApp.Controllers
             }
 
             return aCitaPaciente;
+        }
+
+        public Paciente ObtenerPacientePorId(long id)
+        {
+            Paciente pago = new Paciente();
+            HttpResponseMessage response =
+                _httpClient.GetAsync(_httpClient.BaseAddress + $"/Paciente/buscarPaciente/{id}").Result;
+            var data = response.Content.ReadAsStringAsync().Result;
+            pago = JsonConvert.DeserializeObject<Paciente>(data);
+            return pago;
         }
 
         public async Task<IActionResult> listaCitaPorPaciente(long ide_usr)
@@ -43,13 +53,17 @@ namespace ClinicaWebApp.Controllers
 
         public IActionResult DetallePaciente(long id)
         {
-            return View();
+            if (id == 0 || id == null)
+            {
+                return Content("ID del paciente no recibido");
+            }
+
+            return View(ObtenerPacientePorId(id));
         }
+
         public IActionResult Index()
         {
             return View();
         }
-
-
     }
 }
