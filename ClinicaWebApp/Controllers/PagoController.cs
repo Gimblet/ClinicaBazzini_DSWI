@@ -110,6 +110,11 @@ namespace ClinicaWebApp.Controllers
             return View(listadoPagosPorPaciente(token));
         }
 
+        public IActionResult DetallePago(long id)
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
