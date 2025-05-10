@@ -33,9 +33,9 @@ namespace ClinicaAPI.Controllers
         }
 
         [HttpGet("buscarMedico/{id}")]
-        public async Task<ActionResult<MedicoO>> buscarMedicoPorId(long id)
+        public async Task<ActionResult<Medico>> buscarMedicoPorId(long id)
         {
-            var lista = await Task.Run(() 
+            var lista = await Task.Run(()
                 => new MedicoDAO().buscarMedicoPorID(id));
             return Ok(lista);
         }
@@ -67,6 +67,19 @@ namespace ClinicaAPI.Controllers
         public ActionResult<List<CitaMedico>> listaCitaPorMedicos(long ide_usr)
         {
             var lista = new MedicoDAO().listarCitaMedico(ide_usr);
+            return Ok(lista);
+        }
+
+        [HttpGet("estadisticasMedico/{ide_usr}")]
+        public async Task<ActionResult<MedicoStats>> ObtenerEstadisticasMedico(long ide_usr)
+        {
+            var stats = await Task.Run(() => new MedicoDAO().ObtenerEstadisticasMedico(ide_usr));
+            return Ok(stats);
+        }
+        [HttpGet("listaPacientePorMedicos/{ide_usr}")]
+        public ActionResult<List<CitaMedico>> listaPacientePorMedicos(long ide_usr)
+        {
+            var lista = new MedicoDAO().listarPacienteMedico(ide_usr);
             return Ok(lista);
         }
     }

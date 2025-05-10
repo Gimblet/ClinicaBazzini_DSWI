@@ -720,10 +720,57 @@ GO
 sp_listarCitasPorMedico 4
 go
 
-select * from usuario
-go
+-- stacks del medico
+CREATE OR ALTER PROC sp_totalesPorMedico(
+    @ide_usr BIGINT
+)
+AS
+BEGIN
+    DECLARE @ide_med BIGINT
 
-select * from paciente
+    -- Obtener el ID del médico a partir del ID del usuario
+    SELECT @ide_med = m.ide_med
+    FROM medico m
+    WHERE m.ide_usr = @ide_usr
+
+    -- Contar el total de citas que tiene el médico
+    SELECT 
+        (SELECT COUNT(*) 
+         FROM cita c 
+         WHERE c.ide_med = @ide_med) AS total_citas,
+
+        (SELECT COUNT(DISTINCT c.ide_pac) 
+         FROM cita c 
+         WHERE c.ide_med = @ide_med) AS total_pacientes
+END
+GO
+
+sp_totalesPorMedico 4
+go
+-- Listar pacientes por medico
+CREATE OR ALTER PROC sp_listarPacientesPorMedico(
+    @ide_usr BIGINT  -- ID del usuario médico
+)
+AS
+BEGIN
+    -- Obtener todos los pacientes únicos que han tenido citas con el médico especificado
+    SELECT DISTINCT
+        pc.ide_pac,
+        CONCAT(u.nom_usr, ' ', u.ape_usr) AS Paciente,
+        u.num_doc,
+        u.fna_usr,
+        ud.nom_doc,
+        COUNT(c.ide_cit) OVER (PARTITION BY pc.ide_pac) AS Total_Citas
+    FROM medico m
+        JOIN cita c ON c.ide_med = m.ide_med          
+        JOIN paciente pc ON pc.ide_pac = c.ide_pac   
+        JOIN usuario u ON u.ide_usr = pc.ide_usr     
+        JOIN user_doc ud ON ud.ide_doc = u.ide_doc    
+    WHERE m.ide_usr = @ide_usr                         
+END
+GO
+
+sp_listarPacientesPorMedico 4
 
 ---------------------- CITA ------------------------
 -- sp_columns cita
