@@ -1,3 +1,4 @@
+using ClinicaAPI.Models.Usuario.Medico;
 using ClinicaAPI.Models.Usuario.Paciente;
 
 namespace ClinicaAPI.Repository.Interfaces;
@@ -10,6 +11,6 @@ public interface IPaciente
     Paciente buscarPacientePorID(long id);
     string actualizarPaciente(PacienteO paciente);
     string eliminarPaciente(long id);
-    
+    IEnumerable<CitaPaciente> listarCitaPaciente(long ide_usr);
 
 }

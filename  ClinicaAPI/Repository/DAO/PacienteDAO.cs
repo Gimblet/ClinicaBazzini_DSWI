@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.SqlClient;
+using ClinicaAPI.Models.Usuario.Medico;
 using ClinicaAPI.Models.Usuario.Paciente;
 using ClinicaAPI.Repository.Interfaces;
 
@@ -182,5 +183,31 @@ public class PacienteDAO : IPaciente
         }
 
         return mensaje;
+    }
+
+    public IEnumerable<CitaPaciente> listarCitaPaciente(long ide_usr)
+    {
+        List<CitaPaciente> listaCitaPaciente = new List<CitaPaciente>();
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_listarCitasPorPaciente", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@ide_usr", ide_usr);
+        cn.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            listaCitaPaciente.Add(new CitaPaciente()
+            {
+                ide_cit = long.Parse(dr[0].ToString()),
+                cal_cit = DateTime.Parse(dr[1].ToString()),
+                con_cit = int.Parse(dr[2].ToString()),
+                medico = dr[3].ToString(),
+                nom_esp= dr[4].ToString(),
+                mon_pag = decimal.Parse(dr[5].ToString()),
+            });
+        }
+
+        cn.Close();
+        return listaCitaPaciente;
     }
 }
