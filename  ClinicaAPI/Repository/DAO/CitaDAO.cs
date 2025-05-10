@@ -119,6 +119,7 @@ public class CitaDAO : ICita
                 NombreMedico = dr[3].ToString(),
                 NombrePaciente = dr[4].ToString(),
                 MontoPago = decimal.Parse(dr[5].ToString()),
+
             });
         }
         cn.Close();

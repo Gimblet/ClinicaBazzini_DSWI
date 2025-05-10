@@ -40,6 +40,11 @@ namespace ClinicaWebApp.Controllers
             var citas = await aCitaPaciente(ide_usr);
             return View(citas);
         }
+
+        public IActionResult DetallePaciente(long id)
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();

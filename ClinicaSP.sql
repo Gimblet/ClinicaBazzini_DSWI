@@ -4,7 +4,7 @@ GO
 ------------------- PACIENTE -------------------
 
 -- Agrega Paciente
-CREATE OR ALTER PROC sp_agregarPaciente(
+CREATE PROC sp_agregarPaciente(
     @cor varchar(100),
     @pwd varchar(150),
     @nom varchar(100),
@@ -25,20 +25,20 @@ END
 GO
 
         sp_agregarPaciente
-        'diego@gmail.com', 'diego1234',
-        'Diego Anderson', 'Villena Arias',
-        '123456789', '2001-01-30', 2
+        'angel@gmail.com', 'angel1234',
+        'Angel Daniel', 'Mendoza Lopez',
+        '78794562013', '2001-01-30', 2
 GO
 
 		sp_agregarPaciente
-        'khristopher@gmail.com', 'khris1234',
-        'Khristopher Daniel', 'Llaque FER',
+        'piero@gmail.com', 'khris1234',
+        'piero Daniel', 'Llaque FER',
         '123456789', '2000-03-30', 1
 GO
 
 -- Lista pacientes para el FrontEnd
 
-CREATE OR ALTER PROC sp_listarPacientesFront
+CREATE PROC sp_listarPacientesFront
 AS
 BEGIN
     SELECT p.ide_pac,
@@ -56,7 +56,7 @@ END
 GO
 
 -- Lista pacientes Backend 
-CREATE OR ALTER PROC sp_listarPacientesBack
+CREATE PROC sp_listarPacientesBack
 AS
 BEGIN
     SELECT p.ide_usr,
@@ -75,7 +75,7 @@ END
 GO
 
 -- Actualizar paciente
-CREATE OR ALTER PROC sp_actualizarPaciente(
+CREATE PROC sp_actualizarPaciente(
     @id BIGINT,
     @cor VARCHAR(100),
     @pwd VARCHAR(150),
@@ -107,7 +107,7 @@ GO
 	go
 
 -- Buscar paciente 
-CREATE OR ALTER PROC sp_buscarPaciente(
+CREATE PROC sp_buscarPaciente(
     @id BIGINT
 )
 AS
@@ -131,7 +131,7 @@ sp_buscarPaciente 1
 go
 
 -- Eliminar paciente
-CREATE OR ALTER PROC sp_eliminarPaciente(
+CREATE PROC sp_eliminarPaciente(
     @id BIGINT
 )
 AS
@@ -174,7 +174,7 @@ GO
 --------------------- USUARIO ---------------------
 
 -- Verificar Inicio de Sesion
-CREATE OR ALTER PROC sp_verificarLogin(
+CREATE PROC sp_verificarLogin(
     @correo VARCHAR(100),
     @contraseña VARCHAR(150)
 )
@@ -191,7 +191,7 @@ GO
 sp_verificarLogin 'diego@gmail.com', 'diego1234'
 GO
 
-CREATE OR ALTER PROC sp_obtenerIdUsuario(
+CREATE PROC sp_obtenerIdUsuario(
     @correo VARCHAR(100)
 )
 AS
@@ -205,7 +205,7 @@ GO
 sp_obtenerIdUsuario 'diego@gmail.com'
 GO
 
-CREATE OR ALTER PROC sp_listarDocumentos
+CREATE PROC sp_listarDocumentos
 AS
 BEGIN
     SELECT *
@@ -220,7 +220,7 @@ GO
 -- Sp_columns pago
 -- Listar tipos de Pago
 
-CREATE OR ALTER PROC sp_listarPaymentOptions
+CREATE PROC sp_listarPaymentOptions
 AS
 BEGIN
     SELECT *
@@ -229,7 +229,7 @@ END
 GO
 
 -- Agrega Pago
-CREATE OR ALTER PROC sp_agregarPago(
+CREATE PROC sp_agregarPago(
     @hora DATETIME,
     @monto SMALLMONEY,
     @tipopago BIGINT,
@@ -250,7 +250,7 @@ GO
         3, 1
 GO
 
-CREATE OR ALTER PROC sp_obtenerPagoPorId(
+CREATE PROC sp_obtenerPagoPorId(
     @id BIGINT
 )
 AS
@@ -265,7 +265,7 @@ sp_obtenerPagoPorId 1
 GO
 
 -- Lista Pagos
-CREATE OR ALTER PROC sp_listarPagos
+CREATE PROC sp_listarPagos
 AS
 BEGIN
     SELECT p.ide_pag,
@@ -286,7 +286,7 @@ sp_listarPagos
 GO
 
 -- Lista pagos por el id (Id de Usuario)
-CREATE OR ALTER PROC sp_listarPagosPorPaciente(
+CREATE PROC sp_listarPagosPorPaciente(
     @ide BIGINT
 )
 AS
@@ -313,7 +313,7 @@ GO
 
 -- Actualizar pago por Id (Se actualiza todos los campos excepto el idPaciente
 -- para evitar incongruencias
-CREATE OR ALTER PROC sp_actualizarPago(
+CREATE PROC sp_actualizarPago(
     @paciente BIGINT,
     @ide_pag BIGINT,
     @hor_pag DATETIME,
@@ -334,7 +334,7 @@ GO
 -- sp_actualizarPago 1, 3, '2025-04-20 01:00:00', 200.00, 1
 
 -- Elimina un Pago Realizado por Id
-CREATE OR ALTER PROC sp_eliminarPago(
+CREATE PROC sp_eliminarPago(
     @id BIGINT
 )
 AS
@@ -350,7 +350,7 @@ GO
 ---------------------- RECEPCIONISTA ------------------------
 
 -- agregar recepcionista 
-CREATE OR ALTER PROC sp_agregarRecepcionista(
+CREATE PROC sp_agregarRecepcionista(
     @cor VARCHAR(100),
     @pwd VARCHAR(150),
     @nom VARCHAR(100),
@@ -378,7 +378,7 @@ EXEC sp_agregarRecepcionista
      1, 1800;
 GO
 
-CREATE OR ALTER PROC sp_listarRecepcionistasFront
+CREATE PROC sp_listarRecepcionistasFront
 AS
 BEGIN
     SELECT r.ide_rep,
@@ -399,7 +399,7 @@ GO
 sp_listarRecepcionistasFront
 GO
 
-CREATE OR ALTER PROC sp_listarRecepcionistasBack
+CREATE PROC sp_listarRecepcionistasBack
 AS
 BEGIN
     SELECT r.ide_usr,
@@ -421,7 +421,7 @@ GO
 sp_listarRecepcionistasBack
 GO
 
-CREATE OR ALTER PROC sp_buscarRecepcionistaPorId(
+CREATE PROC sp_buscarRecepcionistaPorId(
     @id BIGINT
 )
 AS
@@ -445,7 +445,7 @@ GO
 sp_buscarRecepcionistaPorId 1
 GO
 
-CREATE OR ALTER PROC sp_actualizarRecepcionista(
+CREATE PROC sp_actualizarRecepcionista(
     @id BIGINT,
     @sue SMALLMONEY,
     @cor VARCHAR(100),
@@ -483,7 +483,7 @@ GO
         1
 GO
 
-CREATE OR ALTER PROC sp_eliminarRecepcionista(
+CREATE PROC sp_eliminarRecepcionista(
     @id BIGINT
 )
 AS
@@ -498,7 +498,7 @@ GO
 
 ---------------------- MEDICO ------------------------
 -- Agrega Medico
-CREATE OR ALTER PROC sp_agregarMedico(
+CREATE PROC sp_agregarMedico(
     @cor varchar(100),
     @pwd varchar(150),
     @nom varchar(100),
@@ -521,15 +521,15 @@ END
 GO
 
         sp_agregarMedico
-        'jefferson@bazzini.com', 'jeff12345',
-        'Jefferson Guadalup', 'Flores Ramires',
+        'summy@gmail.com', 'summy1234',
+        'Summy Angela', 'Yspilco Margarito',
         '3945823421', '2001-11-01',
         2, 2500,
         1
 GO
 
 -- Lista medicos Frontend
-CREATE OR ALTER PROC sp_listarMedicosFront
+CREATE PROC sp_listarMedicosFront
 AS
 BEGIN
     SELECT m.ide_med,
@@ -553,7 +553,7 @@ sp_listarMedicosFront
 GO
 
 -- Lista medicos Backend
-CREATE OR ALTER PROC sp_listarMedicosBack
+CREATE PROC sp_listarMedicosBack
 AS
 BEGIN
     SELECT m.ide_usr,
@@ -577,7 +577,7 @@ sp_listarMedicosBack
 GO
 
 -- Buscar medico por ID 
-CREATE OR ALTER PROC sp_buscarMedicoPorId(
+CREATE PROC sp_buscarMedicoPorId(
     @id BIGINT
 )
 AS
@@ -604,7 +604,7 @@ sp_buscarMedicoPorId 1
 GO
 
 -- Actualizar medico
-CREATE OR ALTER PROC sp_actualizarMedico(
+CREATE PROC sp_actualizarMedico(
     @id BIGINT,
     @sue SMALLMONEY,
     @esp BIGINT,
@@ -645,7 +645,7 @@ GO
 
 
 -- Eliminar medico
-CREATE OR ALTER PROC sp_eliminarMedico(
+CREATE PROC sp_eliminarMedico(
     @id BIGINT
 )
 AS
@@ -658,7 +658,7 @@ GO
 
 -- sp_eliminarMedico 1
 
-CREATE OR ALTER PROC sp_listarEspecialidad
+CREATE PROC sp_listarEspecialidad
 AS
     BEGIN
         SELECT *
@@ -700,11 +700,13 @@ go
 select * from usuario
 go
 
+select * from paciente
+
 ---------------------- CITA ------------------------
 -- sp_columns cita
 
 -- Lista todas las citas para el BackEnd
-CREATE OR ALTER PROC sp_listarCitasBack
+CREATE PROC sp_listarCitasBack
 AS
 BEGIN
     SELECT c.ide_cit,
@@ -721,20 +723,20 @@ sp_listarCitasBack
 GO
 
 -- Lista todas las citas para el FrontEnd
-CREATE OR ALTER PROC sp_listarCitasFront
+CREATE PROC sp_listarCitasFront
 AS
 BEGIN
     SELECT c.ide_cit,
            c.cal_cit,
            c.con_cit,
-           CONCAT(um.nom_usr, SPACE(1), um.ape_usr),
-           CONCAT(up.nom_usr, SPACE(1), up.ape_usr),
+           CONCAT(um.nom_usr, SPACE(1), um.ape_usr) As NombreMedico,
+           CONCAT(up.nom_usr, SPACE(1), up.ape_usr) AS NombrePaciente,
            pg.mon_pag
     FROM cita AS c
              JOIN medico m ON m.ide_med = c.ide_med
              JOIN usuario um ON um.ide_usr = m.ide_usr
              JOIN paciente p ON p.ide_pac = c.ide_pac
-             JOIN usuario up ON up.ide_usr = p.ide_pac
+             JOIN usuario up ON up.ide_usr = p.ide_usr  -- ¡Corrección aquí!
              JOIN pago pg ON c.ide_pag = pg.ide_pag
 END
 GO
@@ -743,7 +745,7 @@ sp_listarCitasFront
 GO
 
 -- Agrega Cita
-create or alter procedure sp_agregarCita(
+create procedure sp_agregarCita(
     @calendario DATETIME,
     @consultorio INT,
     @medico BIGINT,
@@ -760,13 +762,15 @@ BEGIN
 END
 GO
 
-        sp_agregarCita '2025-04-28 13:00', 2,
-        2, 1,
+        sp_agregarCita '2025-04-30 13:00', 2,
+        1, 8,
         1
 GO
 
+select * from paciente
+go
 --Actualizar Cita
-CREATE OR ALTER PROCEDURE sp_actualizarCita(
+CREATE PROCEDURE sp_actualizarCita(
     @idCita BIGINT, -- ID de la cita a actualizar
     @calendario DATETIME, -- Nueva fecha/hora
     @consultorio INT, -- Nuevo consultorio
@@ -789,7 +793,7 @@ END
 GO
 
 -- Eliminar Cita
-CREATE OR ALTER PROCEDURE sp_eliminarCita(
+CREATE PROCEDURE sp_eliminarCita(
     @idCita BIGINT
 )
 AS
@@ -801,7 +805,7 @@ END
 GO
 
 -- Buscar cita por fecha
-CREATE OR ALTER PROCEDURE sp_obtenerCitasPorFecha
+CREATE PROCEDURE sp_obtenerCitasPorFecha
 (
     @dia INT,
     @mes INT,
