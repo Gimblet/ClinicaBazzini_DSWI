@@ -238,4 +238,30 @@ public class MedicoDAO : IMedico
 
         return stats;
     }
+
+    public IEnumerable<PacientePorMedico> listarPacienteMedico(long ide_usr)
+    {
+        List<PacientePorMedico> listaPacienteMedicos = new List<PacientePorMedico>();
+        SqlConnection cn = new SqlConnection(_connectionString);
+        SqlCommand cmd = new SqlCommand("sp_listarPacientesPorMedico", cn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@ide_usr", ide_usr);
+        cn.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            listaPacienteMedicos.Add(new PacientePorMedico()
+            {
+                ide_pac = long.Parse(dr["ide_pac"].ToString()),
+                Paciente = dr["Paciente"].ToString(),
+                num_doc = dr["num_doc"].ToString(),
+                fna_usr = DateTime.Parse(dr["fna_usr"].ToString()),
+                nom_doc = dr["nom_doc"].ToString(),
+                Total_Citas = int.Parse(dr["Total_Citas"].ToString()),
+            });
+        }
+
+        cn.Close();
+        return listaPacienteMedicos;
+    }
 }

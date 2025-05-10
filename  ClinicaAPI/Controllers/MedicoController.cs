@@ -76,5 +76,11 @@ namespace ClinicaAPI.Controllers
             var stats = await Task.Run(() => new MedicoDAO().ObtenerEstadisticasMedico(ide_usr));
             return Ok(stats);
         }
+        [HttpGet("listaPacientePorMedicos/{ide_usr}")]
+        public ActionResult<List<CitaMedico>> listaPacientePorMedicos(long ide_usr)
+        {
+            var lista = new MedicoDAO().listarPacienteMedico(ide_usr);
+            return Ok(lista);
+        }
     }
 }

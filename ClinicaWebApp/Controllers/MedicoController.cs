@@ -43,13 +43,38 @@ namespace ClinicaWebApp.Controllers
             return View(citas);
         }
 
+        public async Task<List<PacientePorMedico>> ArregloPacienteMedico(long ide_usr)
+        {
+            List<PacientePorMedico> aCitaMedico = new();
+            HttpResponseMessage response = await _httpClient.GetAsync($"Medico/listaPacientePorMedicos/{ide_usr}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                aCitaMedico = JsonConvert.DeserializeObject<List<PacientePorMedico>>(data);
+            }
+
+            return aCitaMedico;
+        }
+
+
+        public async Task<IActionResult> listaPacientePorMedicos(long ide_usr)
+        {
+            if (ide_usr == 0)
+            {
+                return Content("ID del médico no recibido o inválido");
+            }
+
+            var citas = await ArregloPacienteMedico(ide_usr);
+            return View(citas);
+        }
 
         public async Task<IActionResult> Index()
         {
             var medicoId = HttpContext.Session.GetInt32("MedicoId");
             if (medicoId == null || medicoId == 0)
             {
-                return RedirectToAction("Login", "Account"); 
+                return RedirectToAction("Login", "Index"); 
             }
 
             // Obtener las estadísticas
