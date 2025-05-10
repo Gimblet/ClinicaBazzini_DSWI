@@ -1,6 +1,7 @@
 ﻿using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Rotativa.AspNetCore;
 
 namespace ClinicaWebApp.Controllers
 {
@@ -59,6 +60,17 @@ namespace ClinicaWebApp.Controllers
             }
 
             return View(ObtenerPacientePorId(id));
+        }
+
+        public IActionResult DetallePacientePDF(long id)
+        {
+            String hoy = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            return new ViewAsPdf("DetallePacientePDF", ObtenerPacientePorId(id))
+            {
+                FileName = $"DetallePaciente-{hoy}.pdf",
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageSize = Rotativa.AspNetCore.Options.Size.A5
+            };
         }
 
         public IActionResult Index()

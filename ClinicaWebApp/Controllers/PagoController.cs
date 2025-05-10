@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using NuGet.Protocol;
 using System.Text;
+using Rotativa.AspNetCore;
 
 namespace ClinicaWebApp.Controllers
 {
@@ -126,6 +127,17 @@ namespace ClinicaWebApp.Controllers
                 return Content("Error al intentar obtener el pago");
             }
             return View(ObtenerPagoPorId(id));
+        }
+
+        public IActionResult DetallePagoPDF(long id)
+        {
+            String hoy = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            return new ViewAsPdf("DetallePagoPDF", ObtenerPagoPorId(id))
+            {
+                FileName = $"DetallePago-{hoy}.pdf",
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageSize = Rotativa.AspNetCore.Options.Size.A5
+            };
         }
 
         public IActionResult Index()
