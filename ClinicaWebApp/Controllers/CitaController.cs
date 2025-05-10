@@ -43,83 +43,90 @@ public class CitaController : Controller
     public List<Paciente> listadoPaciente()
     {
         List<Paciente> aPacientes = new List<Paciente>();
-        HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "/Paciente/listaPacientes").Result;
+        HttpResponseMessage response =
+            _httpClient.GetAsync(_httpClient.BaseAddress + "/Paciente/listaPacientes").Result;
         var data = response.Content.ReadAsStringAsync().Result;
         aPacientes = JsonConvert.DeserializeObject<List<Paciente>>(data);
         return aPacientes;
     }
 
 
-
     public List<Cita> listarCitasPorFecha(int dia, int mes, int año)
     {
         List<Cita> citas = new List<Cita>();
-        HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"/Cita/listaCitaPorFecha?dia={dia}&mes={mes}&año={año}").Result;
+        HttpResponseMessage response = _httpClient
+            .GetAsync(_httpClient.BaseAddress + $"/Cita/listaCitaPorFecha?dia={dia}&mes={mes}&año={año}").Result;
 
         var data = response.Content.ReadAsStringAsync().Result;
         citas = JsonConvert.DeserializeObject<List<Cita>>(data);
-        
+
 
         return citas;
     }
 
 
-
-    public IActionResult ListadoCitas(int? dia, int?mes, int? año)
+    public IActionResult ListadoCitas(int? dia, int? mes, int? año)
     {
         List<Cita> citas = ArregloClitas();
         if (dia.HasValue && mes.HasValue && año.HasValue)
-        {   
+        {
             citas = listarCitasPorFecha(dia.Value, mes.Value, año.Value);
         }
-        
+
         ViewBag.Dia = dia;
         ViewBag.Mes = mes;
         ViewBag.Año = año;
         return View(citas);
     }
+
     [HttpGet]
-    public IActionResult nuevaCita(int PagoId) 
+    public IActionResult nuevaCita(int PagoId)
     {
         int IdPaciente = int.Parse(HttpContext.Session.GetString("token"));
         Console.WriteLine(IdPaciente);
-        ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico","NombreUsuario");
+        ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico", "NombreUsuario");
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
-        CitaO citaPagada= new CitaO() { IdPago = PagoId, IdPaciente = IdPaciente };
-        
+        CitaO citaPagada = new CitaO() { IdPago = PagoId, IdPaciente = IdPaciente };
+
         return View(citaPagada);
-        
     }
 
     [HttpPost]
     public async Task<IActionResult> nuevaCita(CitaO obj)
     {
         if (!ModelState.IsValid)
-         {
+        {
             ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico", "NombreUsuario");
             ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
             return View(obj);
         }
+
         var json = JsonConvert.SerializeObject(obj);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var responseC = await _httpClient.PostAsync(_httpClient.BaseAddress + "/Cita/agregaCita", content);
         if (responseC.IsSuccessStatusCode)
         {
             ViewBag.mensaje = "Cita registrado correctamente..!!!";
-            Console.WriteLine("Objeto "+obj.ToJson());
+            Console.WriteLine("Objeto " + obj.ToJson());
         }
 
         ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico", "NombreUsuario");
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
-        Console.WriteLine("Objeto " +  obj.ToJson());
-        return RedirectToAction("ListadoCitas");
+
+        int? idPaciente = HttpContext.Session.GetInt32("PacienteId");
+        if (idPaciente == null || idPaciente == 0)
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        return RedirectToAction("listaCitaPorPaciente", "Paciente", new { ide_usr = Convert.ToInt64(idPaciente) });
     }
 
     [HttpGet]
     public async Task<IActionResult> actualizarCita(int id)
     {
         var response = await
-             _httpClient.GetAsync(_httpClient.BaseAddress + "/Cita/buscarCita/" + id);
+            _httpClient.GetAsync(_httpClient.BaseAddress + "/Cita/buscarCita/" + id);
 
         if (response.IsSuccessStatusCode)
         {
@@ -132,8 +139,8 @@ public class CitaController : Controller
         else
         {
             ViewBag.mensaje = "No Hay Cita";
-
         }
+
         ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico", "NombreUsuario");
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
         return View();
@@ -141,13 +148,13 @@ public class CitaController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> actualizarCita(int id,CitaO obj)
+    public async Task<IActionResult> actualizarCita(int id, CitaO obj)
     {
         var json = JsonConvert.SerializeObject(obj);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         var response = await
-              _httpClient.PutAsync("/api/Cita/actualizaCita?id={ id }", content);
+            _httpClient.PutAsync("/api/Cita/actualizaCita?id={ id }", content);
         if (response.IsSuccessStatusCode)
         {
             ViewBag.medicos = new SelectList(listadoMedico(), "IdMedico", "NombreUsuario");
@@ -159,6 +166,7 @@ public class CitaController : Controller
         ViewBag.pacientes = new SelectList(listadoPaciente(), "IdPaciente", "NombreUsuario");
         return RedirectToAction("ListadoCitas");
     }
+
     [HttpPost]
     public async Task<IActionResult> eliminarCita(int id)
     {
@@ -187,6 +195,7 @@ public class CitaController : Controller
             var data = response.Content.ReadAsStringAsync().Result;
             cita = JsonConvert.DeserializeObject<Cita>(data);
         }
+
         return cita;
     }
 
@@ -197,6 +206,7 @@ public class CitaController : Controller
         {
             return NotFound();
         }
+
         return View(cita);
     }
 
