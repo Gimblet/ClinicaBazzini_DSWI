@@ -29,7 +29,7 @@ namespace ClinicaWebApp.Controllers
             return aPagos;
         }
 
-        public List<Pago> ObtenerPagoPorId(long id)
+        public Pago ObtenerPagoPorId(long id)
         {
             Pago pago = new Pago();
             HttpResponseMessage response =
