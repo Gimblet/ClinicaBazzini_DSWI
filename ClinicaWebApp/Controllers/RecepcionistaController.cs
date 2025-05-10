@@ -5,6 +5,8 @@ using System.Text;
 using ClinicaWebApp.Models.Usuario;
 using ClinicaWebApp.Models.Usuario.Paciente;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 
 namespace ClinicaWebApp.Controllers
 {
@@ -112,6 +114,17 @@ namespace ClinicaWebApp.Controllers
         public IActionResult listarPacientes()
         {
             return View(ArregloPacientes());
+        }
+
+        public IActionResult listarPacientesPDF()
+        {
+            String hoy = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            return new ViewAsPdf("listarPacientesPDF", ArregloPacientes())
+            {
+                FileName = $"ListadoPacientes-{hoy}.pdf",
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4
+            };
         }
 
         public IActionResult Index()
