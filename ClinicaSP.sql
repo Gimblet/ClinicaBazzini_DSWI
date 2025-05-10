@@ -741,7 +741,7 @@ BEGIN
 END
 GO
 
-drop proc sp_listarCitasFront
+sp_listarCitasFront
 GO
 
 -- Agrega Cita
