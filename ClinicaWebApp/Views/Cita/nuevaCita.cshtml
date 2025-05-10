@@ -2,57 +2,47 @@
 
 @{
     ViewData["Title"] = "nuevaCita";
-    Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
+    Layout = "~/Views/Shared/_LayoutPaciente.cshtml";
 }
 
-<h1>nueva Cita</h1>
+<h1>Nueva Cita</h1>
+<hr/>
 
-
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="nuevaCita">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="CalendarioCita" class="control-label"></label>
-                <input asp-for="CalendarioCita" class="form-control" />
+                <input asp-for="CalendarioCita" class="form-control"/>
                 <span asp-validation-for="CalendarioCita" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Consultorio" class="control-label"></label>
-                <input asp-for="Consultorio" class="form-control" />
+                <input asp-for="Consultorio" class="form-control"/>
                 <span asp-validation-for="Consultorio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdMedico" class="control-label"></label>
-                @* <input asp-for="IdMedico" class="form-control" /> *@
                 @Html.DropDownListFor(model => model.IdMedico,
-                         (SelectList)ViewBag.medicos, "(Seleccione el Medico)",
-                         new { @class = "form-select custom-select", @id = "selMed" })
+                    (SelectList)ViewBag.medicos, "(Seleccione el Medico)",
+                    new { @class = "form-select custom-select", @id = "selMed" })
                 <span asp-validation-for="IdMedico" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdPaciente" class="control-label"></label>
-                <input asp-for="IdPaciente" class="form-control" readonly/>
-                @* @Html.DropDownListFor(model => model.IdPaciente,
-                         (SelectList)ViewBag.pacientes, "(Seleccione el Paciente)",
-                         new { @class = "form-select custom-select", @id = "selPac" }) *@
+                <input asp-for="IdPaciente" class="form-control" readonly style="display: none"/>
                 <span asp-validation-for="IdPaciente" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdPago" class="control-label"></label>
-                <input asp-for="IdPago" class="form-control" readonly/>
+                <input asp-for="IdPago" class="form-control" readonly style="display:none;"/>
                 <span asp-validation-for="IdPago" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary"/>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="ListadoCitas" class="btn btn-warning">Regresar</a>
-</div>
-

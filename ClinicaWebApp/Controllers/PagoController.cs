@@ -81,6 +81,9 @@ namespace ClinicaWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Crear(PagoO obj)
         {
+            obj.HoraPago = DateTime.Now;
+            obj.IdPaciente = int.Parse(HttpContext.Session.GetString("token"));
+
             if (!ModelState.IsValid)
             {
                 ViewBag.tipoPagos = new SelectList(ListadoPayOpts(), "ide_pay", "nom_pay");
@@ -88,7 +91,6 @@ namespace ClinicaWebApp.Controllers
                 return View(obj);
             }
 
-            obj.IdPaciente = int.Parse(HttpContext.Session.GetString("token"));
             var json = JsonConvert.SerializeObject(obj);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var responseC = await _httpClient.PostAsync(_httpClient.BaseAddress + $"/Pago/AgregarPago/{obj.IdPaciente}",
