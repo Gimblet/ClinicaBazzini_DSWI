@@ -90,6 +90,17 @@ namespace ClinicaWebApp.Controllers
             return View(ArregloMedicos());
         }
 
+        public IActionResult listarMedicosPDF()
+        {
+            String hoy = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            return new ViewAsPdf("listarMedicosPDF", ArregloMedicos())
+            {
+                FileName = $"ListadoMedicos-{hoy}.pdf",
+                PageOrientation = Orientation.Portrait,
+                PageSize = Size.A4
+            };
+        }
+
         [HttpGet]
         public IActionResult NuevoPaciente()
         {
