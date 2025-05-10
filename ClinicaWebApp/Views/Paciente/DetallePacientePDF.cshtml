@@ -104,7 +104,8 @@
 <body>
     <div class="header">
         <img src="~/img/clinica.png" class="clinic-logo" alt="Logo Clínica">
-        <h1>Informe detallado de Paciente <strong>@Model.NombreUsuario</strong></h1>
+        <h1>Informe detallado de Paciente </h1>
+        <h2><strong>@Model.NombreUsuario @Model.ApellidoUsuario</strong></h2>
         <p>Clínica SANNA - @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
     </div>
 
@@ -112,36 +113,36 @@
         <h2 class="section-title">Información de Paciente</h2>
 
         <div class="detail-row">
-            <span class="detail-label">ID de Paciente:</span>
+            <span class="detail-label">ID de Paciente : </span>
             <span class="detail-value">@Model.IdPaciente</span>
         </div>
 
         <div class="detail-row">
-            <span class="detail-label">Nombre:</span>
+            <span class="detail-label">Nombre : </span>
             <span class="detail-value">@Model.NombreUsuario</span>
         </div>
 
         <div class="detail-row">
-            <span class="detail-label">Apellido:</span>
+            <span class="detail-label">Apellido : </span>
             <span class="detail-value">@Model.ApellidoUsuario</span>
         </div>
 
         <div class="detail-row">
-            <span class="detail-label">Fecha de Nacimiento:</span>
+            <span class="detail-label">Fecha de Nacimiento : </span>
             <span class="detail-value">@Model.FechaNacimiento</span>
         </div>
 
         <div class="detail-row">
-            <span class="detail-label">Tipo Doc.:</span>
+            <span class="detail-label">Tipo Documento : </span>
             <span class="detail-value">@Model.TipoDocumento</span>
         </div>
 
         <div class="detail-row">
-            <span class="detail-label">Número Doc.</span>
+            <span class="detail-label">Número Documento : </span>
             <span class="detail-value">@Model.NumeroDocumento</span>
         </div>
         <div class="detail-row">
-            <span class="detail-label">Rol</span>
+            <span class="detail-label">Rol : </span>
             <span class="detail-value">@Model.Rol</span>
         </div>
     </div>

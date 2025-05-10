@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
 }
 
-<h1>actualizar Cita</h1>
+<h1>Actualizar Cita</h1>
 
 <hr />
 <div class="row">
@@ -13,8 +13,7 @@
         <form asp-action="actualizarCita">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="IdCita" class="control-label"></label>
-                <input asp-for="IdCita" class="form-control" />
+                <input asp-for="IdCita" class="form-control" readonly="readonly" hidden="hidden"/>
                 <span asp-validation-for="IdCita" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,18 +43,17 @@
                 <span asp-validation-for="IdPaciente" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdPago" class="control-label"></label>
-                <input asp-for="IdPago" class="form-control" />
+                <input asp-for="IdPago" class="form-control" readonly="readonly" hidden="hidden" />
                 <span asp-validation-for="IdPago" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
+            </div>
+            <div>
+                <a class="btn btn-warning" asp-action="ListadoCitas">Regresar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a class="btn btn-warning" asp-action="ListadoCitas">Regresar</a>
-</div>
 

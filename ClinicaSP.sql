@@ -771,6 +771,7 @@ END
 GO
 
 sp_listarPacientesPorMedico 4
+GO
 
 ---------------------- CITA ------------------------
 -- sp_columns cita
