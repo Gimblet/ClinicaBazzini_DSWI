@@ -4,5 +4,46 @@
     Layout = "~/Views/Shared/_LayoutRecepcionista.cshtml";
 }
 
-<h1>Index Recepcionista</h1>
+
+<div class="row">
+    <!-- Encabezado -->
+    <div class="col-12 mb-4">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-clinic-medical text-primary mr-2"></i>CLINICA SANNA
+            </h1>
+            <span class="badge badge-pill badge-light shadow-sm">
+                <i class="fas fa-user-md text-info mr-1"></i>
+                <h3>Bienvenido/a</h3>
+            </span>
+        </div>
+        <hr class="mt-2 mb-4 border-top-2 border-primary">
+    </div>
+
+    <!-- Tarjeta Citas Totales -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            <i class="fas fa-calendar-check mr-1"></i> Citas Programadas
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Citas</div>
+                        <small class="text-muted">Este Día</small>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar-alt fa-2x text-primary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0">
+                <a href="@Url.Action("listadoCitas", "Cita")" class="small text-primary stretched-link">
+                    Ver todas <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
 

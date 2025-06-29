@@ -147,8 +147,19 @@ namespace ClinicaWebApp.Controllers
             };
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Cita/totalCitasXDia");
+
+            var citas = 0;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                citas = JsonConvert.DeserializeObject<int>(data);
+            }
+
+            ViewBag.citas = citas;
             return View();
         }
     }

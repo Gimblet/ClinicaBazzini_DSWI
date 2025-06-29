@@ -10,6 +10,7 @@ public interface ICita
     string modificarCita(CitaO obj);
     CitaO buscarCita(long id);
     Cita buscarCitaFrond(long id);
+    int totalCitasXDia();
     void eliminarCita(long id);
     IEnumerable<Cita> listarCitaPorFecha(int dia, int mes, int año);
 }

@@ -41,11 +41,32 @@ public class CitaDAO : ICita
         return mensaje;
     }
 
+    public int totalCitasXDia()
+    {
+        var respuesta = 0;
+        SqlConnection cn = new SqlConnection(_connectionString);
+        cn.Open();
+        try
+        {
+            SqlCommand cmd = new SqlCommand("sp_totalCitasXDia", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+                respuesta = int.Parse(dr[0].ToString());
+            dr.Close();
+        }
+        catch (Exception exp)
+        {
+            Console.WriteLine(exp.Message);
+        }
+        cn.Close();
+
+        return respuesta;
+    }
+
     public CitaO buscarCita(long id)
     {
-
         return listarCitasO().FirstOrDefault(c => c.IdCita == id);
-
     }
 
     public Cita buscarCitaFrond(long id)

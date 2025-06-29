@@ -63,4 +63,11 @@ public class CitaController : Controller
 
     }
 
+    [HttpGet("totalCitasXDia")]
+    public async Task<ActionResult<int>> totalCitasXDia() {
+        var citas = await Task.Run(() => new CitaDAO().totalCitasXDia());
+        return Ok(citas);
+
+    }
+
 }

@@ -5,6 +5,8 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 .vs/
+
+#Rotativa
 ClinicaWebApp/Rotativa/
 /ClinicaWebApp/wwwroot/Rotativa/wkhtmltopdf
 /ClinicaWebApp/wwwroot/Rotativa/wkhtmltopdf.exe

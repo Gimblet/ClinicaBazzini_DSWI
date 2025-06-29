@@ -30,7 +30,7 @@ GO
         '78794562013', '2001-01-30', 2
 GO
 
-		sp_agregarPaciente
+        sp_agregarPaciente
         'piero@gmail.com', 'khris1234',
         'piero Daniel', 'Llaque FER',
         '123456789', '2000-03-30', 1
@@ -101,10 +101,10 @@ BEGIN
 END
 GO
 
-	sp_actualizarPaciente 2,'khristopher@gmail.com', 'khris1234',
+        sp_actualizarPaciente 2, 'khristopher@gmail.com', 'khris1234',
         'Khristopher Daniel', 'Llaque Fernandez',
         '744885537', '2000-03-30', 1
-	go
+go
 
 -- Buscar paciente 
 CREATE PROC sp_buscarPaciente(
@@ -145,27 +145,26 @@ GO
 sp_eliminarPaciente 2
 go
 
- --LISTAR CITA POR PACIENTE 
- CREATE OR ALTER PROC sp_listarCitasPorPaciente(
+--LISTAR CITA POR PACIENTE
+CREATE OR ALTER PROC sp_listarCitasPorPaciente(
     @ide_usr BIGINT
 )
 AS
 BEGIN
-    SELECT 
-        c.ide_cit,
-        c.cal_cit,
-        c.con_cit,
-        CONCAT(um.nom_usr, ' ', um.ape_usr) AS medico,
-        e.nom_esp AS especialidad,
-        p.mon_pag,
-        po.nom_pay
+    SELECT c.ide_cit,
+           c.cal_cit,
+           c.con_cit,
+           CONCAT(um.nom_usr, ' ', um.ape_usr) AS medico,
+           e.nom_esp                           AS especialidad,
+           p.mon_pag,
+           po.nom_pay
     FROM cita c
-        JOIN paciente pc ON pc.ide_pac = c.ide_pac
-        JOIN medico m ON m.ide_med = c.ide_med
-        JOIN especialidad e ON e.ide_esp = m.ide_esp
-        JOIN usuario um ON um.ide_usr = m.ide_usr
-        JOIN pago p ON p.ide_pag = c.ide_pag
-        JOIN pay_opts po ON po.ide_pay = p.ide_pay
+             JOIN paciente pc ON pc.ide_pac = c.ide_pac
+             JOIN medico m ON m.ide_med = c.ide_med
+             JOIN especialidad e ON e.ide_esp = m.ide_esp
+             JOIN usuario um ON um.ide_usr = m.ide_usr
+             JOIN pago p ON p.ide_pag = c.ide_pag
+             JOIN pay_opts po ON po.ide_pay = p.ide_pay
     WHERE pc.ide_usr = @ide_usr
     ORDER BY c.cal_cit DESC
 END
@@ -242,7 +241,7 @@ BEGIN
             @tipopago, (select p.ide_pac
                         FROM paciente p
                         WHERE p.ide_usr = @usuario))
-	 SELECT SCOPE_IDENTITY() AS IdPago;
+    SELECT SCOPE_IDENTITY() AS IdPago;
 END
 GO
 
@@ -269,17 +268,16 @@ CREATE PROC sp_obtenerPagoPorIdFront(
 )
 AS
 BEGIN
-    SELECT
-        pa.ide_pag,
-        pa.hor_pag,
-        pa.mon_pag,
-        po.nom_pay,
-        CONCAT(u.nom_usr, SPACE(1), u.ape_usr) [NOMBRE],
-        u.cor_usr
+    SELECT pa.ide_pag,
+           pa.hor_pag,
+           pa.mon_pag,
+           po.nom_pay,
+           CONCAT(u.nom_usr, SPACE(1), u.ape_usr) [NOMBRE],
+           u.cor_usr
     FROM pago pa
-    JOIN dbo.paciente p on pa.ide_pac = p.ide_pac
-    JOIN dbo.pay_opts po on pa.ide_pay = po.ide_pay
-    JOIN dbo.usuario u on p.ide_usr = u.ide_usr
+             JOIN dbo.paciente p on pa.ide_pac = p.ide_pac
+             JOIN dbo.pay_opts po on pa.ide_pay = po.ide_pay
+             JOIN dbo.usuario u on p.ide_usr = u.ide_usr
     WHERE ide_pag = @id
 END
 GO
@@ -683,10 +681,10 @@ GO
 
 CREATE PROC sp_listarEspecialidad
 AS
-    BEGIN
-        SELECT *
-        FROM especialidad
-    end
+BEGIN
+    SELECT *
+    FROM especialidad
+end
 GO
 
 sp_listarEspecialidad
@@ -698,20 +696,19 @@ CREATE PROC sp_listarCitasPorMedico(
 )
 AS
 BEGIN
-    SELECT 
-        c.ide_cit,
-        c.cal_cit,
-        c.con_cit,
-        CONCAT(u.nom_usr, ' ', u.ape_usr) AS paciente,
-        u.num_doc,
-        p.mon_pag,
-        po.nom_pay
+    SELECT c.ide_cit,
+           c.cal_cit,
+           c.con_cit,
+           CONCAT(u.nom_usr, ' ', u.ape_usr) AS paciente,
+           u.num_doc,
+           p.mon_pag,
+           po.nom_pay
     FROM cita c
-        JOIN medico m ON m.ide_med = c.ide_med
-        JOIN paciente pc ON pc.ide_pac = c.ide_pac
-        JOIN usuario u ON u.ide_usr = pc.ide_usr
-        JOIN pago p ON p.ide_pag = c.ide_pag
-        JOIN pay_opts po ON po.ide_pay = p.ide_pay
+             JOIN medico m ON m.ide_med = c.ide_med
+             JOIN paciente pc ON pc.ide_pac = c.ide_pac
+             JOIN usuario u ON u.ide_usr = pc.ide_usr
+             JOIN pago p ON p.ide_pag = c.ide_pag
+             JOIN pay_opts po ON po.ide_pay = p.ide_pay
     WHERE m.ide_usr = @ide_usr
     ORDER BY c.cal_cit DESC
 END
@@ -734,14 +731,13 @@ BEGIN
     WHERE m.ide_usr = @ide_usr
 
     -- Contar el total de citas que tiene el médico
-    SELECT 
-        (SELECT COUNT(*) 
-         FROM cita c 
-         WHERE c.ide_med = @ide_med) AS total_citas,
+    SELECT (SELECT COUNT(*)
+            FROM cita c
+            WHERE c.ide_med = @ide_med) AS total_citas,
 
-        (SELECT COUNT(DISTINCT c.ide_pac) 
-         FROM cita c 
-         WHERE c.ide_med = @ide_med) AS total_pacientes
+           (SELECT COUNT(DISTINCT c.ide_pac)
+            FROM cita c
+            WHERE c.ide_med = @ide_med) AS total_pacientes
 END
 GO
 
@@ -749,24 +745,23 @@ sp_totalesPorMedico 4
 go
 -- Listar pacientes por medico
 CREATE OR ALTER PROC sp_listarPacientesPorMedico(
-    @ide_usr BIGINT  -- ID del usuario médico
+    @ide_usr BIGINT -- ID del usuario médico
 )
 AS
 BEGIN
     -- Obtener todos los pacientes únicos que han tenido citas con el médico especificado
-    SELECT DISTINCT
-        pc.ide_pac,
-        CONCAT(u.nom_usr, ' ', u.ape_usr) AS Paciente,
-        u.num_doc,
-        u.fna_usr,
-        ud.nom_doc,
-        COUNT(c.ide_cit) OVER (PARTITION BY pc.ide_pac) AS Total_Citas
+    SELECT DISTINCT pc.ide_pac,
+                    CONCAT(u.nom_usr, ' ', u.ape_usr)               AS Paciente,
+                    u.num_doc,
+                    u.fna_usr,
+                    ud.nom_doc,
+                    COUNT(c.ide_cit) OVER (PARTITION BY pc.ide_pac) AS Total_Citas
     FROM medico m
-        JOIN cita c ON c.ide_med = m.ide_med          
-        JOIN paciente pc ON pc.ide_pac = c.ide_pac   
-        JOIN usuario u ON u.ide_usr = pc.ide_usr     
-        JOIN user_doc ud ON ud.ide_doc = u.ide_doc    
-    WHERE m.ide_usr = @ide_usr                         
+             JOIN cita c ON c.ide_med = m.ide_med
+             JOIN paciente pc ON pc.ide_pac = c.ide_pac
+             JOIN usuario u ON u.ide_usr = pc.ide_usr
+             JOIN user_doc ud ON ud.ide_doc = u.ide_doc
+    WHERE m.ide_usr = @ide_usr
 END
 GO
 
@@ -807,7 +802,7 @@ BEGIN
              JOIN medico m ON m.ide_med = c.ide_med
              JOIN usuario um ON um.ide_usr = m.ide_usr
              JOIN paciente p ON p.ide_pac = c.ide_pac
-             JOIN usuario up ON up.ide_usr = p.ide_usr  -- ¡Corrección aquí!
+             JOIN usuario up ON up.ide_usr = p.ide_usr -- ¡Corrección aquí!
              JOIN pago pg ON c.ide_pag = pg.ide_pag
 END
 GO
@@ -834,11 +829,12 @@ END
 GO
 
         sp_agregarCita '2025-04-30 13:00', 2,
-        1, 8,
+        1, 1,
         1
 GO
 
-select * from paciente
+select *
+from paciente
 go
 --Actualizar Cita
 CREATE PROCEDURE sp_actualizarCita(
@@ -876,15 +872,14 @@ END
 GO
 
 -- Buscar cita por fecha
-CREATE PROCEDURE sp_obtenerCitasPorFecha
-(
+CREATE PROCEDURE sp_obtenerCitasPorFecha(
     @dia INT,
     @mes INT,
     @año INT
 )
 AS
-    BEGIN
-         SELECT c.ide_cit,
+BEGIN
+    SELECT c.ide_cit,
            c.cal_cit,
            c.con_cit,
            CONCAT(um.nom_usr, SPACE(1), um.ape_usr),
@@ -896,10 +891,25 @@ AS
              JOIN paciente p ON p.ide_pac = c.ide_pac
              JOIN usuario up ON up.ide_usr = p.ide_pac
              JOIN pago pg ON c.ide_pag = pg.ide_pag
-    WHERE
-        DAY(c.cal_cit) = @dia AND MONTH(c.cal_cit) = @mes AND YEAR(c.cal_cit) = @año
-    END
+    WHERE DAY(c.cal_cit) = @dia
+      AND MONTH(c.cal_cit) = @mes
+      AND YEAR(c.cal_cit) = @año
+END
 GO
 
 sp_obtenerCitasPorFecha 28, 4, 2025
 GO
+
+CREATE OR ALTER PROC sp_totalCitasXDia
+AS
+BEGIN
+    SELECT COUNT(*)
+    FROM cita c
+    WHERE DAY(c.cal_cit) = DAY(GETDATE())
+      AND MONTH(c.cal_cit) = MONTH(GETDATE())
+      AND YEAR(c.cal_cit) = YEAR(GETDATE())
+END
+GO
+
+exec sp_totalCitasXDia
+go
