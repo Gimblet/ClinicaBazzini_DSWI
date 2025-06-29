@@ -6,4 +6,5 @@ riderModule.iml
 .idea/
 .vs/
 ClinicaWebApp/Rotativa/
-ClinicaWebApp/wwwroot/Rotativa/
+/ClinicaWebApp/wwwroot/Rotativa/wkhtmltopdf
+/ClinicaWebApp/wwwroot/Rotativa/wkhtmltopdf.exe

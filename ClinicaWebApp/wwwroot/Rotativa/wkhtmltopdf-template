@@ -1,0 +1,9 @@
+Files inside this directory wil be ignored in order to keep this repository lightweight.
+
+However in order for the app to correctly function (To export to PDF at least) theres got to be a wkhtmltopdf file.
+This file may either be a bin for linux or a .exe for windows for must be placed inside this directory with that name.
+
+Right now there is a symlinked file but this file WILL NOT work on your machine and its only purpose should be to work
+as an example.
+
+In order to get the file head to https://wkhtmltopdf.org/ and download your correspoding file

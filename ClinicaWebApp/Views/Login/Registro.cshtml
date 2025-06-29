@@ -1,0 +1,66 @@
+@model ClinicaWebApp.Models.Usuario.Paciente.PacienteO
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+    var listaDocumentos = ViewBag.documentos as SelectList;
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Bienvenido/a!, ingresa tus datos</h4>
+                </div>
+
+                <form asp-controller="Login" asp-action="Registro" method="post" class="p-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="cor_usr" class="control-label"></label>
+                        <input asp-for="cor_usr" class="form-control" type="email" maxlength="100"
+                               minlength="8"/>
+                        <span asp-validation-for="cor_usr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="pwd_usr" class="control-label"></label>
+                        <input asp-for="pwd_usr" class="form-control" maxlength="150" minlength="8"/>
+                        <span asp-validation-for="pwd_usr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="nom_usr" class="control-label"></label>
+                        <input asp-for="nom_usr" class="form-control" maxlength="100" minlength="8"/>
+                        <span asp-validation-for="nom_usr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ape_usr" class="control-label"></label>
+                        <input asp-for="ape_usr" class="form-control" maxlength="100" minlength="8"/>
+                        <span asp-validation-for="ape_usr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="fna_usr" class="control-label"></label>
+                        <input asp-for="fna_usr" class="form-control"/>
+                        <span asp-validation-for="fna_usr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="num_doc" class="control-label"></label>
+                        <input asp-for="num_doc" class="form-control" maxlength="12" minlength="8"/>
+                        <span asp-validation-for="num_doc" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ide_doc" class="control-label"></label>
+                        @Html.DropDownListFor( model => model.ide_doc, listaDocumentos, new { @class = "form-control" })
+                        <span asp-validation-for="ide_doc" class="text-danger"></span>
+                    </div>
+
+                    <br/>
+
+                    <div class="form-group">
+                        <input type="submit" value="Confirmar" class="btn btn-primary w-100"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
