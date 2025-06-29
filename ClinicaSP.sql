@@ -913,3 +913,20 @@ GO
 
 exec sp_totalCitasXDia
 go
+
+CREATE OR ALTER PROC sp_citaPendiente(
+    @ide_usr BIGINT
+)
+AS
+BEGIN
+    SELECT COUNT(*)
+    FROM cita AS c
+    WHERE c.cal_cit > GETDATE()
+      AND c.ide_pac = (SELECT p.ide_pac
+                       FROM paciente p
+                       WHERE p.ide_usr = @ide_usr)
+END
+GO
+
+exec sp_citaPendiente 1
+GO

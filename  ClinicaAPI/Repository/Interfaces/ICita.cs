@@ -11,6 +11,7 @@ public interface ICita
     CitaO buscarCita(long id);
     Cita buscarCitaFrond(long id);
     int totalCitasXDia();
+    int citasPendientesXPaciente(long id);
     void eliminarCita(long id);
     IEnumerable<Cita> listarCitaPorFecha(int dia, int mes, int año);
 }

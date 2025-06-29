@@ -64,6 +64,30 @@ public class CitaDAO : ICita
         return respuesta;
     }
 
+    public int citasPendientesXPaciente(long id)
+    {
+        var respuesta = 0;
+        SqlConnection cn = new SqlConnection(_connectionString);
+        cn.Open();
+        try
+        {
+            SqlCommand cmd = new SqlCommand("sp_citaPendiente", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ide_usr", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+                respuesta = int.Parse(dr[0].ToString());
+            dr.Close();
+        }
+        catch (Exception exp)
+        {
+            Console.WriteLine(exp.Message);
+        }
+        cn.Close();
+
+        return respuesta;
+    }
+
     public CitaO buscarCita(long id)
     {
         return listarCitasO().FirstOrDefault(c => c.IdCita == id);

@@ -70,4 +70,10 @@ public class CitaController : Controller
 
     }
 
+    [HttpGet("[action]/{id}")]
+    public async Task<ActionResult<int>> citasPendientesXPaciente(long id) {
+        var citas = await Task.Run(() => new CitaDAO().citasPendientesXPaciente(id));
+        return Ok(citas);
+    }
+
 }

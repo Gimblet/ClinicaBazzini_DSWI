@@ -85,6 +85,7 @@ public class LoginController : Controller
         if (respuesta == "Paciente")
         {
             HttpContext.Session.SetInt32("PacienteId", int.Parse(token));
+            return RedirectToAction("Index", "Paciente", new { id = token });
         }
 
         if (respuesta == "Recepcionista")
